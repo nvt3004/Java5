@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="ConnectDB">
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="hibernate.connection.password">30042004</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=TMDT;encrypt=true;trustServerCertificate=true</property>
+        <property name="hibernate.connection.username">sa</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <mapping class="com.fpoly.thainv.entities.Users" />
+        <mapping class="com.fpoly.thainv.entities.Products" />
+        <mapping class="com.fpoly.thainv.entities.CartProduct" />
+        <mapping class="com.fpoly.thainv.entities.Permissions" />
+        <mapping class="com.fpoly.thainv.entities.PaymentMethods" />
+        <mapping class="com.fpoly.thainv.entities.Payments" />
+        <mapping class="com.fpoly.thainv.entities.Advertisements" />
+        <mapping class="com.fpoly.thainv.entities.ShoppingCarts" />
+        <mapping class="com.fpoly.thainv.entities.Feedbacks" />
+        <mapping class="com.fpoly.thainv.entities.Coupons" />
+        <mapping class="com.fpoly.thainv.entities.OrderStatus" />
+        <mapping class="com.fpoly.thainv.entities.Suppliers" />
+        <mapping class="com.fpoly.thainv.entities.Statistic" />
+        <mapping class="com.fpoly.thainv.entities.Manufacturers" />
+        <mapping class="com.fpoly.thainv.entities.Addresses" />
+        <mapping class="com.fpoly.thainv.entities.Categories" />
+        <mapping class="com.fpoly.thainv.entities.Locations" />
+        <mapping class="com.fpoly.thainv.entities.LoginHistory" />
+        <mapping class="com.fpoly.thainv.entities.AttributeProduct" />
+        <mapping class="com.fpoly.thainv.entities.Images" />
+        <mapping class="com.fpoly.thainv.entities.PurchaseOrderDetails" />
+        <mapping class="com.fpoly.thainv.entities.Roles" />
+        <mapping class="com.fpoly.thainv.entities.PurchaseOrders" />
+        <mapping class="com.fpoly.thainv.entities.Orders" />
+        <mapping class="com.fpoly.thainv.entities.ProductCoupons" />
+        <mapping class="com.fpoly.thainv.entities.OrderDetails" />
+        <mapping class="com.fpoly.thainv.entities.Attributes" />
+    </session-factory>
+</hibernate-configuration>

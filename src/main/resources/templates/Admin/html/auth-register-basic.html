@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style customizer-hide" dir="ltr"
+	data-theme="theme-default" data-assets-path="/Admin/assets/"
+	data-template="vertical-menu-template-free"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin
+	Template - Pro</title>
+<meta name="description" content="">
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon"
+	href="/Admin/assets/img/favicon/favicon.ico">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+	rel="stylesheet">
+<!-- Icons. Uncomment required icon fonts -->
+<link rel="stylesheet" href="/Admin/assets/vendor/fonts/boxicons.css">
+<!-- Core CSS -->
+<link rel="stylesheet" href="/Admin/assets/vendor/css/core.css"
+	class="template-customizer-core-css">
+<link rel="stylesheet" href="/Admin/assets/vendor/css/theme-default.css"
+	class="template-customizer-theme-css">
+<link rel="stylesheet" href="/Admin/assets/css/demo.css">
+<!-- Vendors CSS -->
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+<!-- Page CSS -->
+<!-- Page -->
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/css/pages/page-auth.css">
+<!-- Helpers -->
+<script src="/Admin/assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="/Admin/assets/js/config.js"></script>
+</head>
+<style>
+.form-password-toggle3 {
+	max-width: 1000px !important;
+	max-width: 468px;
+	padding-left: 8px;
+}
+
+@media ( max-width : 1000px) {
+	.form-password-toggle3 {
+		max-width: 100% !important;
+	}
+}
+
+.authentication-inner3 {
+	max-width: 1000px !important;
+}
+
+.disabled-icon {
+	pointer-events: none;
+}
+
+.error-message::before {
+	content: "⚠ ";
+	display: inline-block;
+	margin-right: 5px;
+	color: #D8000C;
+}
+
+.error-message:empty::before {
+	content: none;
+}
+
+.error-message {
+	color: #D8000C;
+	padding: 5px;
+	margin: 5px 0;
+	border-radius: 3px;
+	font-size: 0.9em;
+	text-align: left;
+}
+
+.modal-confirm_warning {
+	color: #8e8e8e;
+	width: 450px;
+}
+
+.modal-confirm_warning .modal-content_warning {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+}
+
+.modal-confirm_warning .modal-header_warning {
+	border-bottom: none;
+	position: relative;
+	justify-content: center;
+	border-radius: 5px 5px 0 0;
+}
+
+.modal-confirm_warning h4 {
+	color: #545557;
+	text-align: center;
+	font-size: 30px;
+	margin: 0 0 25px;
+}
+
+.modal-confirm_warning .form-control_warning, .modal-confirm_warning .btn
+	{
+	min-height: 40px;
+	border-radius: 3px;
+}
+
+.modal-confirm_warning .close {
+	background: #c0c3c8;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	color: #fff;
+	text-shadow: none;
+	opacity: 0.5;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	border-radius: 20px;
+	font-size: 16px;
+}
+
+.modal-confirm_warning .close:hover {
+	opacity: 0.8;
+}
+
+.modal-confirm_warning .icon-box_warning {
+	color: #f95858;
+	display: inline-block;
+	z-index: 9;
+	text-align: center;
+	position: relative;
+	transform: scale(1.5);
+}
+
+.modal-confirm_warning .icon-box_warning i:first-child {
+	font-size: 100px;
+}
+
+.modal-confirm_warning .icon-box_warning i:nth-child(2) {
+	font-size: 138px;
+	position: absolute;
+	left: -19px;
+	top: -23px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.modal-confirm_warning .icon-box_warning i:last-child {
+	font-size: 26px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: 44px;
+}
+
+.modal-confirm_warning .btn {
+	color: #fff;
+	border-radius: 4px;
+	background: #eeb711;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	border-radius: 3px;
+	margin: 30px 0 20px;
+	padding: 6px 20px;
+	min-width: 150px;
+	border: none;
+}
+
+.modal-confirm_warning .btn:hover, .modal-confirm .btn:focus {
+	background: #eda645;
+	outline: none;
+}
+
+.trigger-btn_warning {
+	display: inline-block;
+	margin: 100px auto;
+}
+
+.modal-header_warning {
+	position: relative;
+}
+
+.btn-close {
+	position: absolute;
+	top: 10px;
+	right: 0px;
+}
+
+.modal-body {
+	padding: 2rem;
+}
+
+.modal-body h4 {
+	font-weight: 600;
+	font-size: large;
+}
+
+.modal-body p {
+	margin-bottom: 1.5rem;
+	line-height: 1.5;
+}
+</style>
+<style>
+.otp-field {
+	flex-direction: row;
+	column-gap: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.otp-field input {
+	height: 45px;
+	width: 42px;
+	border-radius: 6px;
+	outline: none;
+	font-size: 1.125rem;
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+.otp-field input:focus {
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.otp-field input::-webkit-inner-spin-button, .otp-field input::-webkit-outer-spin-button
+	{
+	display: none;
+}
+
+.resend {
+	font-size: 12px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	color: black;
+	font-size: 12px;
+	text-align: right;
+	font-family: monospace;
+}
+
+.footer a {
+	color: black;
+	text-decoration: none;
+}
+
+.verify {
+	position: relative;
+}
+
+.close-verify {
+	position: absolute;
+	top: 25px !important;
+	right: 20px !important;
+}
+
+.request-again {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 15px;
+	font-weight: 500;
+	border: none;
+	background: none;
+	text-decoration: underline;
+	color: rgb(54, 113, 251);
+}
+</style>
+<style>
+.modal-confirm_warning {
+	color: #8e8e8e;
+	width: 450px;
+}
+
+.modal-confirm_warning .modal-content_warning {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+}
+
+.modal-confirm_warning .modal-header_warning {
+	border-bottom: none;
+	position: relative;
+	justify-content: center;
+	border-radius: 5px 5px 0 0;
+}
+
+.modal-confirm_warning h4 {
+	color: #545557;
+	text-align: center;
+	font-size: 30px;
+	margin: 0 0 25px;
+}
+
+.modal-confirm_warning .form-control_warning, .modal-confirm_warning .btn
+	{
+	min-height: 40px;
+	border-radius: 3px;
+}
+
+.modal-confirm_warning .close:hover {
+	opacity: 0.8;
+}
+
+.modal-confirm_warning .icon-box_warning {
+	color: #f95858;
+	display: inline-block;
+	z-index: 9;
+	text-align: center;
+	position: relative;
+	transform: scale(1.5);
+}
+
+.modal-confirm_warning .icon-box_warning i:first-child {
+	font-size: 100px;
+}
+
+.modal-confirm_warning .icon-box_warning i:nth-child(2) {
+	font-size: 138px;
+	position: absolute;
+	left: -19px;
+	top: -23px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.modal-confirm_warning .icon-box_warning i:last-child {
+	font-size: 26px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: 44px;
+}
+
+.modal-confirm_warning .btn {
+	color: #fff;
+	border-radius: 4px;
+	background: #eeb711;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	border-radius: 3px;
+	margin: 30px 0 20px;
+	padding: 6px 20px;
+	min-width: 150px;
+	border: none;
+}
+
+.modal-confirm_warning .btn:hover, .modal-confirm .btn:focus {
+	background: #eda645;
+	outline: none;
+}
+
+.trigger-btn_warning {
+	display: inline-block;
+	margin: 100px auto;
+}
+
+.close-fail {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+</style>
+<body>
+	<div th:if="${confirmOtpError}" id="otpFailModal" class="modal fade">
+		<div
+			class="modal-dialog modal-confirm modal-dialog_warning modal-confirm_warning">
+			<div class="modal-content modal-content_warning">
+				<button type="button" class="btn-close close-fail"
+					data-bs-dismiss="modal" aria-hidden="true"></button>
+				<div class="modal-header modal-header_warning">
+					<div class="icon-box_warning">
+						<i class="material-icons">&#xE86B;</i> <i class="material-icons">&#xE86B;</i>
+						<i class="material-icons">&#xE645;</i>
+					</div>
+
+				</div>
+				<div class="modal-body text-center">
+					<h4>Something went wrong</h4>
+					<p th:text="${confirmOtpError}"></p>
+					<button class="btn btn-primary" data-bs-dismiss="modal">Go
+						Back</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:if="${otpSent}" class="modal fade" id="otpModal" tabindex="-1"
+		aria-labelledby="otpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header modal-header_verify justify-content-center">
+					<h5 class="modal-title" id="otpModalLabel">Verify</h5>
+					<button type="button" class="btn-close close-verify"
+						data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center">
+					<p>Your code was sent to you via email</p>
+					<form action="/confirm-otp-register" method="POST">
+						<div class="otp-field mb-4 d-flex justify-content-center">
+							<input type="number" name="num1" maxlength="1"
+								class="otp-input mx-1" autofocus /> <input type="number"
+								name="num2" maxlength="1" class="otp-input mx-1" disabled /> <input
+								type="number" name="num3" maxlength="1" class="otp-input mx-1"
+								disabled /> <input type="number" name="num4" maxlength="1"
+								class="otp-input mx-1" disabled /> <input type="number"
+								name="num5" maxlength="1" class="otp-input mx-1" disabled /> <input
+								type="number" name="num6" maxlength="1" class="otp-input mx-1"
+								disabled />
+						</div>
+						<input type="hidden" name="email" th:value="${user?.email}">
+						<input type="hidden" name="phone" th:value="${user?.phone}">
+						<input type="hidden" name="password" th:value="${user?.password}">
+						<input type="hidden" name="firstName"
+							th:value="${user?.firstName}"> <input type="hidden"
+							name="lastName" th:value="${user?.lastName}">
+						<button class="btn btn-primary mb-3" type="submit">Verify</button>
+
+						<p class="resend text-muted mb-0">
+							Didn't receive code?
+							<button formaction="/register" formmethod="POST"
+								class="request-again">Request again</button>
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Lỗi Email -->
+	<div th:if="${errorRegister != null}" class="modal fade"
+		id="errorRegister">
+		<div
+			class="modal-dialog modal-confirm modal-dialog_warning modal-confirm_warning">
+			<div class="modal-content modal-content_warning">
+				<div
+					class="modal-header modal-header_warning d-flex justify-content-end">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-hidden="true"></button>
+				</div>
+				<div class="modal-header modal-header_warning">
+					<div class="icon-box_warning">
+						<i class="material-icons">&#xE86B;</i> <i class="material-icons">&#xE86B;</i>
+						<i class="material-icons">&#xE645;</i>
+					</div>
+				</div>
+				<div class="modal-body modal-body-register-error text-center">
+					<h4 class="mb-3">Registration Error</h4>
+					<p class="mb-4" th:text="${errorRegister}"></p>
+					<button class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Content -->
+	<div class="container-xxl">
+		<div class="authentication-wrapper authentication-basic container-p-y">
+			<div class="authentication-inner authentication-inner3">
+				<!-- Register Card -->
+				<div class="card">
+					<div class="card-body">
+						<!-- Logo -->
+						<div class="app-brand justify-content-center">
+							<a href="index.html" class="app-brand-link gap-2"> <span
+								class="app-brand-logo demo"> <svg width="25"
+										viewBox="0 0 25 42" version="1.1"
+										xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <defs>
+                                                <path
+											d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+											id="path-1"></path>
+                                                <path
+											d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+											id="path-3"></path>
+                                                <path
+											d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+											id="path-4"></path>
+                                                <path
+											d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+											id="path-5"></path>
+                                            </defs>
+                                            <g id="g-app-brand"
+											stroke="none" stroke-width="1" fill="none"
+											fill-rule="evenodd">
+                                                <g id="Brand-Logo"
+											transform="translate(-27.000000, -15.000000)">
+                                                    <g id="Icon"
+											transform="translate(27.000000, 15.000000)">
+                                                        <g id="Mask"
+											transform="translate(0.000000, 8.000000)">
+                                                            <mask
+											id="mask-2" fill="white">
+                                                                <use
+											xlink:href="#path-1"></use>
+                                                            </mask>
+                                                            <use
+											fill="#696cff" xlink:href="#path-1"></use>
+                                                            <g
+											id="Path-3" mask="url(#mask-2)">
+                                                                <use
+											fill="#696cff" xlink:href="#path-3"></use>
+                                                                <use
+											fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                                                            </g>
+                                                            <g
+											id="Path-4" mask="url(#mask-2)">
+                                                                <use
+											fill="#696cff" xlink:href="#path-4"></use>
+                                                                <use
+											fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                                                            </g>
+                                                        </g>
+                                                        <g id="Triangle"
+											transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                                                            <use
+											fill="#696cff" xlink:href="#path-5"></use>
+                                                            <use
+											fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+							</span> <span class="app-brand-text demo text-body fw-bolder">COZA
+									Store</span>
+							</a>
+						</div>
+						<!-- /Logo -->
+						<h4 class="mb-2">Adventure starts here 🚀</h4>
+						<p class="mb-4">Make your app management easy and fun!</p>
+						<form id="formAuthentication" class="mb-3" action="/register"
+							method="POST">
+							<div class="mb-3">
+								<div class="row g-3 m-0">
+									<div class="col-md-6 col-sm-6 ps-0">
+										<label for="firstname" class="form-label">Email</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i
+												class="bx bx-envelope"></i>
+											</span> <input th:value="${user?.email}" type="text"
+												class="form-control" id="email" name="email"
+												placeholder="Enter your email" autofocus> <span
+												id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+										</div>
+										<span th:if="${errors?.hasFieldErrors('email')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('email')?.getDefaultMessage()}"></span>
+									</div>
+									<div
+										class="col-md-6 col-sm-6 pe-0 form-password-toggle form-password-toggle3">
+										<label class="form-label" for="password">Password</label>
+										<div class="d-flex input-group input-group-merge"
+											style="width: 100% !important;">
+											<span class="input-group-text disabled-icon"> <i
+												class="bx bx-lock"></i>
+											</span> <input type="password" id="password"
+												th:value="${user?.password}" class="form-control password3"
+												name="password"
+												placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+												aria-describedby="password"> <span
+												class="input-group-text cursor-pointer"> <i
+												class="bx bx-hide"></i>
+											</span>
+										</div>
+										<span th:if="${errors?.hasFieldErrors('password')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('password')?.getDefaultMessage()}"></span>
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<div class="row g-3">
+									<div class="col-md-6 col-sm-6">
+										<label for="firstname" class="form-label">First name</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i
+												class="bx bx-user-circle"></i>
+											</span> <input th:value="${user?.firstName}" type="text"
+												class="form-control" id="firstname" name="firstName"
+												placeholder="Enter your first name">
+										</div>
+										<span th:if="${errors?.hasFieldErrors('firstName')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('firstName')?.getDefaultMessage()}"></span>
+									</div>
+									<div class="col-md-6 col-sm-6">
+										<label for="lastname" class="form-label">Last name</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i
+												class="bx bx-user-circle"></i>
+											</span> <input th:value="${user?.lastName}" type="text"
+												class="form-control" id="lastname" name="lastName"
+												placeholder="Enter your last name">
+										</div>
+										<span th:if="${errors?.hasFieldErrors('lastName')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('lastName')?.getDefaultMessage()}"></span>
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<div class="row g-3">
+
+									<div class="col-md-6 col-sm-6">
+										<label for="phone" class="form-label">Phone</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i class="bx bx-phone"></i>
+											</span> <input th:value="${user?.phone}" type="text"
+												class="form-control" id="phone" name="phone"
+												placeholder="Enter your phone">
+										</div>
+										<span th:if="${errors?.hasFieldErrors('phone')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('phone')?.getDefaultMessage()}"></span>
+									</div>
+									<div class="col-md-6 col-sm-6">
+										<!-- <label for="firstname" class="form-label">Address Line
+											1</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i
+												class="bx bx-buildings"></i>
+											</span> <input th:value="${user?.addressLine1}" type="text"
+												class="form-control" id="address1" name="addressLine1"
+												placeholder="Enter your address line 1">
+											<span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+										</div>
+										<span th:if="${errors?.hasFieldErrors('addressLine1')}"
+											class="error-message"
+											th:text="${errors?.getFieldError('addressLine1')?.getDefaultMessage()}"></span> -->
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<!-- 
+								<div class="row g-3">
+									<div class="col-md-6 col-sm-6">
+										<label for="lastname" class="form-label">Address Line
+											2</label>
+										<div class="input-group input-group-merge">
+											<span class="input-group-text"> <i
+												class="bx bx-buildings"></i>
+											</span> <input th:value="${user?.addressLine2}" type="text"
+												class="form-control" id="address2" name="addressLine2"
+												placeholder="Enter your address line 2">
+										</div>
+
+									</div>
+								</div>
+								 -->
+								<button type="submit" class="btn btn-primary d-grid w-100 mt-4">Sign
+									up</button>
+							</div>
+							<!-- <div class="mb-3">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                                  <label class="form-check-label" for="terms-conditions">
+                                    I agree to
+                                    <a href="javascript:void(0);">privacy policy & terms</a>
+                                  </label>
+                                </div>
+                              </div> -->
+						</form>
+						<p class="text-center">
+							<span>Already have an account?</span> <a href="/login"> <span>Sign
+									in instead</span>
+							</a>
+						</p>
+					</div>
+				</div>
+				<!-- Register Card -->
+			</div>
+		</div>
+	</div>
+	<!-- Core JS -->
+	<!-- build:js assets/vendor/js/core.js -->
+	<script src="/Admin/assets/vendor/libs/jquery/jquery.js"></script>
+	<script src="/Admin/assets/vendor/libs/popper/popper.js"></script>
+	<script src="/Admin/assets/vendor/js/bootstrap.js"></script>
+	<script
+		src="/Admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+	<script src="/Admin/assets/vendor/js/menu.js"></script>
+	<!-- endbuild -->
+	<!-- Vendors JS -->
+	<!-- Main JS -->
+	<script src="/Admin/assets/js/main.js"></script>
+	<!-- Page JS -->
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+	<script>
+		$(document).ready(
+				function() {
+					$(".input-group-text.cursor-pointer").click(
+							function() {
+								var icon = $(this).children("i");
+								if (icon.hasClass("bx-hide")) {
+									icon.removeClass("bx-hide").addClass(
+											"bx-show");
+									$(this).closest(".input-group").find(
+											"input").attr("type", "text");
+								} else {
+									icon.removeClass("bx-show").addClass(
+											"bx-hide");
+									$(this).closest(".input-group").find(
+											"input").attr("type", "password");
+								}
+							});
+				});
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			if ($("#errorRegister").length) {
+				$("#errorRegister").modal('show');
+			}
+		});
+	</script>
+	<script>
+		$(document).ready(function() {
+			if ($("#otpModal").length) {
+				$("#otpModal").modal('show');
+			}
+		});
+	</script>
+	<script>
+		$(document).ready(function() {
+			if ($("#otpFailModal").length) {
+				$("#otpFailModal").modal('show');
+			}
+		});
+	</script>
+	<script type="text/javascript">
+    const inputs = document.querySelectorAll(".otp-field > input");
+    const button = document.querySelector(".btn-primary");
+
+    window.addEventListener("load", () => inputs[0].focus());
+
+    inputs[0].addEventListener("paste", function (event) {
+        event.preventDefault();
+        const pastedValue = (event.clipboardData || window.clipboardData).getData("text");
+        const otpLength = inputs.length;
+
+        for (let i = 0; i < otpLength; i++) {
+            if (i < pastedValue.length) {
+                inputs[i].value = pastedValue[i];
+                inputs[i].removeAttribute("disabled");
+                inputs[i].focus();
+            } else {
+                inputs[i].value = ""; 
+                inputs[i].focus();
+            }
+        }
+    });
+
+    inputs.forEach((input, index1) => {
+        input.addEventListener("keyup", (e) => {
+            const currentInput = input;
+            const nextInput = input.nextElementSibling;
+            const prevInput = input.previousElementSibling;
+
+            if (currentInput.value.length > 1) {
+                currentInput.value = "";
+                return;
+            }
+
+            if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+                nextInput.removeAttribute("disabled");
+                nextInput.focus();
+            }
+
+            if (e.key === "Backspace") {
+                inputs.forEach((input, index2) => {
+                    if (index1 <= index2 && prevInput) {
+                        input.setAttribute("disabled", true);
+                        input.value = "";
+                        prevInput.focus();
+                    }
+                });
+            }
+
+            button.classList.remove("active");
+            button.setAttribute("disabled", "disabled");
+
+            const inputsNo = inputs.length;
+            if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                button.classList.add("active");
+                button.removeAttribute("disabled");
+            }
+        });
+    });
+
+    document.getElementById('otp-form').addEventListener('submit', function(event) {
+        var otp = '';
+        inputs.forEach(function(input) {
+            otp += input.value;
+        });
+        document.getElementById('otp-value').value = otp;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+
+
+<html lang="en"
+	class="light-style layout-navbar-fixed layout-menu-fixed layout-compact "
+	dir="ltr" data-theme="theme-default" data-assets-path="/Admin/assets/"
+	data-template="vertical-menu-template">
+
+
+<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Apr 2024 18:00:43 GMT -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+<title>Dashboard</title>
+
+
+<meta name="description"
+	content="Most Powerful &amp; Comprehensive Bootstrap 5 HTML Admin Dashboard Template built for developers!" />
+<meta name="keywords"
+	content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+<!-- Canonical SEO -->
+<link rel="canonical"
+	href="https://themeselection.com/item/sneat-bootstrap-html-admin-template/">
+
+
+<!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '/Admin//Admin/www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon"
+	href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
+	rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="/Admin/assets/vendor/fonts/boxicons.css" />
+<link rel="stylesheet" href="/Admin/assets/vendor/fonts/fontawesome.css" />
+<link rel="stylesheet" href="/Admin/assets/vendor/fonts/flag-icons.css" />
+
+<!-- Core CSS -->
+<link rel="stylesheet" href="/Admin/assets/vendor/css/rtl/core.css"
+	class="template-customizer-core-css" />
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/css/rtl/theme-default.css"
+	class="template-customizer-theme-css" />
+<link rel="stylesheet" href="/Admin/assets/css/demo.css" />
+
+<!-- Vendors CSS -->
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/typeahead-js/typeahead.css" />
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<link rel="stylesheet"
+	href="/Admin/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+
+<!-- Page CSS -->
+
+
+<!-- Helpers -->
+<script src="/Admin/assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+<script src="/Admin/assets/vendor/js/template-customizer.js"></script>
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="/Admin/assets/js/config.js"></script>
+
+</head>
+
+<body>
+
+
+	<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP"
+			height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	<!-- Layout wrapper -->
+	<div class="layout-wrapper layout-content-navbar  ">
+		<div class="layout-container">
+
+
+
+
+
+
+
+			<aside id="layout-menu"
+				class="layout-menu menu-vertical menu bg-menu-theme">
+				<div class="app-brand demo ">
+					<a href="index.html" class="app-brand-link"> <span
+						class="app-brand-logo demo"> <svg width="25"
+								viewBox="0 0 25 42" version="1.1"
+								xmlns="http://www.w3.org/2000/svg"
+								xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+              <path
+									d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+									id="path-1"></path>
+              <path
+									d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+									id="path-3"></path>
+              <path
+									d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+									id="path-4"></path>
+              <path
+									d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+									id="path-5"></path>
+            </defs>
+            <g id="g-app-brand" stroke="none" stroke-width="1"
+									fill="none" fill-rule="evenodd">
+              <g id="Brand-Logo"
+									transform="translate(-27.000000, -15.000000)">
+                <g id="Icon" transform="translate(27.000000, 15.000000)">
+                  <g id="Mask" transform="translate(0.000000, 8.000000)">
+                    <mask id="mask-2" fill="white">
+                      <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use fill="#696cff" xlink:href="#path-1"></use>
+                    <g id="Path-3" mask="url(#mask-2)">
+                      <use fill="#696cff" xlink:href="#path-3"></use>
+                      <use fill-opacity="0.2" fill="#FFFFFF"
+									xlink:href="#path-3"></use>
+                    </g>
+                    <g id="Path-4" mask="url(#mask-2)">
+                      <use fill="#696cff" xlink:href="#path-4"></use>
+                      <use fill-opacity="0.2" fill="#FFFFFF"
+									xlink:href="#path-4"></use>
+                    </g>
+                  </g>
+                  <g id="Triangle"
+									transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                    <use fill="#696cff" xlink:href="#path-5"></use>
+                    <use fill-opacity="0.2" fill="#FFFFFF"
+									xlink:href="#path-5"></use>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+					</span> <span class="app-brand-text demo menu-text fw-bold ms-2">COZA
+							Store</span>
+					</a> <a href="javascript:void(0);"
+						class="layout-menu-toggle menu-link text-large ms-auto"> <i
+						class="bx bx-chevron-left bx-sm align-middle"></i>
+					</a>
+				</div>
+				<div class="menu-inner-shadow"></div>
+				<ul class="menu-inner py-1">
+					<!-- Dashboards -->
+					<li class="menu-item active open"><a
+						href="javascript:void(0);" class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-home-circle"></i>
+							<div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
+							<span class="badge badge-center rounded-pill bg-danger ms-auto">2</span>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a th:href="@{/admin}"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Statistic">Statistic</div>
+							</a></li>
+							<li class="menu-item active"><a th:href="@{/admin/list}"
+								class="menu-link  ">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+						</ul></li>
+					<!-- Layouts -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-layout"></i>
+							<div class="text-truncate" data-i18n="Product">Product</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a th:href="@{/management/product}"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+							<li class="menu-item"><a
+								th:href="@{/management/product/add}" class="menu-link">
+									<div class="text-truncate" data-i18n="Detail">Detail</div>
+							</a></li>
+						</ul></li>
+					<!-- Order -->
+					<li class="menu-item"><a th:href="@{/admin/order}"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-package"></i>
+							<div class="text-truncate" data-i18n="Order">Order</div>
+					</a></li>
+					<!-- Order -->
+					<li class="menu-item"><a th:href="@{/adv}" class="menu-link">
+							<i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+							<div class="text-truncate" data-i18n="ADV">ADV</div>
+					</a></li>
+					<!-- Front Pages -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-store'></i>
+							<div class="text-truncate" data-i18n="Customer">Customer</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a
+								th:href="@{/customer-management_form}" class="menu-link">
+									<div class="text-truncate" data-i18n="Form">Form</div>
+							</a></li>
+							<li class="menu-item"><a th:href="@{/custommer-management}"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-book-open'></i>
+							<div class="text-truncate" data-i18n="Supplier">Supplier</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a
+								th:href="@{/supplier-management-form}" class="menu-link">
+									<div class="text-truncate" data-i18n="Form">Form</div>
+							</a></li>
+							<li class="menu-item"><a th:href="@{/supplier-management}"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+						</ul></li>
+					<!-- Apps & Pages -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text" data-i18n="Apps & Pages">Apps
+							&amp; Pages</span></li>
+					<li class="menu-item"><a href="app-email.html"
+						class="menu-link"> <i
+							class="menu-icon tf-icons bx bx-envelope"></i>
+							<div class="text-truncate" data-i18n="Email">Email</div>
+					</a></li>
+					<li class="menu-item"><a href="app-chat.html"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-chat"></i>
+							<div class="text-truncate" data-i18n="Chat">Chat</div>
+					</a></li>
+					<li class="menu-item"><a href="app-calendar.html"
+						class="menu-link"> <i
+							class="menu-icon tf-icons bx bx-calendar"></i>
+							<div class="text-truncate" data-i18n="Calendar">Calendar</div>
+					</a></li>
+					<li class="menu-item"><a href="app-kanban.html"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-grid"></i>
+							<div class="text-truncate" data-i18n="Kanban">Kanban</div>
+					</a></li>
+					<!-- e-commerce-app menu start -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-cart-alt'></i>
+							<div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="app-ecommerce-dashboard.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
+							</a></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Products">Products</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="app-ecommerce-product-list.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Product List">Product
+												List</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-product-add.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Add Product">Add
+												Product</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-category-list.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Category List">Category
+												List</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Order">Order</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="app-ecommerce-order-list.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Order List">Order
+												List</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-order-details.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Order Details">Order
+												Details</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Customer">Customer</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="app-ecommerce-customer-all.html" class="menu-link">
+											<div class="text-truncate" data-i18n="All Customers">All
+												Customers</div>
+									</a></li>
+									<li class="menu-item"><a href="javascript:void(0);"
+										class="menu-link menu-toggle">
+											<div class="text-truncate" data-i18n="Customer Details">Customer
+												Details</div>
+									</a>
+										<ul class="menu-sub">
+											<li class="menu-item"><a
+												href="app-ecommerce-customer-details-overview.html"
+												class="menu-link">
+													<div class="text-truncate" data-i18n="Overview">Overview</div>
+											</a></li>
+											<li class="menu-item"><a
+												href="app-ecommerce-customer-details-security.html"
+												class="menu-link">
+													<div class="text-truncate" data-i18n="Security">Security</div>
+											</a></li>
+											<li class="menu-item"><a
+												href="app-ecommerce-customer-details-billing.html"
+												class="menu-link">
+													<div class="text-truncate" data-i18n="Address & Billing">Address
+														& Billing</div>
+											</a></li>
+											<li class="menu-item"><a
+												href="app-ecommerce-customer-details-notifications.html"
+												class="menu-link">
+													<div class="text-truncate" data-i18n="Notifications">Notifications</div>
+											</a></li>
+										</ul></li>
+								</ul></li>
+							<li class="menu-item"><a
+								href="app-ecommerce-manage-reviews.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Manage Reviews">Manage
+										Reviews</div>
+							</a></li>
+							<li class="menu-item"><a href="app-ecommerce-referral.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Referrals">Referrals</div>
+							</a></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Settings">Settings</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-detail.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Store Details">Store
+												Details</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-payments.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Payments">Payments</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-checkout.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Checkout">Checkout</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-shipping.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Shipping & Delivery">Shipping
+												& Delivery</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-locations.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Locations">Locations</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-ecommerce-settings-notifications.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Notifications">Notifications</div>
+									</a></li>
+								</ul></li>
+						</ul></li>
+					<!-- e-commerce-app menu end -->
+					<!-- Academy menu start -->
+					<!-- Academy menu end -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-car'></i>
+							<div class="text-truncate" data-i18n="Logistics">Logistics</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="app-logistics-dashboard.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
+							</a></li>
+							<li class="menu-item"><a href="app-logistics-fleet.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Fleet">Fleet</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-food-menu'></i>
+							<div class="text-truncate" data-i18n="Invoice">Invoice</div> <span
+							class="badge badge-center rounded-pill bg-success ms-auto">4</span>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="app-invoice-list.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+							<li class="menu-item"><a href="app-invoice-preview.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Preview">Preview</div>
+							</a></li>
+							<li class="menu-item"><a href="app-invoice-edit.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Edit">Edit</div>
+							</a></li>
+							<li class="menu-item"><a href="app-invoice-add.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Add">Add</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-user"></i>
+							<div class="text-truncate" data-i18n="Users">Users</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="app-user-list.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List">List</div>
+							</a></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="View">View</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="app-user-view-account.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Account">Account</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-user-view-security.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Security">Security</div>
+									</a></li>
+									<li class="menu-item"><a href="app-user-view-billing.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Billing & Plans">Billing
+												& Plans</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-user-view-notifications.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Notifications">Notifications</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="app-user-view-connections.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Connections">Connections</div>
+									</a></li>
+								</ul></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class='menu-icon tf-icons bx bx-check-shield'></i>
+							<div class="text-truncate" data-i18n="Roles & Permissions">Roles
+								& Permissions</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="app-access-roles.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Roles">Roles</div>
+							</a></li>
+							<li class="menu-item"><a href="app-access-permission.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Permission">Permission</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-dock-top"></i>
+							<div class="text-truncate" data-i18n="Pages">Pages</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="User Profile">User
+										Profile</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="pages-profile-user.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Profile">Profile</div>
+									</a></li>
+									<li class="menu-item"><a href="pages-profile-teams.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Teams">Teams</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-profile-projects.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Projects">Projects</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-profile-connections.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Connections">Connections</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Account Settings">Account
+										Settings</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="pages-account-settings-account.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Account">Account</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-account-settings-security.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Security">Security</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-account-settings-billing.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Billing & Plans">Billing
+												& Plans</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-account-settings-notifications.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Notifications">Notifications</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-account-settings-connections.html"
+										class="menu-link">
+											<div class="text-truncate" data-i18n="Connections">Connections</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="pages-faq.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="FAQ">FAQ</div>
+							</a></li>
+							<li class="menu-item"><a href="pages-pricing.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Pricing">Pricing</div>
+							</a></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Misc">Misc</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="pages-misc-error.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Error">Error</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-misc-under-maintenance.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Under Maintenance">Under
+												Maintenance</div>
+									</a></li>
+									<li class="menu-item"><a href="pages-misc-comingsoon.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Coming Soon">Coming
+												Soon</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="pages-misc-not-authorized.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Not Authorized">Not
+												Authorized</div>
+									</a></li>
+								</ul></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+							<div class="text-truncate" data-i18n="Authentications">Authentications</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Login">Login</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="auth-login-basic.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a href="auth-login-cover.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Register">Register</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="auth-register-basic.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a href="auth-register-cover.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="auth-register-multisteps.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Multi-steps">Multi-steps</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Verify Email">Verify
+										Email</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="auth-verify-email-basic.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="auth-verify-email-cover.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Reset Password">Reset
+										Password</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="auth-reset-password-basic.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="auth-reset-password-cover.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Forgot Password">Forgot
+										Password</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="auth-forgot-password-basic.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="auth-forgot-password-cover.html" class="menu-link"
+										target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Two Steps">Two
+										Steps</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a href="auth-two-steps-basic.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a href="auth-two-steps-cover.html"
+										class="menu-link" target="_blank">
+											<div class="text-truncate" data-i18n="Cover">Cover</div>
+									</a></li>
+								</ul></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-spreadsheet"></i>
+							<div class="text-truncate" data-i18n="Wizard Examples">Wizard
+								Examples</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="wizard-ex-checkout.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Checkout">Checkout</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="wizard-ex-property-listing.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Property Listing">Property
+										Listing</div>
+							</a></li>
+							<li class="menu-item"><a href="wizard-ex-create-deal.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Create Deal">Create
+										Deal</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="modal-examples.html"
+						class="menu-link"> <i
+							class="menu-icon tf-icons bx bx-window-open"></i>
+							<div class="text-truncate" data-i18n="Modal Examples">Modal
+								Examples</div>
+					</a></li>
+					<!-- Components -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text" data-i18n="Components">Components</span></li>
+					<!-- Cards -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-collection"></i>
+							<div class="text-truncate" data-i18n="Cards">Cards</div> <span
+							class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="cards-basic.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Basic">Basic</div>
+							</a></li>
+							<li class="menu-item"><a href="cards-advance.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Advance">Advance</div>
+							</a></li>
+							<li class="menu-item"><a href="cards-statistics.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Statistics">Statistics</div>
+							</a></li>
+							<li class="menu-item"><a href="cards-analytics.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Analytics">Analytics</div>
+							</a></li>
+							<li class="menu-item"><a href="cards-gamifications.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Gamifications">Gamifications</div>
+							</a></li>
+							<li class="menu-item"><a href="cards-actions.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Actions">Actions</div>
+							</a></li>
+						</ul></li>
+					<!-- User interface -->
+					<li class="menu-item"><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-box"></i>
+							<div class="text-truncate" data-i18n="User interface">User
+								interface</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="ui-accordion.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Accordion">Accordion</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-alerts.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Alerts">Alerts</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-badges.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Badges">Badges</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-buttons.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Buttons">Buttons</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-carousel.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Carousel">Carousel</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-collapse.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Collapse">Collapse</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-dropdowns.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Dropdowns">Dropdowns</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-footer.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Footer">Footer</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-list-groups.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="List Groups">List
+										groups</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-modals.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Modals">Modals</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-navbar.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Navbar">Navbar</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-offcanvas.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Offcanvas">Offcanvas</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="ui-pagination-breadcrumbs.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Pagination & Breadcrumbs">Pagination
+										&amp; Breadcrumbs</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-progress.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Progress">Progress</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-spinners.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Spinners">Spinners</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-tabs-pills.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Tabs & Pills">Tabs
+										&amp; Pills</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-toasts.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Toasts">Toasts</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-tooltips-popovers.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Tooltips & Popovers">Tooltips
+										&amp; Popovers</div>
+							</a></li>
+							<li class="menu-item"><a href="ui-typography.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Typography">Typography</div>
+							</a></li>
+						</ul></li>
+					<!-- Extended components -->
+					<li class="menu-item"><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-copy"></i>
+							<div class="text-truncate" data-i18n="Extended UI">Extended
+								UI</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="extended-ui-avatar.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Avatar">Avatar</div>
+							</a></li>
+							<li class="menu-item"><a href="extended-ui-blockui.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="BlockUI">BlockUI</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="extended-ui-drag-and-drop.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Drag & Drop">Drag
+										&amp; Drop</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="extended-ui-media-player.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Media Player">Media
+										Player</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="extended-ui-perfect-scrollbar.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Perfect Scrollbar">Perfect
+										Scrollbar</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="extended-ui-star-ratings.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Star Ratings">Star
+										Ratings</div>
+							</a></li>
+							<li class="menu-item"><a href="extended-ui-sweetalert2.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="SweetAlert2">SweetAlert2</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="extended-ui-text-divider.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Text Divider">Text
+										Divider</div>
+							</a></li>
+							<li class="menu-item"><a href="javascript:void(0);"
+								class="menu-link menu-toggle">
+									<div class="text-truncate" data-i18n="Timeline">Timeline</div>
+							</a>
+								<ul class="menu-sub">
+									<li class="menu-item"><a
+										href="extended-ui-timeline-basic.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Basic">Basic</div>
+									</a></li>
+									<li class="menu-item"><a
+										href="extended-ui-timeline-fullscreen.html" class="menu-link">
+											<div class="text-truncate" data-i18n="Fullscreen">Fullscreen</div>
+									</a></li>
+								</ul></li>
+							<li class="menu-item"><a href="extended-ui-tour.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Tour">Tour</div>
+							</a></li>
+							<li class="menu-item"><a href="extended-ui-treeview.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Treeview">Treeview</div>
+							</a></li>
+							<li class="menu-item"><a href="extended-ui-misc.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Miscellaneous">Miscellaneous</div>
+							</a></li>
+						</ul></li>
+					<!-- Icons -->
+					<li class="menu-item"><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-crown"></i>
+							<div class="text-truncate" data-i18n="Icons">Icons</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="icons-boxicons.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Boxicons">Boxicons</div>
+							</a></li>
+							<li class="menu-item"><a href="icons-font-awesome.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Fontawesome">Fontawesome</div>
+							</a></li>
+						</ul></li>
+					<!-- Forms & Tables -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text" data-i18n="Forms & Tables">Forms
+							&amp; Tables</span></li>
+					<!-- Forms -->
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-detail"></i>
+							<div class="text-truncate" data-i18n="Form Elements">Form
+								Elements</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="forms-basic-inputs.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Basic Inputs">Basic
+										Inputs</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-input-groups.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Input groups">Input
+										groups</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-custom-options.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Custom Options">Custom
+										Options</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-editors.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Editors">Editors</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-file-upload.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="File Upload">File
+										Upload</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-pickers.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Pickers">Pickers</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-selects.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Select & Tags">Select
+										&amp; Tags</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-sliders.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Sliders">Sliders</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-switches.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Switches">Switches</div>
+							</a></li>
+							<li class="menu-item"><a href="forms-extras.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Extras">Extras</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-detail"></i>
+							<div class="text-truncate" data-i18n="Form Layouts">Form
+								Layouts</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="form-layouts-vertical.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Vertical Form">Vertical
+										Form</div>
+							</a></li>
+							<li class="menu-item"><a href="form-layouts-horizontal.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Horizontal Form">Horizontal
+										Form</div>
+							</a></li>
+							<li class="menu-item"><a href="form-layouts-sticky.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Sticky Actions">Sticky
+										Actions</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-carousel"></i>
+							<div class="text-truncate" data-i18n="Form Wizard">Form
+								Wizard</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="form-wizard-numbered.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Numbered">Numbered</div>
+							</a></li>
+							<li class="menu-item"><a href="form-wizard-icons.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Icons">Icons</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="form-validation.html"
+						class="menu-link"> <i
+							class="menu-icon tf-icons bx bx-list-check"></i>
+							<div class="text-truncate" data-i18n="Form Validation">Form
+								Validation</div>
+					</a></li>
+					<!-- Tables -->
+					<li class="menu-item"><a href="tables-basic.html"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-table"></i>
+							<div class="text-truncate" data-i18n="Tables">Tables</div>
+					</a></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-grid"></i>
+							<div class="text-truncate" data-i18n="Datatables">Datatables</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="tables-datatables-basic.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Basic">Basic</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="tables-datatables-advanced.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Advanced">Advanced</div>
+							</a></li>
+							<li class="menu-item"><a
+								href="tables-datatables-extensions.html" class="menu-link">
+									<div class="text-truncate" data-i18n="Extensions">Extensions</div>
+							</a></li>
+						</ul></li>
+					<!-- Charts & Maps -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text" data-i18n="Charts & Maps">Charts
+							&amp; Maps</span></li>
+					<li class="menu-item"><a href="javascript:void(0);"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-chart"></i>
+							<div class="text-truncate" data-i18n="Charts">Charts</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="charts-apex.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="Apex Charts">Apex
+										Charts</div>
+							</a></li>
+							<li class="menu-item"><a href="charts-chartjs.html"
+								class="menu-link">
+									<div class="text-truncate" data-i18n="ChartJS">ChartJS</div>
+							</a></li>
+						</ul></li>
+					<li class="menu-item"><a href="maps-leaflet.html"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-map-alt"></i>
+							<div class="text-truncate" data-i18n="Leaflet Maps">Leaflet
+								Maps</div>
+					</a></li>
+					<!-- Misc -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text" data-i18n="Misc">Misc</span></li>
+					<li class="menu-item"><a
+						href="https://themeselection.com/support/" target="_blank"
+						class="menu-link"> <i class="menu-icon tf-icons bx bx-support"></i>
+							<div class="text-truncate" data-i18n="Support">Support</div>
+					</a></li>
+					<li class="menu-item"><a
+						href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
+						target="_blank" class="menu-link"> <i
+							class="menu-icon tf-icons bx bx-file"></i>
+							<div class="text-truncate" data-i18n="Documentation">Documentation</div>
+					</a></li>
+				</ul>
+			</aside>
+
+
+
+			<!-- Layout container -->
+			<div class="layout-page">
+
+
+
+
+
+				<!-- Navbar -->
+
+
+
+
+				<nav
+					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+					id="layout-navbar">
+
+
+
+
+
+
+
+
+
+
+
+					<div
+						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
+						<a class="nav-item nav-link px-0 me-xl-4"
+							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
+						</a>
+					</div>
+
+
+					<div class="navbar-nav-right d-flex align-items-center"
+						id="navbar-collapse">
+
+
+
+
+						<!-- Search -->
+						<div class="navbar-nav align-items-center">
+							<div class="nav-item navbar-search-wrapper mb-0">
+								<a class="nav-item nav-link search-toggler px-0"
+									href="javascript:void(0);"> <i class="bx bx-search bx-sm"></i>
+									<span class="d-none d-md-inline-block text-muted">Search
+										(Ctrl+/)</span>
+								</a>
+							</div>
+						</div>
+						<!-- /Search -->
+
+
+
+
+
+						<ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+
+
+							<!-- Language -->
+							<li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown"> <i
+									class='bx bx-globe bx-sm'></i>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-language="en" data-text-direction="ltr"> <span
+											class="align-middle">English</span>
+									</a></li>
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-language="fr" data-text-direction="ltr"> <span
+											class="align-middle">French</span>
+									</a></li>
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-language="ar" data-text-direction="rtl"> <span
+											class="align-middle">Arabic</span>
+									</a></li>
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-language="de" data-text-direction="ltr"> <span
+											class="align-middle">German</span>
+									</a></li>
+								</ul>
+							</li>
+							<!-- /Language -->
+
+							<!-- Quick links  -->
+							<li
+								class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown"
+								data-bs-auto-close="outside" aria-expanded="false"> <i
+									class='bx bx-grid-alt bx-sm'></i>
+							</a>
+								<div class="dropdown-menu dropdown-menu-end py-0">
+									<div class="dropdown-menu-header border-bottom">
+										<div class="dropdown-header d-flex align-items-center py-3">
+											<h5 class="text-body mb-0 me-auto">Shortcuts</h5>
+											<a href="javascript:void(0)"
+												class="dropdown-shortcuts-add text-body"
+												data-bs-toggle="tooltip" data-bs-placement="top"
+												title="Add shortcuts"><i class="bx bx-sm bx-plus-circle"></i></a>
+										</div>
+									</div>
+									<div class="dropdown-shortcuts-list scrollable-container">
+										<div class="row row-bordered overflow-visible g-0">
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-calendar fs-4"></i>
+												</span> <a href="app-calendar.html" class="stretched-link">Calendar</a>
+												<small class="text-muted mb-0">Appointments</small>
+											</div>
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-food-menu fs-4"></i>
+												</span> <a href="app-invoice-list.html" class="stretched-link">Invoice
+													App</a> <small class="text-muted mb-0">Manage Accounts</small>
+											</div>
+										</div>
+										<div class="row row-bordered overflow-visible g-0">
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-user fs-4"></i>
+												</span> <a href="app-user-list.html" class="stretched-link">User
+													App</a> <small class="text-muted mb-0">Manage Users</small>
+											</div>
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-check-shield fs-4"></i>
+												</span> <a href="app-access-roles.html" class="stretched-link">Role
+													Management</a> <small class="text-muted mb-0">Permission</small>
+											</div>
+										</div>
+										<div class="row row-bordered overflow-visible g-0">
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-pie-chart-alt-2 fs-4"></i>
+												</span> <a href="index.html" class="stretched-link">Dashboard</a> <small
+													class="text-muted mb-0">User Profile</small>
+											</div>
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-cog fs-4"></i>
+												</span> <a href="pages-account-settings-account.html"
+													class="stretched-link">Setting</a> <small
+													class="text-muted mb-0">Account Settings</small>
+											</div>
+										</div>
+										<div class="row row-bordered overflow-visible g-0">
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-help-circle fs-4"></i>
+												</span> <a href="pages-faq.html" class="stretched-link">FAQs</a> <small
+													class="text-muted mb-0">FAQs & Articles</small>
+											</div>
+											<div class="dropdown-shortcuts-item col">
+												<span
+													class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+													<i class="bx bx-window-open fs-4"></i>
+												</span> <a href="modal-examples.html" class="stretched-link">Modals</a>
+												<small class="text-muted mb-0">Useful Popups</small>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<!-- Quick links -->
+
+
+							<!-- Style Switcher -->
+							<li
+								class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown"> <i
+									class='bx bx-sm'></i>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-theme="light"> <span class="align-middle"><i
+												class='bx bx-sun me-2'></i>Light</span>
+									</a></li>
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-theme="dark"> <span class="align-middle"><i
+												class="bx bx-moon me-2"></i>Dark</span>
+									</a></li>
+									<li><a class="dropdown-item" href="javascript:void(0);"
+										data-theme="system"> <span class="align-middle"><i
+												class="bx bx-desktop me-2"></i>System</span>
+									</a></li>
+								</ul>
+							</li>
+							<!-- / Style Switcher-->
+
+
+							<!-- Notification -->
+							<li
+								class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown"
+								data-bs-auto-close="outside" aria-expanded="false"> <i
+									class="bx bx-bell bx-sm"></i> <span
+									class="badge bg-danger rounded-pill badge-notifications">5</span>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end py-0">
+									<li class="dropdown-menu-header border-bottom">
+										<div class="dropdown-header d-flex align-items-center py-3">
+											<h5 class="text-body mb-0 me-auto">Notification</h5>
+											<a href="javascript:void(0)"
+												class="dropdown-notifications-all text-body"
+												data-bs-toggle="tooltip" data-bs-placement="top"
+												title="Mark all as read"><i
+												class="bx fs-4 bx-envelope-open"></i></a>
+										</div>
+									</li>
+									<li class="dropdown-notifications-list scrollable-container">
+										<ul class="list-group list-group-flush">
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<img src="/Admin/assets/img/avatars/1.png" alt
+																class="w-px-40 h-auto rounded-circle">
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Congratulation Lettie 🎉</h6>
+														<p class="mb-0">Won the monthly best seller gold badge</p>
+														<small class="text-muted">1h ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<span
+																class="avatar-initial rounded-circle bg-label-danger">CF</span>
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Charles Franklin</h6>
+														<p class="mb-0">Accepted your connection</p>
+														<small class="text-muted">12hr ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<img src="/Admin/assets/img/avatars/2.png" alt
+																class="w-px-40 h-auto rounded-circle">
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">New Message ✉️</h6>
+														<p class="mb-0">You have new message from Natalie</p>
+														<small class="text-muted">1h ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<span
+																class="avatar-initial rounded-circle bg-label-success"><i
+																class="bx bx-cart"></i></span>
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Whoo! You have new order 🛒</h6>
+														<p class="mb-0">ACME Inc. made new order $1,154</p>
+														<small class="text-muted">1 day ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<img src="/Admin/assets/img/avatars/9.png" alt
+																class="w-px-40 h-auto rounded-circle">
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Application has been approved 🚀</h6>
+														<p class="mb-0">Your ABC project application has been
+															approved.</p>
+														<small class="text-muted">2 days ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<span
+																class="avatar-initial rounded-circle bg-label-success"><i
+																class="bx bx-pie-chart-alt"></i></span>
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Monthly report is generated</h6>
+														<p class="mb-0">July monthly financial report is
+															generated</p>
+														<small class="text-muted">3 days ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<img src="/Admin/assets/img/avatars/5.png" alt
+																class="w-px-40 h-auto rounded-circle">
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">Send connection request</h6>
+														<p class="mb-0">Peter sent you connection request</p>
+														<small class="text-muted">4 days ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<img src="/Admin/assets/img/avatars/6.png" alt
+																class="w-px-40 h-auto rounded-circle">
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">New message from Jane</h6>
+														<p class="mb-0">Your have new message from Jane</p>
+														<small class="text-muted">5 days ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+											<li
+												class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+												<div class="d-flex">
+													<div class="flex-shrink-0 me-3">
+														<div class="avatar">
+															<span
+																class="avatar-initial rounded-circle bg-label-warning"><i
+																class="bx bx-error"></i></span>
+														</div>
+													</div>
+													<div class="flex-grow-1">
+														<h6 class="mb-1">CPU is running high</h6>
+														<p class="mb-0">CPU Utilization Percent is currently
+															at 88.63%,</p>
+														<small class="text-muted">5 days ago</small>
+													</div>
+													<div class="flex-shrink-0 dropdown-notifications-actions">
+														<a href="javascript:void(0)"
+															class="dropdown-notifications-read"><span
+															class="badge badge-dot"></span></a> <a
+															href="javascript:void(0)"
+															class="dropdown-notifications-archive"><span
+															class="bx bx-x"></span></a>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-menu-footer border-top p-3">
+										<button class="btn btn-primary text-uppercase w-100">view
+											all notifications</button>
+									</li>
+								</ul>
+							</li>
+							<!--/ Notification -->
+							<!-- User -->
+							<li class="nav-item navbar-dropdown dropdown-user dropdown">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown">
+									<div class="avatar avatar-online">
+										<img src="/Admin/assets/img/avatars/1.png" alt
+											class="w-px-40 h-auto rounded-circle">
+									</div>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li><a class="dropdown-item"
+										href="pages-account-settings-account.html">
+											<div class="d-flex">
+												<div class="flex-shrink-0 me-3">
+													<div class="avatar avatar-online">
+														<img src="/Admin/assets/img/avatars/1.png" alt
+															class="w-px-40 h-auto rounded-circle">
+													</div>
+												</div>
+												<div class="flex-grow-1">
+													<span class="fw-medium d-block">John Doe</span> <small
+														class="text-muted">Admin</small>
+												</div>
+											</div>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item"
+										href="pages-profile-user.html"> <i class="bx bx-user me-2"></i>
+											<span class="align-middle">My Profile</span>
+									</a></li>
+									<li><a class="dropdown-item"
+										href="pages-account-settings-account.html"> <i
+											class="bx bx-cog me-2"></i> <span class="align-middle">Settings</span>
+									</a></li>
+									<li><a class="dropdown-item"
+										href="pages-account-settings-billing.html"> <span
+											class="d-flex align-items-center align-middle"> <i
+												class="flex-shrink-0 bx bx-credit-card me-2"></i> <span
+												class="flex-grow-1 align-middle">Billing</span> <span
+												class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+										</span>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="pages-faq.html"> <i
+											class="bx bx-help-circle me-2"></i> <span
+											class="align-middle">FAQ</span>
+									</a></li>
+									<li><a class="dropdown-item" href="pages-pricing.html">
+											<i class="bx bx-dollar me-2"></i> <span class="align-middle">Pricing</span>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="auth-login-cover.html"
+										target="_blank"> <i class="bx bx-power-off me-2"></i> <span
+											class="align-middle">Log Out</span>
+									</a></li>
+								</ul>
+							</li>
+							<!--/ User -->
+
+
+						</ul>
+					</div>
+
+
+					<!-- Search Small Screens -->
+					<div class="navbar-search-wrapper search-input-wrapper  d-none">
+						<input type="text"
+							class="form-control search-input container-xxl border-0"
+							placeholder="Search..." aria-label="Search..."> <i
+							class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
+					</div>
+
+
+				</nav>
+
+
+
+				<!-- / Navbar -->
+
+
+
+				<!-- Content wrapper -->
+				<div class="content-wrapper">
+
+					<!-- Content -->
+
+					<div class="container-xxl flex-grow-1 container-p-y">
+
+
+
+						<h4 class="py-3 mb-4">
+							<span class="text-muted fw-light">eCommerce /</span> Order List
+						</h4>
+
+						<!-- Order List Widget -->
+
+						<div class="card mb-4">
+							<div class="card-widget-separator-wrapper">
+								<div class="card-body card-widget-separator">
+									<div class="row gy-4 gy-sm-1">
+										<div class="col-sm-6 col-lg-3">
+											<div
+												class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+												<div>
+													<h3 class="mb-2">56</h3>
+													<p class="mb-0">Pending Payment</p>
+												</div>
+												<div class="avatar me-sm-4">
+													<span class="avatar-initial rounded bg-label-secondary">
+														<i class="bx bx-calendar bx-sm"></i>
+													</span>
+												</div>
+											</div>
+											<hr class="d-none d-sm-block d-lg-none me-4">
+										</div>
+										<div class="col-sm-6 col-lg-3">
+											<div
+												class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
+												<div>
+													<h3 class="mb-2">12,689</h3>
+													<p class="mb-0">Completed</p>
+												</div>
+												<div class="avatar me-lg-4">
+													<span class="avatar-initial rounded bg-label-secondary">
+														<i class="bx bx-check-double bx-sm"></i>
+													</span>
+												</div>
+											</div>
+											<hr class="d-none d-sm-block d-lg-none">
+										</div>
+										<div class="col-sm-6 col-lg-3">
+											<div
+												class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
+												<div>
+													<h3 class="mb-2">124</h3>
+													<p class="mb-0">Refunded</p>
+												</div>
+												<div class="avatar me-sm-4">
+													<span class="avatar-initial rounded bg-label-secondary">
+														<i class="bx bx-wallet bx-sm"></i>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-lg-3">
+											<div class="d-flex justify-content-between align-items-start">
+												<div>
+													<h3 class="mb-2">32</h3>
+													<p class="mb-0">Failed</p>
+												</div>
+												<div class="avatar">
+													<span class="avatar-initial rounded bg-label-secondary">
+														<i class="bx bx-error-alt bx-sm"></i>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Order List Table -->
+						<div class="card">
+							<div class="card-datatable table-responsive">
+								<table class="datatables-order table border-top">
+									<thead>
+										<tr>
+											<th></th>
+											<th></th>
+											<th>order</th>
+											<th>date</th>
+											<th>customers</th>
+											<th>payment</th>
+											<th>status</th>
+											<th>method</th>
+											<th>actions</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+
+
+					</div>
+					<!-- / Content -->
+
+
+					<div class="content-backdrop fade"></div>
+				</div>
+				<!-- Content wrapper -->
+			</div>
+			<!-- / Layout page -->
+		</div>
+
+
+
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
+
+
+		<!-- Drag Target Area To SlideIn Menu On Small Screens -->
+		<div class="drag-target"></div>
+
+	</div>
+	<!-- build:js assets/vendor/js/core.js -->
+
+	<script src="/Admin/assets/vendor/libs/jquery/jquery.js"></script>
+	<script src="/Admin/assets/vendor/libs/popper/popper.js"></script>
+	<script src="/Admin/assets/vendor/js/bootstrap.js"></script>
+	<script
+		src="/Admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+	<script src="/Admin/assets/vendor/libs/hammer/hammer.js"></script>
+	<script src="/Admin/assets/vendor/libs/i18n/i18n.js"></script>
+	<script src="/Admin/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+	<script src="/Admin/assets/vendor/js/menu.js"></script>
+
+	<!-- endbuild -->
+
+	<!-- Vendors JS -->
+	<script
+		src="/Admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+
+	<!-- Main JS -->
+	<script src="/Admin/assets/js/main.js"></script>
+
+
+	<!-- Page JS -->
+	<script>
+
+"use strict";
+$(function () {
+  let t, a, s;
+  s = (
+    isDarkStyle
+      ? ((t = config.colors_dark.borderColor),
+        (a = config.colors_dark.bodyBg),
+        config.colors_dark)
+      : ((t = config.colors.borderColor),
+        (a = config.colors.bodyBg),
+        config.colors)
+  ).headingColor;
+
+  var e,
+    n = $(".datatables-order"),
+    r = {
+      1: { title: "Dispatched", class: "bg-label-warning" },
+      2: { title: "Delivered", class: "bg-label-success" },
+      3: { title: "Out for Delivery", class: "bg-label-primary" },
+      4: { title: "Ready to Pickup", class: "bg-label-info" },
+    },
+    o = {
+      1: { title: "Paid", class: "text-success" },
+      2: { title: "Pending", class: "text-warning" },
+      3: { title: "Failed", class: "text-danger" },
+      4: { title: "Cancelled", class: "text-secondary" },
+    };
+
+  n.length &&
+    ((e = n.DataTable({
+      data: [
+        { 
+          id1: 1, id2: 1, order: "A001", date: "2024-06-01T09:30:00", time: "09:30", customer: "Alice Johnson", email: "alice@example.com", avatar: "1.png", payment: 1, status: 1, method: "paypal_logo", method_number: "123456789"
+        },
+        { 
+          id1: 2, id2: 2, order: "A002", date: "2024-06-02T10:00:00", time: "10:00", customer: "Bob Brown", email: "bob@example.com", avatar: "", payment: 2, status: 2, method: "visa", method_number: "987654321"
+        },
+        { 
+          id1: 3, id2: 3, order: "A003", date: "2024-06-03T11:15:00", time: "11:15", customer: "Charlie Davis", email: "charlie@example.com", avatar: "2.png", payment: 3, status: 3, method: "mastercard", method_number: "111222333"
+        },
+        { 
+          id1: 4, id2: 4, order: "A004", date: "2024-06-04T14:45:00", time: "14:45", customer: "Diana Evans", email: "diana@example.com", avatar: "", payment: 4, status: 4, method: "paypal_logo", method_number: "222333444"
+        },
+        { 
+          id1: 5, id2: 5, order: "A005", date: "2024-06-05T16:30:00", time: "16:30", customer: "Eve Foster", email: "eve@example.com", avatar: "3.png", payment: 1, status: 2, method: "visa", method_number: "555666777"
+        },
+        { 
+          id1: 6, id2: 6, order: "A006", date: "2024-06-06T08:30:00", time: "08:30", customer: "Frank Green", email: "frank@example.com", avatar: "4.png", payment: 2, status: 1, method: "mastercard", method_number: "333444555"
+        },
+        { 
+          id1: 7, id2: 7, order: "A007", date: "2024-06-07T09:45:00", time: "09:45", customer: "Grace Harris", email: "grace@example.com", avatar: "5.png", payment: 3, status: 3, method: "paypal_logo", method_number: "666777888"
+        },
+        { 
+          id1: 8, id2: 8, order: "A008", date: "2024-06-08T11:00:00", time: "11:00", customer: "Henry Irwin", email: "henry@example.com", avatar: "", payment: 4, status: 4, method: "visa", method_number: "888999000"
+        },
+        { 
+          id1: 9, id2: 9, order: "A009", date: "2024-06-09T13:15:00", time: "13:15", customer: "Isabel Jones", email: "isabel@example.com", avatar: "6.png", payment: 1, status: 2, method: "mastercard", method_number: "111333555"
+        },
+        { 
+          id1: 10, id2: 10, order: "A010", date: "2024-06-10T14:30:00", time: "14:30", customer: "Jack Kelly", email: "jack@example.com", avatar: "7.png", payment: 2, status: 1, method: "paypal_logo", method_number: "444666888"
+        },
+        { 
+          id1: 11, id2: 11, order: "A011", date: "2024-06-11T16:45:00", time: "16:45", customer: "Karen Lee", email: "karen@example.com", avatar: "8.png", payment: 3, status: 3, method: "visa", method_number: "999111222"
+        },
+        { 
+          id1: 12, id2: 12, order: "A012", date: "2024-06-12T08:15:00", time: "08:15", customer: "Liam Martin", email: "liam@example.com", avatar: "", payment: 4, status: 4, method: "mastercard", method_number: "333555777"
+        },
+        { 
+          id1: 13, id2: 13, order: "A013", date: "2024-06-13T09:30:00", time: "09:30", customer: "Mia Nelson", email: "mia@example.com", avatar: "9.png", payment: 1, status: 2, method: "paypal_logo", method_number: "666888000"
+        },
+        { 
+          id1: 14, id2: 14, order: "A014", date: "2024-06-14T10:45:00", time: "10:45", customer: "Noah Owens", email: "noah@example.com", avatar: "", payment: 2, status: 1, method: "visa", method_number: "111333444"
+        },
+        { 
+          id1: 15, id2: 15, order: "A015", date: "2024-06-15T12:00:00", time: "12:00", customer: "Olivia Perry", email: "olivia@example.com", avatar: "10.png", payment: 3, status: 3, method: "mastercard", method_number: "555777999"
+        },
+        { 
+          id1: 16, id2: 16, order: "A016", date: "2024-06-16T13:15:00", time: "13:15", customer: "Paul Quinn", email: "paul@example.com", avatar: "11.png", payment: 4, status: 4, method: "paypal_logo", method_number: "888000222"
+        },
+        { 
+          id1: 17, id2: 17, order: "A017", date: "2024-06-17T14:30:00", time: "14:30", customer: "Quincy Roberts", email: "quincy@example.com", avatar: "", payment: 1, status: 2, method: "visa", method_number: "333555666"
+        },
+        { 
+          id1: 18, id2: 18, order: "A018", date: "2024-06-18T15:45:00", time: "15:45", customer: "Rachel Smith", email: "rachel@example.com", avatar: "12.png", payment: 2, status: 1, method: "mastercard", method_number: "666888999"
+        },
+        { 
+          id1: 19, id2: 19, order: "A019", date: "2024-06-19T17:00:00", time: "17:00", customer: "Samuel Taylor", email: "samuel@example.com", avatar: "13.png", payment: 3, status: 3, method: "paypal_logo", method_number: "000222444"
+        },
+        { 
+          id1: 20, id2: 20, order: "A020", date: "2024-06-20T08:00:00", time: "08:00", customer: "Tina Upton", email: "tina@example.com", avatar: "", payment: 4, status: 4, method: "visa", method_number: "444666777"
+        },
+        { 
+          id1: 21, id2: 21, order: "A021", date: "2024-06-21T09:15:00", time: "09:15", customer: "Uma Vaughn", email: "uma@example.com", avatar: "14.png", payment: 1, status: 2, method: "mastercard", method_number: "777999111"
+        },
+        { 
+          id1: 22, id2: 22, order: "A022", date: "2024-06-22T10:30:00", time: "10:30", customer: "Victor White", email: "victor@example.com", avatar: "15.png", payment: 2, status: 1, method: "paypal_logo", method_number: "222444666"
+        },
+        { 
+          id1: 23, id2: 23, order: "A023", date: "2024-06-23T11:45:00", time: "11:45", customer: "Wendy Xu", email: "wendy@example.com", avatar: "", payment: 3, status: 3, method: "visa", method_number: "555777888"
+        },
+        { 
+          id1: 24, id2: 24, order: "A024", date: "2024-06-24T13:00:00", time: "13:00", customer: "Xavier Young", email: "xavier@example.com", avatar: "16.png", payment: 4, status: 4, method: "mastercard", method_number: "888000111"
+        },
+        { 
+          id1: 25, id2: 25, order: "A025", date: "2024-06-25T14:15:00", time: "14:15", customer: "Yara Zane", email: "yara@example.com", avatar: "17.png", payment: 1, status: 2, method: "paypal_logo", method_number: "000222333"
+        },
+        { 
+          id1: 26, id2: 26, order: "A026", date: "2024-06-26T15:30:00", time: "15:30", customer: "Zachary Allen", email: "zachary@example.com", avatar: "", payment: 2, status: 1, method: "visa", method_number: "111333555"
+        },
+        { 
+          id1: 27, id2: 27, order: "A027", date: "2024-06-27T16:45:00", time: "16:45", customer: "Amber Baker", email: "amber@example.com", avatar: "18.png", payment: 3, status: 3, method: "mastercard", method_number: "444666888"
+        },
+        { 
+          id1: 28, id2: 28, order: "A028", date: "2024-06-28T08:00:00", time: "08:00", customer: "Brian Clark", email: "brian@example.com", avatar: "", payment: 4, status: 4, method: "paypal_logo", method_number: "999111222"
+        },
+        { 
+          id1: 29, id2: 29, order: "A029", date: "2024-06-29T09:15:00", time: "09:15", customer: "Catherine Davis", email: "catherine@example.com", avatar: "19.png", payment: 1, status: 2, method: "visa", method_number: "333555666"
+        },
+        { 
+          id1: 30, id2: 30, order: "A030", date: "2024-06-30T10:30:00", time: "10:30", customer: "David Evans", email: "david@example.com", avatar: "", payment: 2, status: 1, method: "mastercard", method_number: "666888999"
+        },
+        { 
+          id1: 31, id2: 31, order: "A031", date: "2024-07-01T11:45:00", time: "11:45", customer: "Emma Foster", email: "emma@example.com", avatar: "20.png", payment: 3, status: 3, method: "paypal_logo", method_number: "000222444"
+        },
+        { 
+          id1: 32, id2: 32, order: "A032", date: "2024-07-02T13:00:00", time: "13:00", customer: "Fred Green", email: "fred@example.com", avatar: "", payment: 4, status: 4, method: "visa", method_number: "444666777"
+        },
+        { 
+          id1: 33, id2: 33, order: "A033", date: "2024-07-03T14:15:00", time: "14:15", customer: "Gina Hill", email: "gina@example.com", avatar: "21.png", payment: 1, status: 2, method: "mastercard", method_number: "777999111"
+        },
+        { 
+          id1: 34, id2: 34, order: "A034", date: "2024-07-04T15:30:00", time: "15:30", customer: "Harry Irwin", email: "harry@example.com", avatar: "", payment: 2, status: 1, method: "paypal_logo", method_number: "222444666"
+        },
+        { 
+          id1: 35, id2: 35, order: "A035", date: "2024-07-05T16:45:00", time: "16:45", customer: "Isabella Johnson", email: "isabella@example.com", avatar: "22.png", payment: 3, status: 3, method: "visa", method_number: "555777888"
+        }
+
+      ],
+      columns: [
+        { data: "id1" },
+        { data: "id2" },
+        { data: "order" },
+        { data: "date" },
+        { data: "customer" },
+        { data: "payment" },
+        { data: "status" },
+        { data: "method" },
+        { data: "action" },
+      ],
+      columnDefs: [
+        {
+          className: "control",
+          searchable: !1,
+          orderable: !1,
+          responsivePriority: 2,
+          targets: 0,
+          render: function (e, t, a, s) {
+            return "";
+          },
+        },
+        {
+          targets: 1,
+          orderable: !1,
+          checkboxes: {
+            selectAllRender: '<input type="checkbox" class="form-check-input">',
+          },
+          render: function () {
+            return '<input type="checkbox" class="dt-checkboxes form-check-input" >';
+          },
+          searchable: !1,
+        },
+        {
+          targets: 2,
+          render: function (e, t, a, s) {
+            return (
+              '<a href="app-ecommerce-order-details.html"><span class="fw-medium">#' +
+              a.order +
+              "</span></a>"
+            );
+          },
+        },
+        {
+          targets: 3,
+          render: function (e, t, a, s) {
+            var n = new Date(a.date),
+              a = a.time.substring(0, 5);
+            return (
+              '<span class="text-nowrap">' +
+              n.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }) +
+              ", " +
+              a +
+              "</span>"
+            );
+          },
+        },
+        {
+          targets: 4,
+          responsivePriority: 1,
+          render: function (e, t, a, s) {
+            var n = a.customer,
+              r = a.email,
+              o = a.avatar;
+            return (
+              '<div class="d-flex justify-content-start align-items-center order-name text-nowrap"><div class="avatar-wrapper"><div class="avatar me-2">' +
+              (o
+                ? '<img src="' +
+                  assetsPath +
+                  "img/avatars/" +
+                  o +
+                  '" alt="Avatar" class="rounded-circle">'
+                : '<span class="avatar-initial rounded-circle bg-label-' +
+                  [
+                    "success",
+                    "danger",
+                    "warning",
+                    "info",
+                    "dark",
+                    "primary",
+                    "secondary",
+                  ][Math.floor(6 * Math.random())] +
+                  '">' +
+                  (o = (
+                    ((o = (n = a.customer).match(/\b\w/g) || []).shift() ||
+                      "") + (o.pop() || "")
+                  ).toUpperCase()) +
+                  "</span>") +
+              '</div></div><div class="d-flex flex-column"><h6 class="m-0"><a href="pages-profile-user.html" class="text-body">' +
+              n +
+              '</a></h6><small class="text-muted">' +
+              r +
+              "</small></div></div>"
+            );
+          },
+        },
+        {
+          targets: 5,
+          render: function (e, t, a, s) {
+            (a = a.payment), (a = o[a]);
+            return a
+              ? '<h6 class="mb-0 w-px-100 ' +
+                  a.class +
+                  '"><i class="bx bxs-circle fs-tiny me-2"></i>' +
+                  a.title +
+                  "</h6>"
+              : e;
+          },
+        },
+        {
+          targets: -3,
+          render: function (e, t, a, s) {
+            a = a.status;
+            return (
+              '<span class="badge px-2 ' +
+              r[a].class +
+              '" text-capitalized>' +
+              r[a].title +
+              "</span>"
+            );
+          },
+        },
+        {
+          targets: -2,
+          render: function (e, t, a, s) {
+            var n = a.method,
+              a = a.method_number;
+            return (
+              "paypal_logo" == n && (a = "@gmail.com"),
+              '<div class="d-flex align-items-center text-nowrap"><img src="' +
+                assetsPath +
+                "img/icons/payments/" +
+                n +
+                '.png" alt="' +
+                n +
+                '" class="me-2" width="16"><span><i class="bx bx-dots-horizontal-rounded"></i>' +
+                a +
+                "</span></div>"
+            );
+          },
+        },
+        {
+          targets: -1,
+          title: "Actions",
+          searchable: !1,
+          orderable: !1,
+          render: function (e, t, a, s) {
+            return '<div class="d-flex justify-content-sm-center align-items-sm-center"><button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button><div class="dropdown-menu dropdown-menu-end m-0"><a href="app-ecommerce-order-details.html" class="dropdown-item">View</a><a href="javascript:0;" class="dropdown-item delete-record">Delete</a></div></div>';
+          },
+        },
+      ],
+      order: [3, "asc"],
+      dom: '<"card-header d-flex flex-column flex-md-row align-items-start align-items-md-center"<"ms-n2"f><"d-flex align-items-md-center justify-content-md-end mt-2 mt-md-0"l<"dt-action-buttons"B>>>t<"row mx-2"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthMenu: [10, 40, 60, 80, 100],
+      language: {
+        sLengthMenu: "_MENU_",
+        search: "",
+        searchPlaceholder: "Search Order",
+        info: "Displaying _START_ to _END_ of _TOTAL_ entries",
+      },
+      buttons: [
+        {
+          extend: "collection",
+          className: "btn btn-label-secondary dropdown-toggle",
+          text: '<i class="bx bx-export me-1"></i>Export',
+          buttons: [
+            {
+              extend: "print",
+              text: '<i class="bx bx-printer me-2" ></i>Print',
+              className: "dropdown-item",
+              exportOptions: {
+                columns: [2, 3, 4, 5, 6, 7],
+                format: {
+                  body: function (e, t, a) {
+                    var s;
+                    return e.length <= 0
+                      ? e
+                      : ((e = $.parseHTML(e)),
+                        (s = ""),
+                        $.each(e, function (e, t) {
+                          void 0 !== t.classList &&
+                          t.classList.contains("order-name")
+                            ? (s += t.lastChild.firstChild.textContent)
+                            : void 0 === t.innerText
+                            ? (s += t.textContent)
+                            : (s += t.innerText);
+                        }),
+                        s);
+                  },
+                },
+              },
+              customize: function (e) {
+                $(e.document.body)
+                  .css("color", s)
+                  .css("border-color", t)
+                  .css("background-color", a),
+                  $(e.document.body)
+                    .find("table")
+                    .addClass("compact")
+                    .css("color", "inherit")
+                    .css("border-color", "inherit")
+                    .css("background-color", "inherit");
+              },
+            },
+            {
+              extend: "csv",
+              text: '<i class="bx bx-file me-2" ></i>Csv',
+              className: "dropdown-item",
+              exportOptions: {
+                columns: [2, 3, 4, 5, 6, 7],
+                format: {
+                  body: function (e, t, a) {
+                    var s;
+                    return e.length <= 0
+                      ? e
+                      : ((e = $.parseHTML(e)),
+                        (s = ""),
+                        $.each(e, function (e, t) {
+                          void 0 !== t.classList &&
+                          t.classList.contains("order-name")
+                            ? (s += t.lastChild.firstChild.textContent)
+                            : void 0 === t.innerText
+                            ? (s += t.textContent)
+                            : (s += t.innerText);
+                        }),
+                        s);
+                  },
+                },
+              },
+            },
+            {
+              extend: "excel",
+              text: '<i class="bx bxs-file-export me-2"></i>Excel',
+              className: "dropdown-item",
+              exportOptions: {
+                columns: [2, 3, 4, 5, 6, 7],
+                format: {
+                  body: function (e, t, a) {
+                    var s;
+                    return e.length <= 0
+                      ? e
+                      : ((e = $.parseHTML(e)),
+                        (s = ""),
+                        $.each(e, function (e, t) {
+                          void 0 !== t.classList &&
+                          t.classList.contains("order-name")
+                            ? (s += t.lastChild.firstChild.textContent)
+                            : void 0 === t.innerText
+                            ? (s += t.textContent)
+                            : (s += t.innerText);
+                        }),
+                        s);
+                  },
+                },
+              },
+            },
+            {
+              extend: "pdf",
+              text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+              className: "dropdown-item",
+              exportOptions: {
+                columns: [2, 3, 4, 5, 6, 7],
+                format: {
+                  body: function (e, t, a) {
+                    var s;
+                    return e.length <= 0
+                      ? e
+                      : ((e = $.parseHTML(e)),
+                        (s = ""),
+                        $.each(e, function (e, t) {
+                          void 0 !== t.classList &&
+                          t.classList.contains("order-name")
+                            ? (s += t.lastChild.firstChild.textContent)
+                            : void 0 === t.innerText
+                            ? (s += t.textContent)
+                            : (s += t.innerText);
+                        }),
+                        s);
+                  },
+                },
+              },
+            },
+            {
+              extend: "copy",
+              text: '<i class="bx bx-copy me-2" ></i>Copy',
+              className: "dropdown-item",
+              exportOptions: {
+                columns: [2, 3, 4, 5, 6, 7],
+                format: {
+                  body: function (e, t, a) {
+                    var s;
+                    return e.length <= 0
+                      ? e
+                      : ((e = $.parseHTML(e)),
+                        (s = ""),
+                        $.each(e, function (e, t) {
+                          void 0 !== t.classList &&
+                          t.classList.contains("order-name")
+                            ? (s += t.lastChild.firstChild.textContent)
+                            : void 0 === t.innerText
+                            ? (s += t.textContent)
+                            : (s += t.innerText);
+                        }),
+                        s);
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.modal({
+            header: function (e) {
+              return "Details of " + e.data().customer;
+            },
+          }),
+          type: "column",
+          renderer: function (e, t, a) {
+            a = $.map(a, function (e, t) {
+              return "" !== e.title
+                ? '<tr data-dt-row="' +
+                    e.rowIndex +
+                    '" data-dt-column="' +
+                    e.columnIndex +
+                    '"><td>' +
+                    e.title +
+                    ":</td> <td>" +
+                    e.data +
+                    "</td></tr>"
+                : "";
+            }).join("");
+            return !!a && $('<table class="table"/><tbody />').append(a);
+          },
+        },
+      },
+    })),
+    $(".dataTables_length").addClass("mt-0 mt-md-3 me-3"),
+    $(".dt-action-buttons").addClass("pt-0"),
+    $(".dt-buttons > .btn-group > button").removeClass("btn-secondary")),
+    $(".datatables-order tbody").on("click", ".delete-record", function () {
+      e.row($(this).parents("tr")).remove().draw();
+    }),
+    setTimeout(() => {
+      $(".dataTables_filter .form-control").removeClass("form-control-sm"),
+        $(".dataTables_length .form-select").removeClass("form-select-sm");
+    }, 300);
+});
+
+
+  </script>
+
+</body>
+
+
+<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Apr 2024 18:00:43 GMT -->
+</html>
+
+<!-- beautify ignore:end -->
+

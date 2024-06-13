@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="Addresses" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Advertisements" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="AttributeProduct" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Attributes" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="CartProduct" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Categories" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Coupons" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="CustomerRoles" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Feedbacks" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Images" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Locations" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="LoginHistory" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ManagePermissions" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Manufacturers" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="OrderDetails" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="OrderStatus" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Orders" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="PaymentMethods" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Payments" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Permissions" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ProductCoupons" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Products" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="PurchaseOrderDetails" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="PurchaseOrders" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Roles" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ShoppingCarts" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Statistic" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Suppliers" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Users" match-catalog="TMDT"
+		match-schema="dbo">
+	</table-filter>
+</hibernate-reverse-engineering>
