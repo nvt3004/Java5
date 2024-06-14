@@ -2,6 +2,7 @@ package com.fpoly.thainv.filters;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.fpoly.thainv.entities.Addresses;
 import com.fpoly.thainv.entities.CustomerRoles;
 import com.fpoly.thainv.entities.Users;
 
@@ -10,28 +11,27 @@ import jakarta.persistence.criteria.Predicate;
 
 public class UserSpecification {
 
-    public static Specification<Users> filterUsers(String name, String email, String phone, Integer roleId, Boolean isDeleted) {
+    public static Specification<Users> filterUsers(String keyword, Integer roleId, Boolean isDeleted) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
-            // Filter by name
-            if (name != null && !name.isEmpty()) {
-                Predicate firstNamePredicate = criteriaBuilder
-                        .like(criteriaBuilder.lower(root.get("firstName")), "%" + name.toLowerCase() + "%");
-                Predicate lastNamePredicate = criteriaBuilder
-                        .like(criteriaBuilder.lower(root.get("lastName")), "%" + name.toLowerCase() + "%");
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
-            }
 
-            // Filter by email
-            if (email != null && !email.isEmpty()) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder
-                        .like(criteriaBuilder.lower(root.get("email")), "%" + email.toLowerCase() + "%"));
-            }
+            if (keyword != null && !keyword.isEmpty()) {
+                String likePattern = "%" + keyword.toLowerCase() + "%";
 
-            // Filter by phone
-            if (phone != null && !phone.isEmpty()) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder
-                        .like(criteriaBuilder.lower(root.get("phone")), "%" + phone.toLowerCase() + "%"));
+                // Filter by keyword in user fields
+                Predicate firstNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), likePattern);
+                Predicate lastNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), likePattern);
+                Predicate emailPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), likePattern);
+                Predicate phonePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("phone")), likePattern);
+
+                // Join with Addresses and filter by address fields
+                Join<Users, Addresses> addressJoin = root.join("address");
+                Predicate cityPredicate = criteriaBuilder.like(criteriaBuilder.lower(addressJoin.get("city")), likePattern);
+                Predicate countryPredicate = criteriaBuilder.like(criteriaBuilder.lower(addressJoin.get("country")), likePattern);
+
+                // Combine all predicates
+                Predicate combinedPredicate = criteriaBuilder.or(firstNamePredicate, lastNamePredicate, emailPredicate, phonePredicate, cityPredicate, countryPredicate);
+                predicate = criteriaBuilder.and(predicate, combinedPredicate);
             }
 
             // Filter by role
@@ -43,8 +43,7 @@ public class UserSpecification {
 
             // Filter by isDeleted
             if (isDeleted != null) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder
-                        .equal(root.get("isDeleted"), isDeleted));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isDeleted"), isDeleted));
             }
 
             return predicate;

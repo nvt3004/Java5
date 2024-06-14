@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fpoly.thainv.entities.Addresses;
 import com.fpoly.thainv.entities.CustomerRoles;
@@ -29,10 +30,8 @@ import com.fpoly.thainv.jpa.CustomerRoleJPA;
 import com.fpoly.thainv.jpa.OrderJpa;
 import com.fpoly.thainv.jpa.RoleJpa;
 import com.fpoly.thainv.jpa.UserJpa;
-import com.fpoly.thainv.models.Address;
 import com.fpoly.thainv.models.AddressNhut;
 import com.fpoly.thainv.models.OrderProductImageDTO;
-import com.fpoly.thainv.models.User;
 import com.fpoly.thainv.models.UserNhut;
 import com.fpoly.thainv.services.EmailDeleteCustomerNhutService;
 
@@ -69,8 +68,6 @@ public class CustomerController {
 		// Đặt lại giá trị page và các bộ lọc trong session
 		session.setAttribute("page", null);
 		session.setAttribute("customerName", null);
-		session.setAttribute("email", null);
-		session.setAttribute("phone", null);
 		session.setAttribute("roleId", null);
 		session.setAttribute("isDeleted", null);
 		// Lấy giá trị formSize từ session, nếu không có thì mặc định là 10
@@ -83,7 +80,7 @@ public class CustomerController {
 		}
 		// Tạo Pageable và Specification
 		Pageable pageable = PageRequest.of(page, formSize);
-		Specification<Users> spec = UserSpecification.filterUsers(null, null, null, null, null);
+		Specification<Users> spec = UserSpecification.filterUsers(null, null, null);
 		// Tìm kiếm người dùng và thêm vào model
 		Page<Users> usersPage = userJPA.findAll(spec, pageable);
 		model.addAttribute("users", usersPage);
@@ -95,11 +92,12 @@ public class CustomerController {
 	}
 
 	@PostMapping("/custommer-management")
-	public String customerPost(@RequestParam(required = false) String customerName,
-			@RequestParam(required = false) String email, @RequestParam(required = false) String phone,
+	public String customerPost(
+			@RequestParam(required = false) String customerName,
 			@RequestParam(required = false, defaultValue = "-1") Integer roleId,
 			@RequestParam(required = false, defaultValue = "false") Boolean isDeleted,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "10") int size,
 			HttpServletRequest request, Model model) {
 		// Lấy HttpSession từ request
 		HttpSession session = request.getSession();
@@ -108,31 +106,27 @@ public class CustomerController {
 		// Kiểm tra formName và lưu các giá trị vào session
 		if (formName != null) {
 			switch (formName) {
-			case "formFilter":
-				session.setAttribute("customerName", customerName);
-				session.setAttribute("email", email);
-				session.setAttribute("phone", phone);
-				session.setAttribute("roleId", roleId);
-				session.setAttribute("isDeleted", isDeleted);
-				session.setAttribute("page", 0);
-				break;
-			case "formSize":
-				session.setAttribute("size", size);
-				session.setAttribute("page", 0);
-				break;
-			case "formPage":
-				session.setAttribute("page", page);
-				break;
-			default:
-				// Xử lý trường hợp formName không khớp
-				break;
+				case "formFilter":
+					session.setAttribute("customerName", customerName);
+					session.setAttribute("roleId", roleId);
+					session.setAttribute("isDeleted", isDeleted);
+					session.setAttribute("page", 0);
+					break;
+				case "formSize":
+					session.setAttribute("size", size);
+					session.setAttribute("page", 0);
+					break;
+				case "formPage":
+					session.setAttribute("page", page);
+					break;
+				default:
+					// Xử lý trường hợp formName không khớp
+					break;
 			}
 		}
 
 		// Lấy các giá trị từ session
 		String ctmName = (String) session.getAttribute("customerName");
-		String ctmEmail = (String) session.getAttribute("email");
-		String ctmPhone = (String) session.getAttribute("phone");
 		Integer ctmRoleId = (Integer) session.getAttribute("roleId") != null ? (Integer) session.getAttribute("roleId")
 				: -1;
 		Boolean ctmIsDeleted = (Boolean) session.getAttribute("isDeleted");
@@ -150,21 +144,17 @@ public class CustomerController {
 
 		// Xử lý các giá trị null hoặc không hợp lệ
 		customerName = ctmName != null ? ctmName.trim() : null;
-		email = ctmEmail != null ? ctmEmail.trim() : null;
-		phone = ctmPhone != null ? ctmPhone.trim() : null;
 		roleId = ctmRoleId != -1 ? ctmRoleId : null;
 		isDeleted = ctmIsDeleted == null || !ctmIsDeleted ? null : true;
 
 		// Tạo Pageable và Specification
 		Pageable pageable = PageRequest.of(formPage, formSize);
-		Specification<Users> spec = UserSpecification.filterUsers(customerName, email, phone, roleId, isDeleted);
+		Specification<Users> spec = UserSpecification.filterUsers(customerName, roleId, isDeleted);
 
 		// Tìm kiếm người dùng và thêm vào model
 		Page<Users> usersPage = userJPA.findAll(spec, pageable);
 		model.addAttribute("users", usersPage);
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("email", email);
-		model.addAttribute("phone", phone);
 		model.addAttribute("roleId", roleId);
 		model.addAttribute("isDeleted", isDeleted);
 		model.addAttribute("currentPage", formPage + 1);
@@ -175,57 +165,122 @@ public class CustomerController {
 	}
 
 	@PostMapping("/restore-customer")
-	public String restoreCustomerPost(@RequestParam("id") int id, Model model) {
+	public String restoreCustomerPost(@RequestParam("id") int id, Model model, RedirectAttributes redirectAttributes) {
 		Optional<Users> optional = userJPA.findById(String.valueOf(id));
 		if (optional.isPresent()) {
 			Users user = optional.get();
-			user.setIsDeleted(false);
-			userJPA.save(user);
+			Roles oldRole = user.getRoles().stream().findFirst().orElse(null);
+			if (oldRole == null || !oldRole.getRoleName().toLowerCase().equals("admin")) {
+				user.setIsDeleted(false);
+				userJPA.save(user);
+				redirectAttributes.addFlashAttribute("message", "Restore successfully!");
+				redirectAttributes.addFlashAttribute("color", "alert-success");
+			} else {
+				redirectAttributes.addFlashAttribute("message", "You cannot restore accounts that have the admin role!");
+				redirectAttributes.addFlashAttribute("color", "alert-danger");
+			}
 		}
 		return "redirect:/custommer-management";
 	}
 
 	@PostMapping("/delete-customer")
-	public String deleteCustomerPost(@RequestParam("id") int id, Model model) throws MessagingException, IOException {
+	public String deleteCustomerPost(@RequestParam("id") int id, Model model, RedirectAttributes redirectAttributes)
+			throws MessagingException, IOException {
 		Optional<Users> optional = userJPA.findById(String.valueOf(id));
 		if (optional.isPresent()) {
 			Users user = optional.get();
-			emailDeleteCustomerService.sendEmail(user);
-			user.setIsDeleted(true);
-			userJPA.save(user);
+			Roles oldRole = user.getRoles().stream().findFirst().orElse(null);
+			if (oldRole == null || !oldRole.getRoleName().toLowerCase().equals("admin")) {
+				emailDeleteCustomerService.sendEmail(user);
+				user.setIsDeleted(true);
+				userJPA.save(user);
+				redirectAttributes.addFlashAttribute("message", "Deleted successfully!");
+				redirectAttributes.addFlashAttribute("color", "alert-success");
+			} else {
+				redirectAttributes.addFlashAttribute("message", "You cannot delete accounts that have the admin role!");
+				redirectAttributes.addFlashAttribute("color", "alert-danger");
+			}
 		}
 		return "redirect:/custommer-management";
 	}
 
 	@PostMapping("/delete-multi")
-	public String deleteMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model)
+	public String deleteMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model,
+			RedirectAttributes redirectAttributes)
 			throws MessagingException, IOException {
 		List<Users> listUser = new ArrayList<Users>();
+		Boolean check = false;
 		for (Integer integer : id) {
 			Optional<Users> optional = userJPA.findById(String.valueOf(integer));
 			if (optional.isPresent()) {
 				Users user = optional.get();
-				if (!user.getIsDeleted()) {
+				Roles oldRole = user.getRoles().stream().findFirst().orElse(null);
+				if (!oldRole.getRoleName().toLowerCase().equals("admin")) {
 					user.setIsDeleted(true);
 					userJPA.save(user);
 					listUser.add(user);
+				} else {
+					check = true;
 				}
 			}
 		}
+		StringBuilder alert = new StringBuilder();
+		alert.append("You have successfully deleted ")
+				.append(listUser.size())
+				.append("/")
+				.append(id.size())
+				.append(" customers");
+		if (check) {
+			alert.append(" and there are ")
+					.append(id.size() - listUser.size())
+					.append(" admin accounts you cannot delete");
+			redirectAttributes.addFlashAttribute("color", "alert-warning");
+		} else {
+			redirectAttributes.addFlashAttribute("color", "alert-success");
+		}
+		alert.append("!");
+		redirectAttributes.addFlashAttribute("message", alert.toString());
+
 		emailDeleteCustomerService.sendEmail(listUser);
 		return "redirect:/custommer-management";
 	}
 
 	@PostMapping("/restore-multi")
-	public String restoreMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model) {
+	public String restoreMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model,
+	RedirectAttributes redirectAttributes) {
+		List<Users> listUser = new ArrayList<Users>();
+		Boolean check = false;
 		for (Integer integer : id) {
 			Optional<Users> optional = userJPA.findById(String.valueOf(integer));
 			if (optional.isPresent()) {
 				Users user = optional.get();
-				user.setIsDeleted(false);
-				userJPA.save(user);
+				Roles oldRole = user.getRoles().stream().findFirst().orElse(null);
+				if (!oldRole.getRoleName().toLowerCase().equals("admin")) {
+					user.setIsDeleted(false);
+					userJPA.save(user);
+					listUser.add(user);
+				} else {
+					check = true;
+				}
 			}
 		}
+		StringBuilder alert = new StringBuilder();
+		alert.append("You have successfully restore ")
+				.append(listUser.size())
+				.append("/")
+				.append(id.size())
+				.append(" customers");
+		if (check) {
+			alert.append(" and there are ")
+					.append(id.size() - listUser.size())
+					.append(" admin accounts you cannot restore");
+			redirectAttributes.addFlashAttribute("color", "alert-warning");
+		} else {
+			redirectAttributes.addFlashAttribute("color", "alert-success");
+		}
+		alert.append("!");
+		redirectAttributes.addFlashAttribute("message", alert.toString());
+
 		return "redirect:/custommer-management";
 	}
 
@@ -233,7 +288,6 @@ public class CustomerController {
 	// form
 	// form
 
-	
 	@GetMapping("/customer-management_form")
 	public String customerManagementForm(@RequestParam(name = "id", defaultValue = "") Integer id, Model model) {
 		currentUserId = id;
@@ -351,17 +405,28 @@ public class CustomerController {
 		} else {
 
 			// Kiểm tra xem vai trò mới và cũ có sẵn không
-			Roles oldRole = userEntity.getRoles().stream().findFirst()
-					.orElseThrow(() -> new RuntimeException("Current role not found"));
+			Roles oldRole = userEntity.getRoles().stream().findFirst().orElse(null);
 			Roles newRole = roleJPA.findById(user.getRole()).orElseThrow(() -> new RuntimeException("Role not found"));
-
-			// Xóa vai trò cũ
-			CustomerRoles oldCustomerRole = new CustomerRoles(userEntity, oldRole);
-			customerRoleJPA.delete(oldCustomerRole);
-
-			// Thêm vai trò mới
-			CustomerRoles newCustomerRole = new CustomerRoles(userEntity, newRole);
-			customerRoleJPA.save(newCustomerRole);
+			if (oldRole.getRoleName().toLowerCase().equals("admin")) {
+				user.setRole(oldRole.getRoleId());
+				user.setAddress(address);
+				model.addAttribute("user", user);
+				model.addAttribute("message", "You cannot change other administrator information!");
+				model.addAttribute("color", "alert-danger");
+				return "Admin/html/customer-management_form";
+			}
+			if (!(oldRole.getRoleName().toLowerCase().equals("admin"))) {
+				// Xóa vai trò cũ
+				if (oldRole != null) {
+					CustomerRoles oldCustomerRole = new CustomerRoles(userEntity, oldRole);
+					customerRoleJPA.delete(oldCustomerRole);
+				}
+				// Thêm vai trò mới
+				CustomerRoles newCustomerRole = new CustomerRoles(userEntity, newRole);
+				customerRoleJPA.save(newCustomerRole);
+			} else {
+				user.setRole(oldRole.getRoleId());
+			}
 
 			// Lưu người dùng và địa chỉ vào cơ sở dữ liệu
 			addressJPA.save(addressEntity);
@@ -369,6 +434,8 @@ public class CustomerController {
 
 			user.setAddress(address);
 			model.addAttribute("user", user);
+			model.addAttribute("message", "Update successful!");
+				model.addAttribute("color", "alert-success");
 			System.out.println("Cập nhật thanh công !");
 
 			if (currentUserId != null) {
@@ -395,7 +462,10 @@ public class CustomerController {
 			return "Admin/html/customer-management_form";
 		}
 	}
-
+	@ModelAttribute("customers")
+	public Integer getUsers() {
+		return userJPA.findAll().size();
+	}
 	@ModelAttribute("roles")
 	public List<Roles> getRoles() {
 		return roleJPA.findAll();
