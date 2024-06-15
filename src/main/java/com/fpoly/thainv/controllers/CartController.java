@@ -2,6 +2,9 @@ package com.fpoly.thainv.controllers;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +41,9 @@ import com.fpoly.thainv.tholh.service.CartService;
 import com.fpoly.thainv.untils.CookieUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class CartController {
@@ -78,16 +84,19 @@ public class CartController {
     @Autowired
     HttpServletRequest req;
 
+    @Autowired
+    HttpServletResponse resp;
+
     private static final Logger logger = LoggerFactory.getLogger(CartController.class);
 
     public ShoppingCarts getShoppingCarts() {
         String email = CookieUtil.get(req, "email");
         ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
         Optional<Users> user = userJPA.findUserByEmail(email);
-        if(user.isPresent() && shoppingCart ==null) {
-        	shoppingCart =new ShoppingCarts();
-        	shoppingCart.setUsers(user.get());
-        	cartJPA.save(shoppingCart);
+        if (user.isPresent() && shoppingCart == null) {
+            shoppingCart = new ShoppingCarts();
+            shoppingCart.setUsers(user.get());
+            cartJPA.save(shoppingCart);
         }
         return shoppingCart;
     }
@@ -127,16 +136,20 @@ public class CartController {
 
         Optional<Products> prod = pJPA.findById(prodID);
         ShoppingCarts shoppingCarts = this.getShoppingCarts();
+        if (shoppingCarts == null) {
+            return "redirect:/home";
+        }
         Set<CartProduct> cartProducts = shoppingCarts.getCartProducts();
-        
+
         String email = CookieUtil.get(req, "email");
         Optional<Users> user = userJPA.findUserByEmail(email);
-        if(!user.isPresent()) {
-        	shoppingCarts =new ShoppingCarts();
-        	shoppingCarts.setUsers(user.get());
-        	cartJPA.save(shoppingCarts);
+        if (!user.isPresent()) {
+            shoppingCarts = new ShoppingCarts();
+            shoppingCarts.setUsers(user.get());
+            cartJPA.save(shoppingCarts);
         }
 
+        Map<String, Object> response = new HashMap<>();
         if (prod.isPresent()) {
             boolean productExistsInCart = false;
 
@@ -160,6 +173,7 @@ public class CartController {
                             cartProduct.setColor(color.get());
                         }
                     }
+
                     cartProductJPA.save(cartProduct);
                     productExistsInCart = true;
                     break;
@@ -188,6 +202,7 @@ public class CartController {
                         newCartProduct.setColor(color.get());
                     }
                 }
+
                 cartProductJPA.save(newCartProduct);
             }
         }
@@ -241,7 +256,7 @@ public class CartController {
 
         ShoppingCarts shoppingCart = this.getShoppingCarts();
 
-        BigDecimal totalAmount = new BigDecimal(cartService.getTotal(shoppingCart.getCartId()) + 30);
+        BigDecimal totalAmount = new BigDecimal(cartService.getTotal(shoppingCart.getCartId()) + 2);
         order.setTotalAmount(totalAmount);
 
         // Save order to db
@@ -300,4 +315,54 @@ public class CartController {
         return "redirect:/shoping-cart";
     }
 
+    @ModelAttribute("orderDetailList")
+    public List<OrderDetails> getOrderDetailList() {
+
+        List<OrderDetails> orderDetailList = orderDetailJPA.findAll();
+
+        return orderDetailList;
+    }
+
+    @ModelAttribute("orderList")
+    public List<Orders> getOrderList() {
+
+        List<Orders> orderList = orderJPA.findAll();
+
+        return orderList;
+    }
+
+    @RequestMapping("/order-details")
+    public String getOrderDetail(@RequestParam("orderID") String orderID, Model model) {
+
+        Optional<Orders> orderOptional = orderJPA.findById(orderID);
+        if (orderOptional.isPresent()) {
+            model.addAttribute("order", orderOptional.get());
+        }
+
+        return "Admin/Client/order-details";
+    }
+
+    @PostMapping("/cancel")
+    public String cancel(@RequestParam("orderID") String orderID, @RequestParam("path") String path) {
+
+        String uri = req.getRequestURI();
+        System.out.println("URI: " + uri);
+
+        Optional<OrderStatus> status = orderStatusJPA.findById("5");
+
+        Optional<Orders> orderOptional = orderJPA.findById(orderID);
+        if (orderOptional.isPresent()) {
+            Orders order = orderOptional.get();
+            order.setOrderStatus(status.get());
+
+            orderJPA.save(order);
+        }
+
+        if ("order-details".equals(path)) {
+            return "redirect:/order-details?orderID=" + orderID;
+        } else {
+            return "redirect:/shoping-cart";
+        }
+
+    }
 }

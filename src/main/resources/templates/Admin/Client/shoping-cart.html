@@ -271,8 +271,9 @@
 		</div>
 	</div>
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<div class="bg0 p-t-75 p-b-85">
 		<div class="container">
+			<h4 class="ml-4 mb-3">Your cart</h4> <br>
 			<div class="row">
 				<div class="col-lg-11 col-xl-8 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
@@ -291,18 +292,16 @@
 									<td class="column-1">
 										<div class="how-itemcart1">
 											<img th:each="img, iterStat : ${item?.products?.imageses}"
-												th:if="${iterStat.index==0}"
-												th:src="'/images/' +${img.imgUrl}" alt="IMG">
+												th:if="${iterStat.index==0}" th:src="'/images/' +${img.imgUrl}"
+												alt="IMG">
 										</div>
 									</td>
 									<td class="column-2" th:text="${item?.products?.productName}">Fresh Strawberries
 									</td>
 									<td>
-										<span class="row"
-											th:text="${item?.size?.attributes?.value}">
+										<span class="row" th:text="${item?.size?.attributes?.value}">
 										</span>
-										<span class="row"
-											th:text="${item?.color?.attributes?.value}">
+										<span class="row" th:text="${item?.color?.attributes?.value}">
 										</span>
 									</td>
 									<td class="column-3"
@@ -335,22 +334,6 @@
 								</tr>
 							</table>
 						</div>
-						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-							<div class="flex-w flex-m m-r-20 m-tb-5">
-								<form>
-									<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
-										name="coupon" placeholder="Coupon Code">
-									<button type="button"
-										class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-										Apply coupon
-									</button>
-								</form>
-							</div>
-							<a th:href="'/update-quantity'"
-								class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-								Update Cart
-							</a>
-						</div>
 					</div>
 				</div>
 				<div class="col-sm-19 col-lg-6 col-xl-4 m-lr-auto m-b-50">
@@ -370,36 +353,6 @@
 								</span>
 							</div>
 						</div>
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm mr-1">
-								<span class="stext-110 cl2">
-									Shipping:
-								</span>
-							</div>
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-111 cl6 p-t-2">
-									There are no shipping methods available. Please double check your address, or
-									contact us if you need any help.
-								</p>
-								<div class="p-t-15">
-									<span class="stext-112 cl8">
-										Calculate Shipping
-									</span>
-									<div class="bor8 bg0 m-b-12">
-										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state"
-											readonly th:value="${address.state}" placeholder="State">
-									</div>
-									<div class="bor8 bg0 m-b-12">
-										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="city"
-											readonly th:value="${address.city}" placeholder="City">
-									</div>
-									<div class="bor8 bg0 m-b-22">
-										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode"
-											readonly th:value="${address.postalCode}" placeholder="Postcode / Zip">
-									</div>
-								</div>
-							</div>
-						</div>
 						<div class="flex-w flex-t p-t-27 p-b-33">
 							<div class="size-208">
 								<span class="mtext-101 cl2">
@@ -407,7 +360,8 @@
 								</span>
 							</div>
 							<div class="size-209 p-t-1">
-								<span class="mtext-110 cl2" th:text="${#numbers.formatCurrency(((total > 0) ? total +30 : 0))}">
+								<span class="mtext-110 cl2"
+									th:text="${#numbers.formatCurrency(((total > 0) ? total +2 : 0))}">
 									$79.65
 								</span>
 							</div>
@@ -419,8 +373,88 @@
 					</div>
 				</div>
 			</div>
+			<hr>
+			<h4 class="ml-4 mb-3">Your ordered</h4> <br>
+			<div class="row">
+				<div class="card ml-5 round rounded-0 mt-2" style="width: 782px;" th:each="item : ${orderList}"
+					th:if="${item?.users?.userId == cart?.users?.userId}">
+					<div class="bg9 card-header d-flex justify-content-between">
+						<p th:text="'Order: ' +${item?.orderId}">Order ID: 1</p>
+						<p>
+							<span><i th:classappend="${item?.orderStatus?.statusId} == 9 ? 'fa fa-gift text-success' : 'fa fa-tasks'"
+									class=""></i></span>
+							<span
+								th:text="${#strings.toUpperCase(item?.orderStatus?.statusId == 5 ? 'Order has been canceled' : (item?.orderStatus?.statusId !=9 ? 'In process' : 'Has been delivered to you'))}"
+								th:classappend="${item?.orderStatus?.statusId} == 9 ? 'text-success' : ''" class="pr-1"
+								style="border-right: 0.1px solid gray;">
+								Giao hàng thành công
+							</span>
+							<span th:text="${#strings.toUpperCase(item?.orderStatus?.statusName)}"
+								th:classappend="${item?.orderStatus?.statusId} == 9 ? 'text-danger' : ''" class="">
+								HOÀN THÀNH
+							</span>
+						</p>
+					</div>
+					<div class="card-body">
+						<div class="row mb-5" th:each="itemDetail : ${orderDetailList}"
+							th:if="${itemDetail?.orders?.orderId ==item?.orderId}">
+							<div class="col-2">
+								<img th:each="img, iterStat : ${itemDetail?.products?.imageses}"
+									th:if="${iterStat.index ==0}" th:src="'/images/' +${img?.imgUrl}"
+									alt="PRODUCT_IMAGE" style="width: 70px; height: 80px;">
+							</div>
+							<div class="col ml-1">
+								<p th:text="${#strings.toUpperCase(itemDetail?.products?.productName)}" class="fs-20">
+									PRODUCT 1</p>
+								<p class="d-flex justify-content-between">
+									<span>
+										<span th:text="${itemDetail?.size?.value}">Size</span>,
+										<span th:text="${itemDetail?.color?.value}">Color</span>
+									</span>
+									<span
+										th:text="${#numbers.formatCurrency(itemDetail?.products?.retailPrice * itemDetail?.quantity)}"
+										class="text-danger">Amount</span>
+								</p>
+								<p>Quantity</p>
+							</div>
+						</div>
+						<hr>
+						<div class="row d-flex justify-content-end mr-2">
+							<p>
+								<span>Total: </span>
+								<span th:text="${#numbers.formatCurrency(item?.totalAmount)}"
+									class="text-danger fs-19">Total</span>
+							</p>
+						</div>
+						<div class="row d-flex justify-content-end">
+							<div class="p-t-18" th:if="${item?.orderStatus?.statusId ==9}">
+								<a href="#"
+									class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									Feedback
+								</a>
+							</div>
+							<div class="p-t-18 ml-2">
+								<a th:href="'/order-details?orderID=' +${item?.orderId}"
+									class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									Details
+								</a>
+							</div>
+							<div class="p-t-18 ml-2" th:if="${item?.orderStatus?.statusId ==1}">
+								<form method="post" action="/cancel">
+									<input type="hidden" name="orderID" id="" th:value="${item?.orderId}">
+									<input type="hidden" name="path" value="shoping-cart">
+									<button type="submit"
+										class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										Cancel order
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</form>
+	</div>
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
