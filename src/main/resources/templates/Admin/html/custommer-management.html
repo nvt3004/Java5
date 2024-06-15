@@ -1678,20 +1678,43 @@
 							<div class="card-footer mb-0 pb-0">
 								<div class="row m-0">
 									<div class="col-auto">
-
-										<form id="delete-form" method="post"
-											th:action="${isDeleted==true?'/restore-multi':'delete-multi'}">
-											<input type="hidden" id="selected-ids" name="selectedIds">
-											<button type="submit"
-												th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
-												id="delete-button" disabled>
-												<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
-												(<span id="selected-count">0</span>) Customer
-											</button>
-
-										</form>
-
+										<button type="button" class="col btn btn-primary"
+											th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
+											id="delete-button" disabled
+											data-bs-toggle="modal" data-bs-target="#basicModal3">
+											<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
+												(<span id="selected-count">0</span>) Supplier
+										</button>
 									</div>
+										<!-- Modal  3333333333333333333333333333333333333333333333333333-->
+										<div class="modal fade" id="basicModal3" tabindex="-1"
+										aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel1" th:text="${isDeleted==true?'Restore':'Delete'}">#######</h5>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<h5 th:text="${isDeleted==true?'Are you sure you want to restore these suppliers?':'Are you sure you want to delete these suppliers?'}"></h5>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+													<form th:action="${isDeleted==true?'/restore-multi':'delete-multi'}" method="post">
+														<input type="hidden" id="selected-ids" name="selectedIds">
+														<button type="submit"
+														th:class="${isDeleted==true?'btn btn-success':'btn btn-danger'}"
+														th:text="${isDeleted==true?'Restore':'Delete'}"	
+														>
+														</button>
+													</form>				
+												</form>
+												</div>
+											</div>
+										</div>
+										</div>
+									<!--/ Modal End-->
 									<div class="col-auto align-content-center">
 										<p>Show</p>
 									</div>

@@ -1598,7 +1598,7 @@
 											<div class="mb-3">
 												<label class="form-label" for="email">Email</label> 
 													<div class="input-group input-group-merge">
-														<span  class="input-group-text"><i class='bx bxl-gmail' ></i></span>
+														<span  class="input-group-text"><i class='bx bx-envelope' ></i></i></span>
 														<input
 														type="email" id="email" class="form-control" name="email"
 														th:value="${user?.email}"
@@ -1618,7 +1618,7 @@
 													<input
 													type="tel" id="phone" class="form-control" name="phone"
 													th:value="${user?.phone}"> 
-												  </div>
+												</div>
 												  <span
 													class="text-danger"
 													th:if='${userErrors?.getFieldError("phone")!= null}'
@@ -1720,20 +1720,6 @@
 													th:text='${addressErrors?.getFieldError("city")?.getDefaultMessage()}'>###</span>
 											</div>
 											<div class="mb-3">
-												<label class="form-label" for="state">State</label> 
-												<div class="input-group input-group-merge">
-													<span class="input-group-text"
-													  ><i class='bx bx-map' ></i></span>
-													<input
-													type="text" id="state" class="form-control" name="state"
-													th:value="${user?.address?.state}"> 
-												</div>
-												 <span
-													class="text-danger"
-													th:if='${addressErrors?.getFieldError("state")!= null}'
-													th:text='${addressErrors?.getFieldError("state")?.getDefaultMessage()}'>###</span>
-											</div>
-											<div class="mb-3">
 												<label class="form-label" for="country">Country</label> 
 												<div class="input-group input-group-merge">
 													<span class="input-group-text"
@@ -1748,11 +1734,26 @@
 													th:text='${addressErrors?.getFieldError("country")?.getDefaultMessage()}'>###</span>
 											</div>
 											<div class="mb-3">
+												<label class="form-label" for="state">State</label> 
+												<div class="input-group input-group-merge">
+													<span class="input-group-text"
+													  ><i class='bx bx-map' ></i></span>
+													<input
+													type="text" id="state" class="form-control" name="state"
+													th:value="${user?.address?.state}"> 
+												</div>
+												 <span
+													class="text-danger"
+													th:if='${addressErrors?.getFieldError("state")!= null}'
+													th:text='${addressErrors?.getFieldError("state")?.getDefaultMessage()}'>###</span>
+											</div>
+											
+											<div class="mb-3">
 												<label class="form-label" for="postalCode">Postal
 													Code</label> 
 													<div class="input-group input-group-merge">
 														<span class="input-group-text"
-														  ><i class='bx bx-envelope' ></i></i></span>
+														  ><i class='bx bxs-envelope'></i></span>
 														<input type="text" id="postalCode"
 													class="form-control" name="postalCode"
 													th:value="${user?.address?.postalCode}">

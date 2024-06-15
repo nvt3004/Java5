@@ -415,6 +415,14 @@ public class CustomerController {
 				model.addAttribute("color", "alert-danger");
 				return "Admin/html/customer-management_form";
 			}
+			if (newRole.getRoleName().toLowerCase().equals("admin")) {
+				user.setRole(oldRole.getRoleId());
+				user.setAddress(address);
+				model.addAttribute("user", user);
+				model.addAttribute("message", "You cannot grant administrator rights to another account!");
+				model.addAttribute("color", "alert-danger");
+				return "Admin/html/customer-management_form";
+			}
 			if (!(oldRole.getRoleName().toLowerCase().equals("admin"))) {
 				// Xóa vai trò cũ
 				if (oldRole != null) {
