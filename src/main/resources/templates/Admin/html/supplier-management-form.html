@@ -1553,7 +1553,7 @@
 								<div class="col mb-3">
 									<div class="card mb-3">
 										<div class="card-header pb-4 mt-2">
-											<h5>General information</h5>
+											<h5>Supplier information</h5>
 										</div>
 										<div class="card-body">
 											<!-- Left column -->
@@ -1565,9 +1565,14 @@
 											<div class="mb-3">
 
 												<label for="supplierName" class="form-label">Supplier
-													Name</label> <input type="text" class="form-control"
+													Name</label> 
+													<div class="input-group input-group-merge">
+														<span  class="input-group-text"><i class='bx bx-building'></i></i></span>
+														<input type="text" class="form-control"
 													id="supplierName" name="supplierName"
-													th:value="${supplier?.supplierName}"> <span
+													th:value="${supplier?.supplierName}"> 
+													</div>	
+													<span
 													class="text-danger"
 													th:if='${supplierError?.getFieldError("supplierName")!= null}'
 													th:text='${supplierError?.getFieldError("supplierName")?.getDefaultMessage()}'>Supplier
@@ -1575,25 +1580,44 @@
 											</div>
 											<div class="mb-3">
 												<label for="supplierContact" class="form-label">Supplier
-													Contact</label> <input type="text" class="form-control"
+													Contact</label> 
+													<div class="input-group input-group-merge">
+														<span  class="input-group-text"><i class='bx bx-user-voice'></i></i></span>
+														<input type="text" class="form-control"
 													id="supplierContact" name="contactName"
-													th:value="${supplier?.contactName}"> <span
+													th:value="${supplier?.contactName}"> 
+													</div>
+													<span
 													class="text-danger"
 													th:if='${supplierError?.getFieldError("contactName")!= null}'
 													th:text='${supplierError?.getFieldError("contactName")?.getDefaultMessage()}'></span>
 											</div>
 											<div class="mb-3">
-												<label for="email" class="form-label">Email</label> <input
+												<label for="email" class="form-label">Email</label> 
+												
+													<div class="input-group input-group-merge">
+														<span  class="input-group-text"><i class='bx bx-envelope' ></i></i></span>
+														<input
 													type="email" class="form-control" id="email" name="email"
-													th:value="${supplier?.email}"> <span
+													th:value="${supplier?.email}"> 
+													</div>	
+													<span
 													class="text-danger"
 													th:if='${supplierError?.getFieldError("email")!= null}'
 													th:text='${supplierError?.getFieldError("email")?.getDefaultMessage()}'></span>
 											</div>
 											<div class="mb-3">
-												<label for="phone" class="form-label">Phone</label> <input
+												<label for="phone" class="form-label">Phone</label> 
+												
+													<div class="input-group input-group-merge">
+														<span id="basic-icon-default-phone2" class="input-group-text"
+														  ><i class="bx bx-phone"></i
+														></span>
+														<input
 													type="text" class="form-control" id="phone" name="phone"
-													th:value="${supplier?.phone}"> <span
+													th:value="${supplier?.phone}"> 
+													</div>	
+													<span
 													class="text-danger"
 													th:if='${supplierError?.getFieldError("phone")!= null}'
 													th:text='${supplierError?.getFieldError("phone")?.getDefaultMessage()}'>Phone
@@ -1601,14 +1625,20 @@
 											</div>
 											<div class="mb-3">
 												<label class="form-label" for="isDeleted">Is Deleted</label>
-												<select id="isDeleted" class="form-select" name="isDeleted">
-													<option value="false"
-														th:selected="${supplier?.isDeleted == false}">Not
-														Deleted</option>
-													<option value="true"
-														th:selected="${supplier?.isDeleted == true}">Deleted</option>
-
-												</select> <span class="text-danger"
+												 
+												<div class="input-group">
+													<select id="isDeleted" class="form-select" name="isDeleted">
+														<option value="false"
+															th:selected="${supplier?.isDeleted == false}">Not
+															Deleted</option>
+														<option value="true"
+															th:selected="${supplier?.isDeleted == true}">Deleted</option>
+													</select>
+													<span class="input-group-text">
+														<i class='bx bx-trash'></i> 
+													</span>
+												</div>
+												<span class="text-danger"
 													th:if='${supplierError?.getFieldError("isDeleted")!= null}'
 													th:text='${supplierError?.getFieldError("isDeleted")?.getDefaultMessage()}'>###</span>
 											</div>
@@ -1623,9 +1653,16 @@
 												th:value="${supplier?.addresses?.addressId}">
 											<div class="mb-3">
 												<label for="addressLine1" class="form-label">Address
-													Line 1</label> <input type="text" class="form-control"
+													Line 1</label> 
+													
+													<div class="input-group input-group-merge">
+														<span id="basic-icon-default-phone2" class="input-group-text"
+														  ><i class='bx bx-home'></i></span>
+														<input type="text" class="form-control"
 													id="addressLine1" name="addressLine1"
-													th:value="${supplier?.addresses?.addressLine1}"> <span
+													th:value="${supplier?.addresses?.addressLine1}">  
+													</div>
+													<span
 													class="text-danger"
 													th:if='${addressError?.getFieldError("addressLine1")!= null}'
 													th:text='${addressError?.getFieldError("addressLine1")?.getDefaultMessage()}'>Address
@@ -1633,18 +1670,32 @@
 											</div>
 											<div class="mb-3">
 												<label for="addressLine2" class="form-label">Address
-													Line 2</label> <input type="text" class="form-control"
-													id="addressLine2" name="addressLine2"
-													th:value="${supplier?.addresses?.addressLine2}"> <span
+													Line 2</label> 
+													 
+													<div class="input-group input-group-merge">
+														<span id="basic-icon-default-phone2" class="input-group-text"
+														  ><i class='bx bx-home'></i></span>
+														  <input type="text" class="form-control"
+														  id="addressLine2" name="addressLine2"
+														  th:value="${supplier?.addresses?.addressLine2}">  
+													</div>
+													<span
 													class="text-danger"
 													th:if='${addressError?.getFieldError("addressLine2")!= null}'
 													th:text='${addressError?.getFieldError("addressLine2")?.getDefaultMessage()}'>Address
 													Line Two must be less than or equal to 255 characters</span>
 											</div>
 											<div class="mb-3">
-												<label for="city" class="form-label">City</label> <input
-													type="text" class="form-control" id="city" name="city"
-													th:value="${supplier?.addresses?.city}"> <span
+												<label for="city" class="form-label">City</label> 
+												
+													<div class="input-group input-group-merge">
+														<span class="input-group-text"
+														  ><i class='bx bx-buildings' ></i></span>
+														  <input
+														  type="text" class="form-control" id="city" name="city"
+														  th:value="${supplier?.addresses?.city}"> 
+													</div>	
+													<span
 													class="text-danger"
 													th:if='${addressError?.getFieldError("city")!= null}'
 													th:text='${addressError?.getFieldError("city")?.getDefaultMessage()}'>City
@@ -1652,9 +1703,14 @@
 
 											</div>
 											<div class="mb-3">
-												<label for="country" class="form-label">Country</label> <input
-													type="text" class="form-control" id="country"
-													name="country" th:value="${supplier?.addresses?.country}">
+												<label for="country" class="form-label">Country</label> 
+													<div class="input-group input-group-merge">
+														<span class="input-group-text"
+														  ><i class='bx bx-globe' ></i></span>
+														  <input
+														  type="text" class="form-control" id="country"
+														  name="country" th:value="${supplier?.addresses?.country}">
+													</div>
 												<span class="text-danger"
 													th:if='${addressError?.getFieldError("country")!= null}'
 													th:text='${addressError?.getFieldError("country")?.getDefaultMessage()}'>Country
@@ -1662,24 +1718,39 @@
 
 											</div>
 											<div class="mb-3">
-												<label for="postalCode" class="form-label">Postal
-													Code</label> <input type="text" class="form-control"
-													id="postalCode" name="postalCode"
-													th:value="${supplier?.addresses?.postalCode}"> <span
-													class="text-danger"
-													th:if='${addressError?.getFieldError("postalCode")!= null}'
-													th:text='${addressError?.getFieldError("postalCode")?.getDefaultMessage()}'>Postal
-													Code cannot be blank</span>
-											</div>
-											<div class="mb-3">
-												<label for="state" class="form-label">State</label> <input
-													type="text" class="form-control" id="state" name="state"
-													th:value="${supplier?.addresses?.state}"> <span
+												<label for="state" class="form-label">State</label> 
+												
+													<div class="input-group input-group-merge">
+														<span class="input-group-text"
+														  ><i class='bx bx-map' ></i></span>
+														  <input
+														  type="text" class="form-control" id="state" name="state"
+														  th:value="${supplier?.addresses?.state}"> 
+													</div>	
+													<span
 													class="text-danger"
 													th:if='${addressError?.getFieldError("state")!= null}'
 													th:text='${addressError?.getFieldError("state")?.getDefaultMessage()}'>State
 													cannot be blank</span>
 											</div>
+											<div class="mb-3">
+												<label for="postalCode" class="form-label">Postal
+													Code</label> 
+													
+													<div class="input-group input-group-merge">
+														<span class="input-group-text"
+														  ><i class='bx bxs-envelope'></i></span>
+														  <input type="text" class="form-control"
+														  id="postalCode" name="postalCode"
+														  th:value="${supplier?.addresses?.postalCode}"> 
+													</div>
+													<span
+													class="text-danger"
+													th:if='${addressError?.getFieldError("postalCode")!= null}'
+													th:text='${addressError?.getFieldError("postalCode")?.getDefaultMessage()}'>Postal
+													Code cannot be blank</span>
+											</div>
+											
 										</div>
 									</div>
 								</div>
