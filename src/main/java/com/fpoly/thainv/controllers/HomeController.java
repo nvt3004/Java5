@@ -42,396 +42,382 @@ import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
-	@Autowired
-	HttpSession session;
 
-	@Autowired
-	UserJpa userJpa;
+    @Autowired
+    HttpSession session;
 
-	@Autowired
-	AdvJpa advJpa;
+    @Autowired
+    UserJpa userJpa;
 
-	@Autowired
-	ProductJPA pJPA;
+    @Autowired
+    AdvJpa advJpa;
 
-	@Autowired
-	CartJPA cartJPA;
+    @Autowired
+    ProductJPA pJPA;
 
-	@Autowired
-	CartService cartService;
+    @Autowired
+    CartJPA cartJPA;
 
-	@Autowired
-	HttpServletRequest req;
-	
-	@Autowired
-	HttpServletResponse resp;
+    @Autowired
+    CartService cartService;
 
-	public ShoppingCarts getShoppingCarts() {
-		String email = CookieUtil.get(req, "email");
-		ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
-		return shoppingCart;
-	}
+    @Autowired
+    HttpServletRequest req;
 
-	@RequestMapping("/home")
-	public String home(Model model, @RequestParam(name = "size", required = false, defaultValue = "8") int size) {
-		Advertisements advertisementsStartingToday = advJpa.findByStartDate(LocalDate.now());
-		if (advertisementsStartingToday != null) {
+    @Autowired
+    HttpServletResponse resp;
+
+    public ShoppingCarts getShoppingCarts() {
+        String email = CookieUtil.get(req, "email");
+        ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
+        return shoppingCart;
+    }
+
+    @RequestMapping("/home")
+    public String home(Model model, @RequestParam(name = "size", required = false, defaultValue = "8") int size) {
+        Advertisements advertisementsStartingToday = advJpa.findByStartDate(LocalDate.now());
+        if (advertisementsStartingToday != null) {
             // Tách chuỗi ảnh thành mảng
             String[] imgs = advertisementsStartingToday.getImg().split(",");
 
-			System.out.println("Gia tri cua mang = "+imgs.length);
+            System.out.println("Gia tri cua mang = " + imgs.length);
             // Truyền mảng ảnh vào model
             model.addAttribute("imgbn", imgs);
         } else {
             model.addAttribute("imgbn", new String[0]);
         }
-		
-		Pageable pageable = PageRequest.of(0, size);
-		Page<Products> pList = pJPA.findAll(pageable);
-		for (Products p : pList) {
-			System.out.println("This is product name list: ");
-			System.out.printf("\nProduct name: %s\n", p.getProductName());
-		}
-		model.addAttribute("pList", pList);
 
-		Set<AttributeProduct> attrbuteProds = new HashSet<>();
+        Pageable pageable = PageRequest.of(0, size);
+        Page<Products> pList = pJPA.findAll(pageable);
+        for (Products p : pList) {
+            System.out.println("This is product name list: ");
+            System.out.printf("\nProduct name: %s\n", p.getProductName());
+        }
+        model.addAttribute("pList", pList);
 
-		for (Products p : pList) {
-			for (AttributeProduct attributeProduct : p.getAttributeProducts()) {
-				if (!this.distinctValues(attrbuteProds, attributeProduct)) {
-					attrbuteProds.add(attributeProduct);
-					System.out.println("Attribute prod id: " + attributeProduct.getAttrPrdId());
-					System.out.println("Attribute prod id: " + attributeProduct.getAttributes().getValue());
-				}
-			}
-		}
+        Set<AttributeProduct> attrbuteProds = new HashSet<>();
 
-		List<AttributeProduct> attributeProductList = new ArrayList<>(attrbuteProds);
-		model.addAttribute("attrbuteProdList", attributeProductList);
+        List<AttributeProduct> attributeProductList = new ArrayList<>(attrbuteProds);
+        model.addAttribute("attrbuteProdList", attributeProductList);
 
-		model.addAttribute("loadMore",
-				((size + 8 > pList.getTotalElements()) ? size = (int) pList.getTotalElements() : size + 4));
+        model.addAttribute("loadMore",
+                ((size + 8 > pList.getTotalElements()) ? size = (int) pList.getTotalElements() : size + 4));
 
-		ShoppingCarts shoppingCart = getShoppingCarts();
-		model.addAttribute("cart", shoppingCart);
-		if (shoppingCart != null) {
-			model.addAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
-		}
+        ShoppingCarts shoppingCart = getShoppingCarts();
+        if (shoppingCart != null) {
+            model.addAttribute("cart", shoppingCart);
+            model.addAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
+        }
 
-		return "Admin/Client/index";
-	}
-	
-	public Boolean distinctValues(Set<AttributeProduct> set, AttributeProduct attrProd){
-		boolean isDistinct =false;
+        return "Admin/Client/index";
+    }
 
-		for (AttributeProduct attributeProduct : set) {
-			if(attributeProduct.getAttributes().getValue().equals(attrProd.getAttributes().getValue())){
-				isDistinct =true;
-				return isDistinct;
-			}
-		}
+    public Boolean distinctValues(Set<AttributeProduct> set, AttributeProduct attrProd) {
+        boolean isDistinct = false;
 
-		isDistinct =false;
+        for (AttributeProduct attributeProduct : set) {
+            if (attributeProduct.getAttributes().getValue().equals(attrProd.getAttributes().getValue())) {
+                isDistinct = true;
+                return isDistinct;
+            }
+        }
 
-		return isDistinct;
-	}
+        isDistinct = false;
 
+        return isDistinct;
+    }
 
-	@RequestMapping("/show-detail")
-	public String showDetail(RedirectAttributes RA, @RequestParam("pID") String pID) {
+    @RequestMapping("/show-detail")
+    public String showDetail(RedirectAttributes RA, @RequestParam("pID") String pID) {
 
-		RA.addFlashAttribute("check", true);
+        RA.addFlashAttribute("check", true);
 
-		Optional<Products> pDetail = pJPA.findById(pID);
-		if (pDetail.isPresent()) {
-			RA.addFlashAttribute("pDetail", pDetail.get());
-		}
+        Optional<Products> pDetail = pJPA.findById(pID);
+        if (pDetail.isPresent()) {
+            RA.addFlashAttribute("pDetail", pDetail.get());
+        }
 
-		return "redirect:/home";
-	}
+        return "redirect:/home";
+    }
 
-	@RequestMapping("/about")
-	public String about() {
-		return "Admin/Client/about";
-	}
+    @RequestMapping("/about")
+    public String about() {
+        return "Admin/Client/about";
+    }
 
-	@RequestMapping("/blog")
-	public String blog() {
-		return "Admin/Client/blog";
-	}
+    @RequestMapping("/blog")
+    public String blog() {
+        return "Admin/Client/blog";
+    }
 
-	@RequestMapping("/blog-detail")
-	public String blogDetail() {
-		return "Admin/Client/blog-detail";
-	}
+    @RequestMapping("/blog-detail")
+    public String blogDetail() {
+        return "Admin/Client/blog-detail";
+    }
 
-	@RequestMapping("/contact")
-	public String contact() {
-		return "Admin/Client/contact";
-	}
+    @RequestMapping("/contact")
+    public String contact() {
+        return "Admin/Client/contact";
+    }
 
-	@RequestMapping("/favourite-products")
-	public String favouriteProducts() {
-		return "Admin/Client/favourite-products";
-	}
+    @RequestMapping("/favourite-products")
+    public String favouriteProducts() {
+        return "Admin/Client/favourite-products";
+    }
 
-	@RequestMapping("/product")
-	public String product(Model model, @RequestParam(name = "size", required = false, defaultValue = "12") int size) {
-		Pageable pageable = PageRequest.of(0, size);
-		Page<Products> pList = pJPA.findAll(pageable);
-		for (Products p : pList) {
-			System.out.println("This is product name list: ");
-			System.out.printf("\nProduct name: %s\n", p.getProductName());
-		}
-		model.addAttribute("pList", pList);
+    @RequestMapping("/product")
+    public String product(Model model, @RequestParam(name = "size", required = false, defaultValue = "12") int size) {
+        Pageable pageable = PageRequest.of(0, size);
+        Page<Products> pList = pJPA.findAll(pageable);
+        for (Products p : pList) {
+            System.out.println("This is product name list: ");
+            System.out.printf("\nProduct name: %s\n", p.getProductName());
+        }
+        model.addAttribute("pList", pList);
 
-		for (Products p : pList) {
-			for (Images i : p.getImageses()) {
-				System.out.printf("\nimage: %s\n", i.getImgUrl());
-			}
-		}
-		model.addAttribute("loadMore",
-				((size + 8 > pList.getTotalElements()) ? size += pList.getTotalPages() : size + 12));
+        for (Products p : pList) {
+            for (Images i : p.getImageses()) {
+                System.out.printf("\nimage: %s\n", i.getImgUrl());
+            }
+        }
+        model.addAttribute("loadMore",
+                ((size + 8 > pList.getTotalElements()) ? size += pList.getTotalPages() : size + 12));
 
-		return "Admin/Client/product";
-	}
+        return "Admin/Client/product";
+    }
 
-	@RequestMapping("/product-detail")
-	public String productDetail(Model model, @RequestParam("prodDetailID") String prodDetailID) {
+    @RequestMapping("/product-detail")
+    public String productDetail(Model model, @RequestParam("prodDetailID") String prodDetailID) {
 
-		Optional<Products> prod = pJPA.findById(prodDetailID);
-		if (prod.isPresent()) {
-			model.addAttribute("productDetail", prod.get());
-		}
+        Optional<Products> prod = pJPA.findById(prodDetailID);
+        if (prod.isPresent()) {
+            model.addAttribute("productDetail", prod.get());
+        }
 
-		return "Admin/Client/product-detail";
-	}
+        return "Admin/Client/product-detail";
+    }
 
-	// @RequestMapping("/shoping-cart")
-	// public String shopingCart() {
-	// return "Admin/Client/shoping-cart";
-	// }
+    // @RequestMapping("/shoping-cart")
+    // public String shopingCart() {
+    // return "Admin/Client/shoping-cart";
+    // }
+    @RequestMapping("/app-ecommerce-dashboard")
+    public String dashboard() {
+        return "Admin/html/app-ecommerce-dashboard";
+    }
 
-	@RequestMapping("/app-ecommerce-dashboard")
-	public String dashboard() {
-		return "Admin/html/app-ecommerce-dashboard";
-	}
+    @RequestMapping("/admin/review")
+    public String manageReviews() {
+        return "Admin/html/app-ecommerce-manage-reviews";
+    }
 
-	@RequestMapping("/admin/review")
-	public String manageReviews() {
-		return "Admin/html/app-ecommerce-manage-reviews";
-	}
+    @RequestMapping("/admin/list")
+    public String productList() {
+        return "Admin/html/app-ecommerce-dashboard-list";
+    }
+    //
+    // @RequestMapping("/auth-forgot-password-basic")
+    // public String forgoPassword() {
+    // return "Admin/html/auth-forgot-password-basic";
+    // }
+    //
+    // @RequestMapping("/auth-login-basic")
+    // public String authLogin() {
+    // return "Admin/html/auth-login-basic";
+    // }
+    //
+    // @RequestMapping("/auth-register-basic")
+    // public String authRegister() {
+    // return "Admin/html/auth-register-basic";
+    // }
 
-	@RequestMapping("/admin/list")
-	public String productList() {
-		return "Admin/html/app-ecommerce-dashboard-list";
-	}
-	//
-	// @RequestMapping("/auth-forgot-password-basic")
-	// public String forgoPassword() {
-	// return "Admin/html/auth-forgot-password-basic";
-	// }
-	//
-	// @RequestMapping("/auth-login-basic")
-	// public String authLogin() {
-	// return "Admin/html/auth-login-basic";
-	// }
-	//
-	// @RequestMapping("/auth-register-basic")
-	// public String authRegister() {
-	// return "Admin/html/auth-register-basic";
-	// }
+    @RequestMapping("/custommer-management")
+    public String customer() {
+        return "Admin/html/custommer-management";
+    }
 
-	@RequestMapping("/custommer-management")
-	public String customer() {
-		return "Admin/html/custommer-management";
-	}
+    @RequestMapping("/management-product")
+    public String managementProduct() {
+        return "Admin/html/management-product";
+    }
 
-	@RequestMapping("/management-product")
-	public String managementProduct() {
-		return "Admin/html/management-product";
-	}
+    @RequestMapping("/management-product-detail")
+    public String managementProductDetail() {
+        return "Admin/html/management-product-detail";
+    }
 
-	@RequestMapping("/management-product-detail")
-	public String managementProductDetail() {
-		return "Admin/html/management-product-detail";
-	}
+    @RequestMapping("/pages-account-settings-account")
+    public String settingsAccount() {
+        return "Admin/html/pages-account-settings-account";
+    }
 
-	@RequestMapping("/pages-account-settings-account")
-	public String settingsAccount() {
-		return "Admin/html/pages-account-settings-account";
-	}
+    @RequestMapping("/pages-account-settings-connections")
+    public String settingsConnections() {
+        return "Admin/html/pages-account-settings-connections";
+    }
 
-	@RequestMapping("/pages-account-settings-connections")
-	public String settingsConnections() {
-		return "Admin/html/pages-account-settings-connections";
-	}
+    @RequestMapping("/pages-account-settings-notifications")
+    public String settingsNotifications() {
+        return "Admin/html/pages-account-settings-notifications";
+    }
 
-	@RequestMapping("/pages-account-settings-notifications")
-	public String settingsNotifications() {
-		return "Admin/html/pages-account-settings-notifications";
-	}
+    @RequestMapping("/pages-misc-error")
+    public String miscError() {
+        return "Admin/html/pages-misc-error";
+    }
 
-	@RequestMapping("/pages-misc-error")
-	public String miscError() {
-		return "Admin/html/pages-misc-error";
-	}
+    @RequestMapping("/pages-misc-under-maintenance")
+    public String miscUnderMaintenance() {
+        return "Admin/html/pages-misc-under-maintenance";
+    }
 
-	@RequestMapping("/pages-misc-under-maintenance")
-	public String miscUnderMaintenance() {
-		return "Admin/html/pages-misc-under-maintenance";
-	}
+    @RequestMapping("/supplier-management")
+    public String supplier() {
+        return "Admin/html/supplier-management";
+    }
 
-	@RequestMapping("/supplier-management")
-	public String supplier() {
-		return "Admin/html/supplier-management";
-	}
+    // @GetMapping("/auth-login-basic")
+    // public String login(@ModelAttribute("user") User user) {
+    // return "Admin/html/auth-login-basic";
+    // }
+    //
+    @PostMapping("/pages-account-settings-account")
+    public String account(@Valid User user, BindingResult errors, Model model, HttpServletRequest request,
+            @RequestParam("address1") String addrees1) {
+        System.out.println("Đã đi vào " + user.getUserId());
+        // // Kiểm tra lỗi xác thực
+        // if (errors.hasErrors()) {
+        // // Nếu có lỗi, thêm lỗi và người dùng vào mô hình và trả về trang cài đặt tài
+        // khoản
+        // model.addAttribute("errors", errors);
+        // return "Admin/html/pages-account-settings-account";
+        // }
 
-	// @GetMapping("/auth-login-basic")
-	// public String login(@ModelAttribute("user") User user) {
-	// return "Admin/html/auth-login-basic";
-	// }
-	//
+        // Tìm người dùng trong cơ sở dữ liệu
+        Optional<Users> userOptional = userJpa.findById(user.getUserId());
+        if (userOptional.isPresent()) {
+            System.out.println("Tồn tại");
+            // userOptional.get().getAddress().setAddressLine1(address);
+            System.out.println("Update dia chi " + userOptional.get().getAddress().getAddressLine1());
+            // Nếu người dùng tồn tại, cập nhật và lưu vào cơ sở dữ liệu
+            Users userEntity = updateProductEntityFromModel(userOptional.get(), user);
+            userEntity.getAddress().setAddressLine1(addrees1);
+            Users savedUser = userJpa.save(userEntity);
+            model.addAttribute("user", savedUser);
+        } else {
+            System.out.println("Không tồn tại");
+        }
 
-	@PostMapping("/pages-account-settings-account")
-	public String account(@Valid User user, BindingResult errors, Model model, HttpServletRequest request,
-			@RequestParam("address1") String addrees1) {
-		System.out.println("Đã đi vào " + user.getUserId());
-		// // Kiểm tra lỗi xác thực
-		// if (errors.hasErrors()) {
-		// // Nếu có lỗi, thêm lỗi và người dùng vào mô hình và trả về trang cài đặt tài
-		// khoản
-		// model.addAttribute("errors", errors);
-		// return "Admin/html/pages-account-settings-account";
-		// }
+        // Trả về trang cài đặt tài khoản
+        return "Admin/html/pages-account-settings-account";
+    }
 
-		// Tìm người dùng trong cơ sở dữ liệu
+    private Users updateProductEntityFromModel(Users users, User user) {
+        // Addresses addresses = users.getAddress();
+        //
+        // addresses.setAddressLine1(address);
+        // Addresses AddressesSave = addressJpa.save(addresses);
 
-		Optional<Users> userOptional = userJpa.findById(user.getUserId());
-		if (userOptional.isPresent()) {
-			System.out.println("Tồn tại");
-			// userOptional.get().getAddress().setAddressLine1(address);
-			System.out.println("Update dia chi " + userOptional.get().getAddress().getAddressLine1());
-			// Nếu người dùng tồn tại, cập nhật và lưu vào cơ sở dữ liệu
-			Users userEntity = updateProductEntityFromModel(userOptional.get(), user);
-			userEntity.getAddress().setAddressLine1(addrees1);
-			Users savedUser = userJpa.save(userEntity);
-			model.addAttribute("user", savedUser);
-		} else {
-			System.out.println("Không tồn tại");
-		}
+        users.setFirstName(user.getFirstName());
+        users.setLastName(user.getLastName());
+        users.setEmail(user.getEmail());
+        users.setPhone(user.getPhone());
+        // users.setPassword(user.getPassword());
+        // users.setAddress(AddressesSave);
 
-		// Trả về trang cài đặt tài khoản
-		return "Admin/html/pages-account-settings-account";
-	}
+        return users;
+    }
 
-	private Users updateProductEntityFromModel(Users users, User user) {
-		// Addresses addresses = users.getAddress();
-		//
-		// addresses.setAddressLine1(address);
-		// Addresses AddressesSave = addressJpa.save(addresses);
+    @GetMapping("/pages-account-settings-account")
+    public String account(HttpServletRequest request, Model model) {
+        String email = CookieUtil.get(request, "email");
+        System.out.println("Email = " + email);
+        if (email != null) {
+            Optional<Users> userOptional = userJpa.findByEmail(email);
+            System.out.println("Dia chi " + userOptional.get().getAddress().getAddressLine1());
+            System.out.println("Dia chi " + userOptional.get().getAddress().getAddressId());
+            if (userOptional.isPresent()) {
+                Users userEntity = userOptional.get();
+                model.addAttribute("user", userEntity);
+                System.out.println("address = " + userEntity.getAddress().getAddressLine1());
+                System.out.println("id = " + userEntity.getUserId());
+                System.out.println("Tai khoan " + userEntity.getEmail());
+                System.out.println("Mat khau " + userEntity.getPassword());
+            } else {
+                System.out.println("User not found!");
+            }
+        } else {
+            System.out.println("No user email found in cookies!");
+        }
+        return "Admin/html/pages-account-settings-account";
+    }
 
-		users.setFirstName(user.getFirstName());
-		users.setLastName(user.getLastName());
-		users.setEmail(user.getEmail());
-		users.setPhone(user.getPhone());
-		// users.setPassword(user.getPassword());
-		// users.setAddress(AddressesSave);
+    @PostMapping("/change-pass")
+    public String changepass(HttpServletRequest request, @Valid PasswordChangeRequest change, BindingResult errorss,
+            Model model, Users users, User user, @RequestParam("newPassword") String newPass,
+            @RequestParam("confirmPassword") String conPass, RedirectAttributes redirect, HttpServletResponse resp) {
+        if (errorss.hasErrors()) {
+            redirect.addFlashAttribute("errorss", errorss);
+            redirect.addFlashAttribute("change", change);
+        } else {
+            String email = CookieUtil.get(request, "email");
+            Optional<Users> userOptional = userJpa.findByEmail(email);
+            if (userOptional.isPresent()) {
+                System.out.println("Vào change pass " + userOptional.get().getUserId());
+                if (!newPass.equals(conPass)) {
+                    redirect.addFlashAttribute("errorpass", "Password incorrect");
+                    return "redirect:/pages-account-settings-account";
+                } else {
+                    Users userEntity = userOptional.get();
+                    userEntity.setPassword(conPass);
+                    Users savedUser = userJpa.save(userEntity);
+                    CookieUtil.clear(resp, "email");
+                    CookieUtil.clear(resp, "password");
+                    return "redirect:/login";
+                }
+            } else {
+                System.out.println("Không tồn tại");
+                return "redirect:/pages-account-settings-account";
+            }
 
-		return users;
-	}
+        }
+        return "redirect:/pages-account-settings-account";
+    }
 
-	@GetMapping("/pages-account-settings-account")
-	public String account(HttpServletRequest request, Model model) {
-		String email = CookieUtil.get(request, "email");
-		System.out.println("Email = " + email);
-		if (email != null) {
-			Optional<Users> userOptional = userJpa.findByEmail(email);
-			System.out.println("Dia chi " + userOptional.get().getAddress().getAddressLine1());
-			System.out.println("Dia chi " + userOptional.get().getAddress().getAddressId());
-			if (userOptional.isPresent()) {
-				Users userEntity = userOptional.get();
-				model.addAttribute("user", userEntity);
-				System.out.println("address = " + userEntity.getAddress().getAddressLine1());
-				System.out.println("id = " + userEntity.getUserId());
-				System.out.println("Tai khoan " + userEntity.getEmail());
-				System.out.println("Mat khau " + userEntity.getPassword());
-			} else {
-				System.out.println("User not found!");
-			}
-		} else {
-			System.out.println("No user email found in cookies!");
-		}
-		return "Admin/html/pages-account-settings-account";
-	}
+    @PostMapping("/account/delete")
+    public String account(HttpServletRequest request, Model model,
+            @RequestParam(value = "accountActivation", required = false) String accountActivation,
+            HttpServletResponse resp) {
+        if (accountActivation != null && accountActivation.equals("true")) {
+            System.out.println("Checkbox được chọn");
+            String email = CookieUtil.get(request, "email");
+            Optional<Users> userOptional = userJpa.findByEmail(email);
+            Users userEntity = userOptional.get();
+            userEntity.setIsDeleted(true);
+            Users savedUser = userJpa.save(userEntity);
+            CookieUtil.clear(resp, "email");
+            CookieUtil.clear(resp, "password");
+            return "redirect:/login";
+        } else {
+            System.out.println("Checkbox không được chọn");
+        }
+        // Xử lý tiếp tục
+        return "Admin/html/pages-account-settings-account";
+    }
 
-	@PostMapping("/change-pass")
-	public String changepass(HttpServletRequest request, @Valid PasswordChangeRequest change, BindingResult errorss,
-			Model model, Users users, User user, @RequestParam("newPassword") String newPass,
-			@RequestParam("confirmPassword") String conPass, RedirectAttributes redirect, HttpServletResponse resp) {
-		if (errorss.hasErrors()) {
-			redirect.addFlashAttribute("errorss", errorss);
-			redirect.addFlashAttribute("change", change);
-		} else {
-			String email = CookieUtil.get(request, "email");
-			Optional<Users> userOptional = userJpa.findByEmail(email);
-			if (userOptional.isPresent()) {
-				System.out.println("Vào change pass " + userOptional.get().getUserId());
-				if (!newPass.equals(conPass)) {
-					redirect.addFlashAttribute("errorpass", "Password incorrect");
-					return "redirect:/pages-account-settings-account";
-				} else {
-					Users userEntity = userOptional.get();
-					userEntity.setPassword(conPass);
-					Users savedUser = userJpa.save(userEntity);
-					CookieUtil.clear(resp, "email");
-					CookieUtil.clear(resp, "password");
-					return "redirect:/login";
-				}
-			} else {
-				System.out.println("Không tồn tại");
-				return "redirect:/pages-account-settings-account";
-			}
+    @GetMapping("/orders")
+    public String getOrder() {
+        return "Admin/html/pages-misc-error";
+    }
 
-		}
-		return "redirect:/pages-account-settings-account";
-	}
+    @RequestMapping("/logout")
+    public String logout(Model model, RedirectAttributes RE) {
 
-	@PostMapping("/account/delete")
-	public String account(HttpServletRequest request, Model model,
-			@RequestParam(value = "accountActivation", required = false) String accountActivation,
-			HttpServletResponse resp) {
-		if (accountActivation != null && accountActivation.equals("true")) {
-			System.out.println("Checkbox được chọn");
-			String email = CookieUtil.get(request, "email");
-			Optional<Users> userOptional = userJpa.findByEmail(email);
-			Users userEntity = userOptional.get();
-			userEntity.setIsDeleted(true);
-			Users savedUser = userJpa.save(userEntity);
-			CookieUtil.clear(resp, "email");
-			CookieUtil.clear(resp, "password");
-			return "redirect:/login";
-		} else {
-			System.out.println("Checkbox không được chọn");
-		}
-		// Xử lý tiếp tục
-		return "Admin/html/pages-account-settings-account";
-	}
+        CookieUtil cookieUtil = new CookieUtil();
+        cookieUtil.clear(resp, "email");
+        cookieUtil.clear(resp, "password");
 
-	@GetMapping("/orders")
-	public String getOrder() {
-		return "Admin/html/pages-misc-error";
-	}
-	
-	@RequestMapping("/logout")
-	public String logout(Model model, RedirectAttributes RE) {
-		
-		CookieUtil cookieUtil = new CookieUtil();
-		cookieUtil.clear(resp, "email");
-		cookieUtil.clear(resp, "password");
-
-		return "redirect:/home";
-	}
-
+        return "redirect:/home";
+    }
 
 }
