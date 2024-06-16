@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,14 +68,29 @@ public class HomeController {
     @Autowired
     HttpServletResponse resp;
 
+    @ModelAttribute("cart")
     public ShoppingCarts getShoppingCarts() {
         String email = CookieUtil.get(req, "email");
-        ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
-        return shoppingCart;
+        if (email ==null || email.equals("")) {
+            return null;
+        }
+        else{
+            ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
+            return shoppingCart;
+        }
     }
 
     @RequestMapping("/home")
     public String home(Model model, @RequestParam(name = "size", required = false, defaultValue = "8") int size) {
+
+        String email = CookieUtil.get(req, "email");
+        if (email == null || email.equals("")) {
+            model.addAttribute("isLogin", false);
+            session.setAttribute("total", 0);
+        } else{
+            model.addAttribute("isLogin", true  );
+        }
+
         Advertisements advertisementsStartingToday = advJpa.findByStartDate(LocalDate.now());
         if (advertisementsStartingToday != null) {
             // Tách chuỗi ảnh thành mảng
@@ -106,7 +122,7 @@ public class HomeController {
         ShoppingCarts shoppingCart = getShoppingCarts();
         if (shoppingCart != null) {
             model.addAttribute("cart", shoppingCart);
-            model.addAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
+            session.setAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
         }
 
         return "Admin/Client/index";
