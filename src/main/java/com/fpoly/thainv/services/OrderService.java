@@ -21,95 +21,93 @@ import com.fpoly.thainv.entities.Products;
 import com.fpoly.thainv.jpa.OrderDetailJpa;
 import com.fpoly.thainv.jpa.OrderJpa;
 import com.fpoly.thainv.jpa.OrderStatusJpa;
+import com.fpoly.thainv.models.OrderStatusEnum;
 
 @Service
 public class OrderService {
-    private final OrderDetailJpa orderDetailJpa;
-    
-    private final OrderJpa orderJpa;
-    
-    private final OrderStatusJpa orderStatusJpa;
+	private final OrderDetailJpa orderDetailJpa;
 
-    @Autowired
-    public OrderService(OrderDetailJpa orderDetailJpa, OrderJpa orderJpa, OrderStatusJpa orderStatusJpa) {
-        this.orderDetailJpa = orderDetailJpa;
+	private final OrderJpa orderJpa;
+
+	private final OrderStatusJpa orderStatusJpa;
+
+	@Autowired
+	public OrderService(OrderDetailJpa orderDetailJpa, OrderJpa orderJpa, OrderStatusJpa orderStatusJpa) {
+		this.orderDetailJpa = orderDetailJpa;
 		this.orderJpa = orderJpa;
 		this.orderStatusJpa = orderStatusJpa;
-    }
+	}
 
+	public OrderDetails getOrderDetails(Integer orderId) {
+		Optional<OrderDetails> orderDetailsOptional = orderDetailJpa.findById(orderId);
+		return orderDetailsOptional.orElse(null);
+	}
 
-    public OrderDetails getOrderDetails(Integer orderId) {
-        Optional<OrderDetails> orderDetailsOptional = orderDetailJpa.findById(orderId);
-        return orderDetailsOptional.orElse(null);
-    }
+	public List<Attributes> getSizesForProduct(Products product) {
+		Set<AttributeProduct> attributeProducts = product.getAttributeProducts();
+		return filterAttributesByType(attributeProducts, "Size");
+	}
 
-    public List<Attributes> getSizesForProduct(Products product) {
-        Set<AttributeProduct> attributeProducts = product.getAttributeProducts();
-        return filterAttributesByType(attributeProducts, "Size");
-    }
+	private List<Attributes> filterAttributesByType(Set<AttributeProduct> attributeProducts, String type) {
+		return attributeProducts.stream().map(AttributeProduct::getAttributes)
+				.filter(attribute -> type.equals(attribute.getAttributeKey())).collect(Collectors.toList());
+	}
 
-    private List<Attributes> filterAttributesByType(Set<AttributeProduct> attributeProducts, String type) {
-        return attributeProducts.stream()
-                .map(AttributeProduct::getAttributes)
-                .filter(attribute -> type.equals(attribute.getAttributeKey()))
-                .collect(Collectors.toList());
-    }
-    
-    public List<Attributes> getColorsForProduct(Products product) {
-        Set<AttributeProduct> attributeProducts = product.getAttributeProducts();
-        return filterAttributesByType(attributeProducts, "Color");
-    }
-    
-    public List<Products> getProductsByOrderId(Integer orderId) {
-        List<Products> products = orderDetailJpa.findProductsByOrderId(orderId);
-        return products;
-    }
+	public List<Attributes> getColorsForProduct(Products product) {
+		Set<AttributeProduct> attributeProducts = product.getAttributeProducts();
+		return filterAttributesByType(attributeProducts, "Color");
+	}
 
-    public List<OrderDetails> findProductsByOrderId(Integer orderId) {
-        List<OrderDetails> orderDetailsList = orderDetailJpa.findByOrdersOrderId(orderId);
-        return orderDetailsList;
-    }
+	public List<Products> getProductsByOrderId(Integer orderId) {
+		List<Products> products = orderDetailJpa.findProductsByOrderId(orderId);
+		return products;
+	}
 
-    public boolean updateOrderStatusToCancelled(String orderId) {
-        Optional<Orders> orderOptional = orderJpa.findById(orderId);
-        if (!orderOptional.isPresent()) {
-            return false;
-        }
-        Orders order = orderOptional.get();
+	public List<OrderDetails> findProductsByOrderId(Integer orderId) {
+		List<OrderDetails> orderDetailsList = orderDetailJpa.findByOrdersOrderId(orderId);
+		return orderDetailsList;
+	}
 
-        Integer cancelledStatusId = 5;
-        OrderStatus cancelledStatus = orderStatusJpa.findById(String.valueOf(cancelledStatusId)).orElse(null);
-        if (cancelledStatus == null) {
-            return false;
-        }
+	public Page<Orders> getOrders(String name, String address, String status, int entries, int page) {
+		Pageable pageable = PageRequest.of(page, entries, Sort.by("orderDate").descending());
+		return orderJpa.findOrdersByCriteria(name, address, status, pageable);
+	}
 
-        order.setOrderStatus(cancelledStatus);
-        orderJpa.save(order);
-        return true;
-    }
-    
-    public boolean restoreOrderStatus(String orderId) {
-        Optional<Orders> orderOptional = orderJpa.findById(orderId);
-        if (!orderOptional.isPresent()) {
-            return false;
-        }
-        Orders order = orderOptional.get();
+	public boolean updateOrderStatus(String orderId, Integer statusId) {
+		Optional<Orders> orderOptional = orderJpa.findById(orderId);
+		return orderOptional.map(order -> {
+			return orderStatusJpa.findById(String.valueOf(statusId)).map(orderStatus -> {
+				order.setOrderStatus(orderStatus);
+				orderJpa.save(order);
+				return true;
+			}).orElse(false);
+		}).orElse(false);
+	}
 
-        Integer cancelledStatusId = 1;
-        OrderStatus cancelledStatus = orderStatusJpa.findById(String.valueOf(cancelledStatusId)).orElse(null);
-        if (cancelledStatus == null) {
-            return false;
-        }
+	private boolean changeOrderStatus(String orderId, OrderStatusEnum statusEnum) {
+		Optional<Orders> orderOptional = orderJpa.findById(orderId);
+		if (orderOptional.isPresent()) {
 
-        order.setOrderStatus(cancelledStatus);
-        orderJpa.save(order);
-        return true;
-    }
-    
-    public Page<Orders> getOrders(String name, String address, String status, int entries, int page) {
-        Pageable pageable = PageRequest.of(page, entries, Sort.by("orderDate").descending());
-        return orderJpa.findOrdersByCriteria(name, address, status, pageable);
-    }
+			Optional<OrderStatus> statusOptional = orderStatusJpa.findById(String.valueOf(statusEnum.getValue()));
+			System.out.println(statusOptional.get().getStatusName() + " statusEnum");
+			if (statusOptional.isPresent()) {
+				orderOptional.get().setOrderStatus(statusOptional.get());
+				orderJpa.save(orderOptional.get());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean updateOrderStatusToCancelled(String orderId) {
+		return changeOrderStatus(orderId, OrderStatusEnum.CANCELLED);
+	}
+
+	public boolean restoreOrderStatus(String orderId) {
+		return changeOrderStatus(orderId, OrderStatusEnum.ACTIVE);
+	}
+
+	public boolean confirmOrder(String orderId) {
+		return changeOrderStatus(orderId, OrderStatusEnum.CONFIRMED);
+	}
 }
-
-
