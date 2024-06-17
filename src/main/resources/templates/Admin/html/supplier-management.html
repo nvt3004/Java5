@@ -1566,8 +1566,18 @@
 
 									<div class="demo-inline-spacing col-6 ms-auto">
 										<form action="/supplier-management" method="post"
-											class="d-flex">
+											class="d-flex" id="filterForm">
 											<input type="hidden" name="formName" value="formFilter">
+											<div class="col input-group input-group-merge me-3">
+												<span class="input-group-text" id="basic-addon-search31"><i
+													class="bx bx-search"></i></span> 
+													<input type="search"
+													id="supplierName"
+													name="keyWordSupplier" th:value="${keyWordSupplier}"
+													class="form-control" placeholder="Search..."
+													aria-label="Search..."
+													aria-describedby="basic-addon-search31" />
+											</div>
 											<div class="col-md-2 me-3">
 												<select class="form-select form-select" name="isDeleted"
 													id="">
@@ -1576,24 +1586,19 @@
 													</option>
 													<option value="true"
 														th:selected="${isDeleted != null && isDeleted == true}">Deleted</option>
-
 												</select>
 											</div>
-											<div class="col input-group input-group-merge me-3">
-												<span class="input-group-text" id="basic-addon-search31"><i
-													class="bx bx-search"></i></span> <input type="text"
-													name="keyWordSupplier" th:value="${keyWordSupplier}"
-													class="form-control" placeholder="Search..."
-													aria-label="Search..."
-													aria-describedby="basic-addon-search31" />
+											<div class="col-md-auto me-3">
+												<button type="submit" class="btn btn-primary"
+												title="Filter"
+												><i class='bx bx-filter-alt'></i></button>
 											</div>
-											<button type="submit" class="btn btn-primary me-3">
-												<i class='bx bx-filter-alt'></i> Filter
-											</button>
-											<a type="button" th:href="@{/supplier-management}"
-												class="btn btn-primary"> Reset </a>
+											<div class="col-md-auto">
+												<a type="button" th:href="@{/supplier-management}"
+												title="Reset"
+												class="btn btn-primary"><i class='bx bx-reset' ></i></a>
+											</div>	
 										</form>
-
 									</div>
 								</div>
 							</div>
@@ -1659,7 +1664,7 @@
 												</div>
 												<div class="col-md-6">
 													<form action="/export-supplier-select" method="post">
-														<!-- Cột 2 -->
+														
 														<input type="hidden" id="selected-ids" name="selectedIds">
 														<div class="mb-3">
 															<label for="formFile" class="form-label">Export
@@ -1679,13 +1684,12 @@
 								</div>
 							</div>
 							<!--/ Modal End-->
-							<div class="card-body">
+							<div class="card-body mt-0 pt-0">
 								<div class="table-responsive text-nowrap card-body">
 									<table class="table">
 										<thead>
 											<tr>
-												<th><input type="checkbox" id="select-all"></th>
-
+												<th><input class="form-check-input" type="checkbox" id="select-all"></th>
 												<th>Supplier Name</th>
 												<th>Supplier Contact</th>
 												<th>Email</th>
@@ -1700,13 +1704,12 @@
 												<th>Action</th>
 											</tr>
 										</thead>
-										<tbody th:each="supplier : ${suppliers}"
+										<tbody 
 											class="table-border-bottom-0">
-
-											<tr th:attr="data-id=${supplier?.supplierId}" data-id="3"
+											<tr th:each="supplier : ${suppliers}"
+											 th:attr="data-id=${supplier?.supplierId}"
 												th:class="${supplier != null and supplier?.isDeleted != null and supplier?.isDeleted ? 'bg-secondary' : ''}">
-												<td><input type="checkbox" class="row-checkbox"></td>
-
+												<td><input type="checkbox" class="row-checkbox form-check-input"></td>
 												<td th:text="${supplier?.supplierName}">#</td>
 												<td th:text="${supplier?.contactName}">#</td>
 												<td th:text="${supplier?.email}">#</td>
@@ -1752,17 +1755,42 @@
 							<div class="card-footer mb-0 pb-0">
 								<div class="row m-0">
 									<div class="col-auto">
-										<form id="delete-form" method="post"
-											th:action="${isDeleted==true?'/restore-supplier-multi':'delete-supplier-multi'}">
-											<input type="hidden" id="selected-ids" name="selectedIds">
-											<button type="submit"
-												th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
-												id="delete-button" disabled>
-												<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
-												(<span id="selected-count">0</span>) Customer
-											</button>
-										</form>
+										<button type="button" class="col btn btn-primary"
+											th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
+											id="delete-button" disabled
+											data-bs-toggle="modal" data-bs-target="#basicModal3">
+											<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
+												(<span id="selected-count">0</span>) Supplier
+										</button>
 									</div>
+									<!-- Modal  3333333333333333333333333333333333333333333333333333-->
+									<div class="modal fade" id="basicModal3" tabindex="-1"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel1" th:text="${isDeleted==true?'Restore':'Delete'}">#######</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<h5 th:text="${isDeleted==true?'Are you sure you want to restore these suppliers?':'Are you sure you want to delete these suppliers?'}"></h5>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+												<form th:action="${isDeleted==true?'/restore-supplier-multi':'/delete-supplier-multi'}" method="post">
+													<input type="hidden" id="selected-idss" name="selectedIds">
+													<button type="submit"
+													th:class="${isDeleted==true?'btn btn-success':'btn btn-danger'}"
+													th:text="${isDeleted==true?'Restore':'Delete'}"	
+													>
+													</button>
+												</form>
+											</div>
+										</div>
+									</div>
+									</div>
+								<!--/ Modal End-->
 									<div class="col-auto align-content-center">
 										<p>Show</p>
 									</div>
@@ -1771,10 +1799,13 @@
 											<input type="hidden" name="formName" value="formSize">
 											<select class="form-select" name="size"
 												onchange="this.form.submit()">
-												<option value="3" th:selected="${size == 3}">3</option>
+												<option value="5" th:selected="${size == 5}">5</option>
 												<option value="10" selected th:selected="${size == 10}">10</option>
 												<option value="20" th:selected="${size == 20}">20</option>
-												<option value="30" th:selected="${size == 30}">30</option>
+												<option value="40" th:selected="${size == 40}">40</option>
+												<option value="60" th:selected="${size == 60}">60</option>
+												<option value="80" th:selected="${size == 80}">80</option>
+												<option value="100" th:selected="${size == 100}">100</option>
 											</select>
 										</form>
 									</div>
@@ -1846,6 +1877,23 @@
 						</div>
 					</div>
 					<!-- / Content -->
+					<script>
+						document.addEventListener("DOMContentLoaded", function () {
+							const customerNameInput = document.getElementById("supplierName");
+							const filterForm = document.getElementById("filterForm");
+					
+							// Submit form when user stops typing for 1 second
+							let typingTimer;
+							const typingInterval = 1000; // 1 second
+					
+							customerNameInput.addEventListener("input", function () {
+								clearTimeout(typingTimer);
+								typingTimer = setTimeout(function () {
+									filterForm.submit();
+								}, typingInterval);
+							});
+						});
+					</script>
 					<!-- scrip-->
 					<form id="delete-form" method="post" action="/delete">
 						<input type="hidden" id="selected-ids" name="selectedIds">
@@ -1857,6 +1905,7 @@
 				            const deleteButton = document.getElementById('delete-button');
 				            const selectedCountSpan = document.getElementById('selected-count');
 				            const selectedIdsInput = document.getElementById('selected-ids');
+							const selectedIdsInputPlus = document.getElementById('selected-idss');
 				
 				            // Event listener for individual row checkboxes
 				            checkboxes.forEach(checkbox => {
@@ -1891,6 +1940,7 @@
 				
 				                // Set the selected IDs to a hidden input or other means to be sent to the server
 				                selectedIdsInput.value = selectedIds.join(',');
+								selectedIdsInputPlus.value = selectedIds.join(',');
 				            }
 				        });
 				    </script>

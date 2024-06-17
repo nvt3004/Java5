@@ -160,7 +160,7 @@
         toolbar: !1,
         dropShadow: { enabled: !0, top: 14, left: 2, blur: 3, color: config.colors.primary, opacity: 0.15 },
       },
-      series: [{ data: [335000, 335000, 480000, 480000, 295000, 295000, 18000, 180000, 375000, 375000, 570000, 570000] }],
+      series: [{ data: [335000, 335000, 480000, 480000, 295000, 295000, 0, 180000, 375000, 375000, 570000, 570000] }],
       dataLabels: { enabled: !1 },
       stroke: { width: 3, curve: "straight" },
       colors: [config.colors.primary],
