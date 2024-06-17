@@ -962,7 +962,8 @@ table.table_3 .avatar {
 										<form action="/admin/update/order/status" method="POST"
 											class="mb-2 col-sm-8 col-md-8" id="updateOrderStatusForm">
 											<input type="hidden" name="orderId"
-												th:value="${orderDetails.orderDetailId}"> <input
+												th:value="${orderDetails.orderDetailId}"> 
+												<input
 												type="hidden" th:value="${currentStatus.getStatusName}"
 												id="thCurrentStatusName" /> <input type="hidden"
 												id="currentStatus" />

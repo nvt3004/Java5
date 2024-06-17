@@ -32,12 +32,15 @@ public class OrderService {
 	private final OrderJpa orderJpa;
 
 	private final OrderStatusJpa orderStatusJpa;
+	
+	private final DashboardJpa dashboardJpa;
 
 	@Autowired
-	public OrderService(OrderDetailJpa orderDetailJpa, OrderJpa orderJpa, OrderStatusJpa orderStatusJpa) {
+	public OrderService(OrderDetailJpa orderDetailJpa, OrderJpa orderJpa, OrderStatusJpa orderStatusJpa, DashboardJpa dashboardJpa) {
 		this.orderDetailJpa = orderDetailJpa;
 		this.orderJpa = orderJpa;
 		this.orderStatusJpa = orderStatusJpa;
+		this.dashboardJpa = dashboardJpa;
 	}
 
 	public OrderDetails getOrderDetails(Integer orderId) {

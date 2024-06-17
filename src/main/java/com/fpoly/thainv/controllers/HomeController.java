@@ -77,7 +77,6 @@ public class HomeController {
     @Autowired
     HttpServletResponse resp;
 
-    @ModelAttribute("cart")
     @Autowired
     OrderService orderService;
 
