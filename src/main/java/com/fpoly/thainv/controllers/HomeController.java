@@ -1,9 +1,11 @@
 package com.fpoly.thainv.controllers;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,11 +17,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpoly.thainv.entities.Advertisements;
 import com.fpoly.thainv.entities.AttributeProduct;
 import com.fpoly.thainv.entities.Images;
@@ -29,8 +34,13 @@ import com.fpoly.thainv.entities.Users;
 import com.fpoly.thainv.jpa.AdvJpa;
 import com.fpoly.thainv.jpa.ProductJPA;
 import com.fpoly.thainv.jpa.UserJpa;
+import com.fpoly.thainv.models.Dashbord;
+import com.fpoly.thainv.models.DashbordList;
+import com.fpoly.thainv.models.MonthlyTotal;
 import com.fpoly.thainv.models.PasswordChangeRequest;
 import com.fpoly.thainv.models.User;
+import com.fpoly.thainv.services.DashboardService;
+import com.fpoly.thainv.services.OrderService;
 import com.fpoly.thainv.tholh.JPA.CartJPA;
 import com.fpoly.thainv.tholh.service.CartService;
 import com.fpoly.thainv.untils.CookieUtil;
@@ -67,14 +77,35 @@ public class HomeController {
     @Autowired
     HttpServletResponse resp;
 
+    @ModelAttribute("cart")
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    DashboardService dashboardService;
+
     public ShoppingCarts getShoppingCarts() {
         String email = CookieUtil.get(req, "email");
-        ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
-        return shoppingCart;
+        if (email ==null || email.equals("")) {
+            return null;
+        }
+        else{
+            ShoppingCarts shoppingCart = cartJPA.findByUserEmail(email);
+            return shoppingCart;
+        }
     }
 
     @RequestMapping("/home")
     public String home(Model model, @RequestParam(name = "size", required = false, defaultValue = "8") int size) {
+
+        String email = CookieUtil.get(req, "email");
+        if (email == null || email.equals("")) {
+            model.addAttribute("isLogin", false);
+            session.setAttribute("total", 0);
+        } else{
+            model.addAttribute("isLogin", true  );
+        }
+
         Advertisements advertisementsStartingToday = advJpa.findByStartDate(LocalDate.now());
         if (advertisementsStartingToday != null) {
             // Tách chuỗi ảnh thành mảng
@@ -106,7 +137,7 @@ public class HomeController {
         ShoppingCarts shoppingCart = getShoppingCarts();
         if (shoppingCart != null) {
             model.addAttribute("cart", shoppingCart);
-            model.addAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
+            session.setAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
         }
 
         return "Admin/Client/index";
@@ -202,7 +233,19 @@ public class HomeController {
     // return "Admin/Client/shoping-cart";
     // }
     @RequestMapping("/app-ecommerce-dashboard")
-    public String dashboard() {
+    public String dashboard(Model model) {
+        List<Dashbord> orders = orderService.getTop10RecentOrders();
+        model.addAttribute("orders", orders);
+
+        Map<YearMonth, Integer> monthlyTotals = dashboardService.getTotalAmountPerMonth();
+        model.addAttribute("jsonChartData", monthlyTotals);
+
+        // In ra console
+        for (Map.Entry<YearMonth, Integer> entry : monthlyTotals.entrySet()) {
+            System.out.println("Year-Month: " + entry.getKey());
+            System.out.println("Total Amount: " + entry.getValue());
+        }
+
         return "Admin/html/app-ecommerce-dashboard";
     }
 
@@ -212,7 +255,41 @@ public class HomeController {
     }
 
     @RequestMapping("/admin/list")
-    public String productList() {
+    public String productList(Model model) throws JsonProcessingException {
+
+        List<DashbordList> dashboardData = dashboardService.getDashboardDataByMonth();
+
+        // Chuyển đổi danh sách thành JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String dashboardDataJson = objectMapper.writeValueAsString(dashboardData);
+
+        // Thêm dữ liệu vào model
+        model.addAttribute("dashboardDataJson", dashboardDataJson);
+        // Log information to console
+        System.out.println("Dashboard data retrieved successfully. Size: {}" + dashboardData.size());
+
+        // Log each DashbordList object
+        for (DashbordList item : dashboardData) {
+        System.out.println("DashbordList item: {}"+ item.toString());
+        }
+
+        // List<DashbordList> dashboardData = dashboardService.getDashboardDataByMonth();
+
+        // // Chuyển đổi danh sách thành JSON
+        // ObjectMapper objectMapper = new ObjectMapper();
+        // String dashboardDataJson = objectMapper.writeValueAsString(dashboardData);
+
+        // // Thêm dữ liệu vào model
+        // model.addAttribute("dashboardDataJson", dashboardDataJson);
+
+        // // Log information to console
+        // System.out.println("Dashboard data retrieved successfully. Size: " + dashboardData.size());
+
+        // // Log each DashbordList object
+        // for (DashbordList item : dashboardData) {
+        //     System.out.println("DashbordList item: " + item.toString());
+        // }
+
         return "Admin/html/app-ecommerce-dashboard-list";
     }
     //

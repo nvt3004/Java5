@@ -18,9 +18,11 @@ import com.fpoly.thainv.entities.OrderDetails;
 import com.fpoly.thainv.entities.OrderStatus;
 import com.fpoly.thainv.entities.Orders;
 import com.fpoly.thainv.entities.Products;
+import com.fpoly.thainv.jpa.DashboardJpa;
 import com.fpoly.thainv.jpa.OrderDetailJpa;
 import com.fpoly.thainv.jpa.OrderJpa;
 import com.fpoly.thainv.jpa.OrderStatusJpa;
+import com.fpoly.thainv.models.Dashbord;
 import com.fpoly.thainv.models.OrderStatusEnum;
 
 @Service
@@ -110,4 +112,10 @@ public class OrderService {
 	public boolean confirmOrder(String orderId) {
 		return changeOrderStatus(orderId, OrderStatusEnum.CONFIRMED);
 	}
+
+    public List<Dashbord> getTop10RecentOrders() {
+        List<Dashbord> allOrders = dashboardJpa.findTop10ByOrderByOrderDateDesc();
+        return allOrders.subList(0, Math.min(10, allOrders.size()));
+    }
+
 }

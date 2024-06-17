@@ -32,6 +32,7 @@
 </head>
 
 <body class="animsition">
+
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
@@ -104,7 +105,7 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-							data-notify="2">
+							th:attr="data-notify=${cart != null ? cart?.cartProducts.size() : 0}">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 						<a href="/favourite-products"
@@ -226,23 +227,31 @@
 			</div>
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
-					<li class="header-cart-item flex-w flex-t m-b-12">
+					<li class="header-cart-item flex-w flex-t m-b-12" th:each="item : ${cart?.cartProducts}">
 						<div class="header-cart-item-img">
-							<img src="/Admin/Client/images/item-cart-01.jpg" alt="IMG">
+							<img th:each="img, iterStat : ${item?.products?.imageses}" th:if="${iterStat.index==0}"
+								th:src="'/images/' +${img.imgUrl}" alt="IMG">
 						</div>
 						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								White Shirt Pleat
-							</a>
+							<form action="/product-detail" method="post">
+								<input type="hidden" name="prodDetailID" th:value="${item?.products?.productId}">
+								<button type="submit">
+									<a class="header-cart-item-name m-b-18 hov-cl1 trans-04"
+										th:text="${item?.products?.productName}">
+										White Shirt Pleat
+									</a>
+								</button>
+							</form>
 							<span class="header-cart-item-info">
-								1 x $19.00
+								<span
+									th:text="${item?.quantity} +' x ' +${#numbers.formatCurrency(item?.products?.retailPrice)}"></span>
 							</span>
 						</div>
 					</li>
 				</ul>
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Total: $75.00
+						Subtotal: <span th:text="${#numbers.formatCurrency(session.total)}"></span>
 					</div>
 					<div class="header-cart-buttons flex-w w-full">
 						<a href="/shoping-cart"
@@ -440,10 +449,10 @@
 								</a>
 							</div>
 							<div class="p-t-18 ml-2" th:if="${item?.orderStatus?.statusId ==1}">
-								<form method="post" action="/cancel">
+								<form method="post" action="/cancel" id="cancelForm">
 									<input type="hidden" name="orderID" id="" th:value="${item?.orderId}">
 									<input type="hidden" name="path" value="shoping-cart">
-									<button type="submit"
+									<button type="button" onclick="cancel()"
 										class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 										Cancel order
 									</button>
@@ -608,6 +617,7 @@
 	<script src="Admin/Client/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="Admin/Client/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		$('.js-pscroll').each(function () {
 			$(this).css('position', 'relative');
@@ -633,6 +643,37 @@
 				text: 'Your order has been processed!'
 			});
 		}
+		/*]]>*/
+	</script>
+
+	<script>
+		function cancel() {
+			console.log("ass");
+			Swal.fire({
+				title: 'CANCEL THIS ORDER ?',
+				text: "ARE YOU SURE ?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'YES',
+				cancelButtonText: 'CANCEL'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// Nếu người dùng xác nhận, submit form
+					console.log("hahaha");
+					document.getElementById('cancelForm').submit();
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		document.addEventListener('DOMContentLoaded', function () {
+			var loginError = /*[[${isLogin}]]*/ 'default value';
+			console.log(loginError); // Output: Hello, World!
+		});
 		/*]]>*/
 	</script>
 	<!--===============================================================================================-->
