@@ -39,11 +39,13 @@
 	<link rel="stylesheet" href="/Admin/Client/lib/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css">
 	<link rel="stylesheet" href="/Admin/Client/lib/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css">
 	<link rel="stylesheet" href="/Admin/Client/lib/OwlCarousel2-2.3.4/dist/assets/owl.theme.green.css">
+
 	<style>
 		.modal-dialog {
 			top: 70px;
 		}
 	</style>
+
 </head>
 
 <body class="animsition" id="body">
@@ -119,7 +121,7 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-							th:attr="data-notify=${#lists.size((cart?.cartProducts != null) ? cart?.cartProducts : 0)}">
+							th:attr="data-notify=${cart != null ? cart?.cartProducts.size() : 0}">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 						<a href="/favourite-products"
@@ -244,7 +246,7 @@
 					<li class="header-cart-item flex-w flex-t m-b-12" th:each="item : ${cart?.cartProducts}">
 						<div class="header-cart-item-img">
 							<img th:each="img, iterStat : ${item?.products?.imageses}" th:if="${iterStat.index==0}"
-								th:src="'Admin/Client/images/' +${img.imgUrl}" alt="IMG">
+								th:src="'/images/' +${img.imgUrl}" alt="IMG">
 						</div>
 						<div class="header-cart-item-txt p-t-8">
 							<form action="/product-detail" method="post">
@@ -265,7 +267,7 @@
 				</ul>
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Subtotal: <span th:text="${#numbers.formatCurrency(total)}"></span>
+						Subtotal: <span th:text="${#numbers.formatCurrency(session.total)}"></span>
 					</div>
 					<div class="header-cart-buttons flex-w w-full">
 						<a href="/shoping-cart"
@@ -281,11 +283,12 @@
 			</div>
 		</div>
 	</div>
-<section class="section-slide">
+	<section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">
 				<!-- Index 0 -->
-				<div class="item-slick1" th:if="${imgbn.length > 0}" th:style="'background-image: url(/images/' + ${imgbn[0]} + ');'">
+				<div class="item-slick1" th:if="${imgbn.length > 0}"
+					th:style="'background-image: url(/images/' + ${imgbn[0]} + ');'">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
@@ -299,16 +302,18 @@
 								</h2>
 							</div>
 							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html"
+									class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-	
+
 				<!-- Index 1 -->
-				<div class="item-slick1" th:if="${imgbn.length > 1}" th:style="'background-image: url(/images/' + ${imgbn[1]} + ');'">
+				<div class="item-slick1" th:if="${imgbn.length > 1}"
+					th:style="'background-image: url(/images/' + ${imgbn[1]} + ');'">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
@@ -316,43 +321,49 @@
 									Men New-Season
 								</span>
 							</div>
-							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
+							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn"
+								data-delay="800">
 								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
 									Jackets & Coats
 								</h2>
 							</div>
 							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html"
+									class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-	
+
 				<!-- Index 2 -->
-				<div class="item-slick1" th:if="${imgbn.length > 2}" th:style="'background-image: url(/images/' + ${imgbn[2]} + ');'">
+				<div class="item-slick1" th:if="${imgbn.length > 2}"
+					th:style="'background-image: url(/images/' + ${imgbn[2]} + ');'">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
+								data-delay="0">
 								<span class="ltext-101 cl2 respon2">
 									Men Collection 2018
 								</span>
 							</div>
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight"
+								data-delay="800">
 								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
 									New arrivals
 								</h2>
 							</div>
 							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html"
+									class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-	
+
 			</div>
 		</div>
 	</section>
@@ -980,7 +991,9 @@
 
 																	<input type="hidden" name="prodID"
 																		th:value="${item?.productId}">
-																	<button type="submit"
+																	<input type="hidden" name="path" value="home">
+																	<button type="submit" id="addToCartButton"
+																		th:attr="data-id=${item?.productId}"
 																		class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 																		Add to cart
 																	</button>
@@ -1166,6 +1179,14 @@
 		</span>
 	</div>
 
+	<div th:if="${param.isAddToCart}">
+		<script th:inline="javascript">
+			$(document).ready(function () {
+				swal("Success", "Product is added to your cart!", "success");
+			});
+		</script>
+	</div>
+
 	<!--===============================================================================================-->
 	<!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
 	<script src="/Admin/Client/js/jquery-3.7.1.min.js"></script>
@@ -1272,6 +1293,30 @@
 				autoplayTimeout: 3000
 			});
 		});
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		document.addEventListener('DOMContentLoaded', function () {
+			var loginError = /*[[${isLogin}]]*/ 'default value';
+			console.log(loginError); // Output: Hello, World!
+
+			if (loginError === false) {
+				console.log("Is login: false");
+				// Sử dụng SweetAlert2 để hiển thị thông báo
+				Swal.fire({
+					icon: 'warning',
+					title: 'You are not login yet !',
+					text: 'Please login to continue !',
+				}).then((result) => {
+					// Có thể thêm các xử lý sau khi người dùng đóng thông báo ở đây
+					// Ví dụ:
+					// window.location.href = '/login'; // Chuyển hướng đến trang đăng nhập
+				});
+			}
+		});
+		/*]]>*/
 	</script>
 </body>
 
