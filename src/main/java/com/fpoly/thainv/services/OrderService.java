@@ -18,9 +18,11 @@ import com.fpoly.thainv.entities.OrderDetails;
 import com.fpoly.thainv.entities.OrderStatus;
 import com.fpoly.thainv.entities.Orders;
 import com.fpoly.thainv.entities.Products;
+import com.fpoly.thainv.jpa.DashboardJpa;
 import com.fpoly.thainv.jpa.OrderDetailJpa;
 import com.fpoly.thainv.jpa.OrderJpa;
 import com.fpoly.thainv.jpa.OrderStatusJpa;
+import com.fpoly.thainv.models.Dashbord;
 
 @Service
 public class OrderService {
@@ -31,12 +33,14 @@ public class OrderService {
     private final OrderStatusJpa orderStatusJpa;
 
     @Autowired
+    private DashboardJpa dashboardJpa;
+
+    @Autowired
     public OrderService(OrderDetailJpa orderDetailJpa, OrderJpa orderJpa, OrderStatusJpa orderStatusJpa) {
         this.orderDetailJpa = orderDetailJpa;
 		this.orderJpa = orderJpa;
 		this.orderStatusJpa = orderStatusJpa;
     }
-
 
     public OrderDetails getOrderDetails(Integer orderId) {
         Optional<OrderDetails> orderDetailsOptional = orderDetailJpa.findById(orderId);
@@ -109,6 +113,11 @@ public class OrderService {
     public Page<Orders> getOrders(String name, String address, String status, int entries, int page) {
         Pageable pageable = PageRequest.of(page, entries, Sort.by("orderDate").descending());
         return orderJpa.findOrdersByCriteria(name, address, status, pageable);
+    }
+
+    public List<Dashbord> getTop10RecentOrders() {
+        List<Dashbord> allOrders = dashboardJpa.findTop10ByOrderByOrderDateDesc();
+        return allOrders.subList(0, Math.min(10, allOrders.size()));
     }
 }
 
