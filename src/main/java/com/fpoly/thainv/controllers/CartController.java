@@ -43,7 +43,6 @@ import com.fpoly.thainv.untils.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class CartController {
@@ -108,6 +107,12 @@ public class CartController {
         ShoppingCarts shoppingCart = getShoppingCarts();
         String email = CookieUtil.get(req, "email");
 
+        if (email == null || email.equals("")) {
+            model.addAttribute("isLogin", false);
+        } else{
+            model.addAttribute("isLogin", true  );
+        }
+
         Optional<Users> user = userJPA.findUserByEmail(email);
         if (user.isPresent()) {
             model.addAttribute("address", user.get().getAddress());
@@ -120,11 +125,8 @@ public class CartController {
             model.addAttribute("cartService", cartService);
             model.addAttribute("total", cartService.getTotal(shoppingCart.getCartId()));
 
-            model.addAttribute("loginError", false);
-
             return "Admin/Client/shoping-cart";
         } else {
-            model.addAttribute("loginError", true);
             return "redirect:/home";
         }
 
@@ -132,7 +134,7 @@ public class CartController {
 
     @PostMapping("/add-to-cart")
     public String postAdd(@RequestParam("prodID") String prodID, @RequestParam("size") Optional<Integer> sizeID, @RequestParam("color") Optional<Integer> colorID,
-            @RequestParam("num-product") Optional<String> quantity) {
+            @RequestParam("num-product") Optional<String> quantity, @RequestParam("path") String path) {
 
         Optional<Products> prod = pJPA.findById(prodID);
         ShoppingCarts shoppingCarts = this.getShoppingCarts();
@@ -205,9 +207,15 @@ public class CartController {
 
                 cartProductJPA.save(newCartProduct);
             }
-        }
+        }   
 
-        return "redirect:/home";
+        if ("home".equals(path)) {
+            return "redirect:/home";
+        } else if ("product".equals(path)) {
+            return "redirect:/product";
+        } else{
+            return "redirect:/product-detail?prodDetailID=" +prod.get().getProductId();
+        }
     }
 
     @RequestMapping("/remove")
