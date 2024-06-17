@@ -2835,7 +2835,7 @@ table.table_3 .avatar {
 												<td th:text="${order.getOrderStatus().getStatusName()}"></td>
 												<td th:text="${#numbers.formatCurrency(order.totalAmount)}"></td>
 												<td><a
-													th:href="@{/admin/order(orderId=${order.orderId}, name=${name}, address=${order.users.address.addressLine1}, status=${order.orderStatus.statusName}, page=${currentPage}, size=${entries})}"
+													th:href="@{/admin/order(orderId=${order.orderId}, name=${name}, address=${address}, status=${status}, page=${currentPage}, size=${entries})}"
 													class="view" title="View Details"> <i
 														class="material-icons">&#xE5C8;</i>
 												</a></td>
