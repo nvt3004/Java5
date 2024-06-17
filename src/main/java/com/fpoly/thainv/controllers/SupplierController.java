@@ -148,50 +148,58 @@ public class SupplierController {
 	}
 
 	@PostMapping("/restore-supplier")
-	public String restoreSupplierPost(@RequestParam("id") int supplierId, Model model) {
-		Optional<Suppliers> optional = supplierJPA.findById(supplierId);
+	public String restoreSupplierPost(@RequestParam("id") int supplierId, Model model,RedirectAttributes redirectAttributes) {
+		Optional<Suppliers> optional = supplierJPA.findById(String.valueOf(supplierId));
 		if (optional.isPresent()) {
 			Suppliers supplier = optional.get();
 			supplier.setIsDeleted(false);
 			supplierJPA.save(supplier);
 		}
+		redirectAttributes.addFlashAttribute("message", "Restore successful");
+		redirectAttributes.addFlashAttribute("color", "alert-success");
 		return "redirect:/supplier-management";
 	}
 
 	@PostMapping("/delete-supplier")
-	public String deleteSupplierPost(@RequestParam("id") int supplierId, Model model) {
-		Optional<Suppliers> optional = supplierJPA.findById(supplierId);
+	public String deleteSupplierPost(@RequestParam("id") int supplierId, Model model,RedirectAttributes redirectAttributes) {
+		Optional<Suppliers> optional = supplierJPA.findById(String.valueOf(supplierId));
 		if (optional.isPresent()) {
 			Suppliers supplier = optional.get();
 			supplier.setIsDeleted(true);
 			supplierJPA.save(supplier);
 		}
+		redirectAttributes.addFlashAttribute("message", "Deleted successful");
+		redirectAttributes.addFlashAttribute("color", "alert-success");
 		return "redirect:/supplier-management";
 	}
 
 	@PostMapping("/delete-supplier-multi")
-	public String deleteMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model) {
-		for (Integer integer : id) {
-			Optional<Suppliers> optional = supplierJPA.findById(integer);
-			if (optional.isPresent()) {
-				Suppliers suppliers = optional.get();
-				suppliers.setIsDeleted(true);
-				supplierJPA.save(suppliers);
-			}
-		}
-		return "redirect:/supplier-management";
-	}
-
+	public String deleteSupplierMultiPost(@RequestParam("selectedIds") List<Integer> ids,RedirectAttributes redirectAttributes) {
+    for (Integer id : ids) {
+        System.out.println("Processing ID: " + id);
+        Optional<Suppliers> optional = supplierJPA.findById(String.valueOf(id));
+        if (optional.isPresent()) {
+            Suppliers supplier = optional.get();
+            supplier.setIsDeleted(true);
+            supplierJPA.save(supplier);
+        }
+    }
+	redirectAttributes.addFlashAttribute("message", "Deleted successful");
+	redirectAttributes.addFlashAttribute("color", "alert-success");
+    return "redirect:/supplier-management";
+}
 	@PostMapping("/restore-supplier-multi")
-	public String restoreMultiPost(@RequestParam("selectedIds") List<Integer> id, Model model) {
-		for (Integer integer : id) {
-			Optional<Suppliers> optional = supplierJPA.findById(integer);
+	public String restoreMultiPost(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
+		for (Integer integer : ids) {
+			Optional<Suppliers> optional = supplierJPA.findById(String.valueOf(integer));
 			if (optional.isPresent()) {
 				Suppliers suppliers = optional.get();
 				suppliers.setIsDeleted(false);
 				supplierJPA.save(suppliers);
 			}
 		}
+		redirectAttributes.addFlashAttribute("message", "Restore successful");
+		redirectAttributes.addFlashAttribute("color", "alert-success");
 		return "redirect:/supplier-management";
 	}
 
@@ -200,7 +208,7 @@ public class SupplierController {
 			throws IOException {
 		List<Suppliers> suppliers = new ArrayList<>();
 		for (Integer id : ids) {
-			Optional<Suppliers> optionalSupplier = supplierJPA.findById(id);
+			Optional<Suppliers> optionalSupplier = supplierJPA.findById(String.valueOf(id));
 			optionalSupplier.ifPresent(supplier -> {
 				if (supplier.getIsDeleted() == null) {
 					supplier.setIsDeleted(false);
@@ -253,8 +261,8 @@ public class SupplierController {
 	@PostMapping("/import-suppliers")
 	public String importSuppliers(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		try {
-			excelImportSupplierService.importSuppliersFromExcel(file);
-			redirectAttributes.addFlashAttribute("message", "Import successful");
+			int successRowImport = excelImportSupplierService.importSuppliersFromExcel(file);
+			redirectAttributes.addFlashAttribute("message", "Successfully imported "+successRowImport+" rows");
 			redirectAttributes.addFlashAttribute("color", "alert-success");
 		} catch (IOException e) {
 			redirectAttributes.addFlashAttribute("message", "Import failed: " + e.getMessage());
@@ -273,7 +281,7 @@ public class SupplierController {
 	public String supplierManagementForm(Model model, @RequestParam(name = "id", required = false) Integer supplierId) {
 		Optional<Suppliers> optional = Optional.empty();
 		if (supplierId != null) {
-			optional = supplierJPA.findById(supplierId);
+			optional = supplierJPA.findById(String.valueOf(supplierId));
 		}
 		if (optional.isPresent()) {
 			Suppliers supplier = optional.get();
@@ -320,9 +328,9 @@ public class SupplierController {
 				addressError.getAllErrors()
 						.forEach(error -> errorMessage.append(error.getDefaultMessage()).append(" "));
 			}
-
-			model.addAttribute("message", errorMessage.toString());
-			model.addAttribute("color", "alert-danger");
+			System.out.println(errorMessage.toString());
+			// model.addAttribute("message", errorMessage.toString());
+			// model.addAttribute("color", "alert-danger");
 			return "Admin/html/supplier-management-form";
 		} else {
 			try {
@@ -381,9 +389,9 @@ public class SupplierController {
 				addressError.getAllErrors()
 						.forEach(error -> errorMessage.append(error.getDefaultMessage()).append(" "));
 			}
-
-			model.addAttribute("message", errorMessage.toString());
-			model.addAttribute("color", "alert-danger");
+			System.out.println(errorMessage.toString());
+			// model.addAttribute("message", errorMessage.toString());
+			// model.addAttribute("color", "alert-danger");
 			return "Admin/html/supplier-management-form";
 		} else {
 			try {

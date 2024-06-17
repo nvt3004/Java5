@@ -19,4 +19,8 @@ public interface AttributeProductJPA extends JpaRepository<AttributeProduct, Str
 	List<AttributeProduct> findByProductsProductId(Integer productId);
 	@Query("SELECT ap FROM AttributeProduct ap WHERE ap.products.productId = :productId AND ap.attributes.attributeId IN (:colorId, :sizeId)")
     List<AttributeProduct> findByProductIdAndAttributeIds(@Param("productId") int productId, @Param("colorId") int colorId, @Param("sizeId") int sizeId);
+	
+	
+	@Query("SELECT ap FROM AttributeProduct ap WHERE ap.products.productId = :productId AND ap.attributes.attributeId = :attributeId")
+	List<AttributeProduct> findByProductIdAndAttributeId(@Param("productId") int productId, @Param("attributeId") int attributeId);
 }

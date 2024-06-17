@@ -1544,23 +1544,31 @@
 						<h5 class="py-1 mb-4" style="font-size: x-large;">
 							<strong>List of customers</strong>
 						</h5>
+						<div th:if="${message}" th:class="'alert '+ ${color}+' mt-4'"
+							role="alert">
+							<span th:text="${message}"></span>
+						</div>
 						<!-- Basic Bootstrap Table -->
 						<div class="card">
 							<div class="card-header row mb-0 pb-0">
-								<form action="/custommer-management" method="POST">
+								<form action="/custommer-management" method="POST" id="filterForm">
 									<div class="row">
-										<div class="col mb-2 ms-3">
-											<h3>
-												<i class='bx bxs-filter-alt'></i>
-											</h3>
+										<div class="col-auto mt-2 ms-3">
+											<h5>
+												<span th:text="${customers}"></span> Customers
+											</h5>
 										</div>
 										<input type="hidden" name="formName" value="formFilter">
-										<div class="col-md-2 mb-2 ms-auto">
-											<input type="text" class="form-control" name="customerName"
-												placeholder="Name" th:value="${customerName}">
-
+										<div class="col-md-auto mb-2 ms-auto">
+											<div class="input-group input-group-merge">
+												<span id="basic-icon-default-fullname2" class="input-group-text"
+												  ><i class='bx bx-search' ></i></span>
+												<input type="search" class="form-control" name="customerName" id="customerName"
+											placeholder="Enter your keywords" th:value="${customerName}">
+											</div>	
 										</div>
-										<div class="col-md-2 mb-2">
+
+										<!-- <div class="col-md-2 mb-2">
 											<input type="text" class="form-control" name="email"
 												placeholder="Email" th:value="${email}">
 
@@ -1569,16 +1577,7 @@
 											<input type="text" class="form-control" name="phone"
 												placeholder="Phone" th:value="${phone}">
 
-										</div>
-										<div class="col-md-2 mb-2">
-											<select class="form-select form-select" name="roleId" id="">
-												<option selected value="-1">-----Select Role------</option>
-												<option th:each="item : ${roles}" th:value="${item?.roleId}"
-													th:text="${item?.roleName}"
-													th:selected="${roleId == item?.roleId}">-----Chọn
-													danh mục------</option>
-											</select>
-										</div>
+										</div> -->
 										<div class="col-md-1 mb-2">
 											<select class="form-select form-select" name="isDeleted"
 												id="">
@@ -1590,14 +1589,25 @@
 
 											</select>
 										</div>
-
-										<div class="col-md-1 mb-2 me-2">
-											<button type="submit" class="btn btn-primary">Filter</button>
+										<div class="col-md-2 mb-2">
+											<select class="form-select form-select" name="roleId" id="">
+												<option selected value="-1">-----Select Role------</option>
+												<option th:each="item : ${roles}" th:value="${item?.roleId}"
+													th:text="${item?.roleName}"
+													th:selected="${roleId == item?.roleId}">-----Chọn
+													danh mục------</option>
+											</select>
+										</div>
+										<div class="col-md-auto mb-2">
+											<button type="submit" class="btn btn-primary"
+											title="Filter"
+											><i class='bx bx-filter-alt'></i></button>
 										</div>
 
-										<div class="col-md-1 me-2 mb-2">
+										<div class="col-md-auto me-2 mb-2">
 											<a type="button" th:href="@{/custommer-management}"
-												class="btn btn-primary">Reset</a>
+											title="Reset"
+												class="btn btn-primary"><i class='bx bx-reset' ></i></a>
 										</div>
 									</div>
 								</form>
@@ -1606,7 +1616,7 @@
 								<table class="table">
 									<thead>
 										<tr>
-											<th><input type="checkbox" id="select-all"></th>
+											<th><input class="form-check-input" type="checkbox" id="select-all"></th>
 											<th>Fullname</th>
 											<th>Email</th>
 											<th>Phone</th>
@@ -1618,7 +1628,7 @@
 									<tbody class="table-border-bottom-0">
 										<tr th:each="user : ${users}" th:attr="data-id=${user?.userId}"
 										th:class="${user != null and user?.isDeleted != null and user?.isDeleted ? 'bg-secondary' : ''}">
-											<td><input type="checkbox" class="row-checkbox"></td>
+											<td><input type="checkbox" class="row-checkbox form-check-input"></td>
 											<td th:text="${user?.firstName + ' ' + user?.lastName}">John
 												Doe</td>
 											<td th:text="${user?.email}">johndoe@gmail.com</td>
@@ -1668,20 +1678,43 @@
 							<div class="card-footer mb-0 pb-0">
 								<div class="row m-0">
 									<div class="col-auto">
-
-										<form id="delete-form" method="post"
-											th:action="${isDeleted==true?'/restore-multi':'delete-multi'}">
-											<input type="hidden" id="selected-ids" name="selectedIds">
-											<button type="submit"
-												th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
-												id="delete-button" disabled>
-												<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
-												(<span id="selected-count">0</span>) Customer
-											</button>
-
-										</form>
-
+										<button type="button" class="col btn btn-primary"
+											th:class="${isDeleted==true?'delete-button btn btn-success':'delete-button btn btn-danger'}"
+											id="delete-button" disabled
+											data-bs-toggle="modal" data-bs-target="#basicModal3">
+											<span th:text="${isDeleted==true?'Restore':'Delete'}">#</span>
+												(<span id="selected-count">0</span>) Supplier
+										</button>
 									</div>
+										<!-- Modal  3333333333333333333333333333333333333333333333333333-->
+										<div class="modal fade" id="basicModal3" tabindex="-1"
+										aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel1" th:text="${isDeleted==true?'Restore':'Delete'}">#######</h5>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<h5 th:text="${isDeleted==true?'Are you sure you want to restore these suppliers?':'Are you sure you want to delete these suppliers?'}"></h5>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+													<form th:action="${isDeleted==true?'/restore-multi':'delete-multi'}" method="post">
+														<input type="hidden" id="selected-ids" name="selectedIds">
+														<button type="submit"
+														th:class="${isDeleted==true?'btn btn-success':'btn btn-danger'}"
+														th:text="${isDeleted==true?'Restore':'Delete'}"	
+														>
+														</button>
+													</form>				
+												</form>
+												</div>
+											</div>
+										</div>
+										</div>
+									<!--/ Modal End-->
 									<div class="col-auto align-content-center">
 										<p>Show</p>
 									</div>
@@ -1690,10 +1723,13 @@
 											<input type="hidden" name="formName" value="formSize">
 											<select class="form-select" name="size"
 												onchange="this.form.submit()">
-												<option value="3" th:selected="${size == 3}">3</option>
+												<option value="5" th:selected="${size == 5}">5</option>
 												<option value="10" selected th:selected="${size == 10}">10</option>
 												<option value="20" th:selected="${size == 20}">20</option>
-												<option value="30" th:selected="${size == 30}">30</option>
+												<option value="40" th:selected="${size == 40}">40</option>
+												<option value="60" th:selected="${size == 60}">60</option>
+												<option value="80" th:selected="${size == 80}">80</option>
+												<option value="100" th:selected="${size == 100}">100</option>
 											</select>
 										</form>
 									</div>
@@ -1766,6 +1802,24 @@
 						<!--/ Basic Bootstrap Table -->
 					</div>
 					<!-- / Content -->
+					 <!--Enter key words-->
+					 <script>
+						document.addEventListener("DOMContentLoaded", function () {
+							const customerNameInput = document.getElementById("customerName");
+							const filterForm = document.getElementById("filterForm");
+					
+							// Submit form when user stops typing for 1 second
+							let typingTimer;
+							const typingInterval = 1000; // 1 second
+					
+							customerNameInput.addEventListener("input", function () {
+								clearTimeout(typingTimer);
+								typingTimer = setTimeout(function () {
+									filterForm.submit();
+								}, typingInterval);
+							});
+						});
+					</script>
 					<!-- scrip-->
 					<form id="delete-form" method="post" action="/delete">
 						<input type="hidden" id="selected-ids" name="selectedIds">

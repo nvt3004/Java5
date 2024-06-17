@@ -1,6 +1,9 @@
 package com.fpoly.thainv.controllers;
 
+import java.time.YearMonth;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,8 +23,11 @@ import com.fpoly.thainv.entities.Users;
 import com.fpoly.thainv.jpa.AuthJpa;
 import com.fpoly.thainv.jpa.LoginHistoryJpa;
 import com.fpoly.thainv.jpa.RoleJpa;
+import com.fpoly.thainv.models.Dashbord;
 import com.fpoly.thainv.models.User;
+import com.fpoly.thainv.services.DashboardService;
 import com.fpoly.thainv.services.EmailService;
+import com.fpoly.thainv.services.OrderService;
 import com.fpoly.thainv.services.OtpService;
 import com.fpoly.thainv.services.PasswordService;
 import com.fpoly.thainv.services.PasswordServiceHelper;
@@ -64,6 +70,12 @@ public class AuthController {
 	private UserService userService;
 
 	@Autowired
+	OrderService orderService;
+
+	@Autowired
+	DashboardService dashboardService;
+
+	@Autowired
 	private PasswordServiceHelper passwordServiceHelper;
 
 	private static final String LOGIN_VIEW = "Admin/html/auth-login-basic";
@@ -89,11 +101,22 @@ public class AuthController {
 
 	// @GetMapping("/home")
 	// public String clientHome() {
-	// 	return HOME_VIEW;
+	// return HOME_VIEW;
 	// }
 
 	@GetMapping("/admin")
-	public String adminHome() {
+	public String adminHome(Model model) {
+		List<Dashbord> orders = orderService.getTop10RecentOrders();
+		model.addAttribute("orders", orders);
+
+		Map<YearMonth, Integer> monthlyTotals = dashboardService.getTotalAmountPerMonth();
+		model.addAttribute("jsonChartData", monthlyTotals);
+
+		// In ra console
+		for (Map.Entry<YearMonth, Integer> entry : monthlyTotals.entrySet()) {
+			System.out.println("Year-Month: " + entry.getKey());
+			System.out.println("Total Amount: " + entry.getValue());
+		}
 		return HOME_ADMIN_VIEW;
 	}
 
