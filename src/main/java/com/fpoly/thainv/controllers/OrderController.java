@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -42,6 +45,8 @@ import com.fpoly.thainv.jpa.OrderDetailJpa;
 import com.fpoly.thainv.jpa.OrderJpa;
 import com.fpoly.thainv.jpa.OrderStatusJpa;
 import com.fpoly.thainv.jpa.ProductJPA;
+import com.fpoly.thainv.jpa.ProductService;
+import com.fpoly.thainv.models.OrderStatusEnum;
 import com.fpoly.thainv.services.AttributeProductService;
 import com.fpoly.thainv.services.AttributesService;
 import com.fpoly.thainv.services.OrderService;
@@ -76,6 +81,9 @@ public class OrderController {
 
 	@Autowired
 	private AttributeProductJPA attributeProductJpa;
+
+	@Autowired
+	private ProductService productService;
 
 	public List<AttributeProduct> findByProductIdAndAttributeIds(int productId, int colorId, int sizeId) {
 		return attributeProductJpa.findByProductIdAndAttributeIds(productId, colorId, sizeId);
@@ -113,28 +121,30 @@ public class OrderController {
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "page", defaultValue = "0") String pageStr,
 			@RequestParam(value = "size", defaultValue = "5") String sizeStr) {
+
 		int page = 0;
 		int size = 5;
 
 		try {
 			page = Integer.parseInt(pageStr);
 		} catch (NumberFormatException e) {
-
 		}
 
 		try {
 			size = Integer.parseInt(sizeStr);
 		} catch (NumberFormatException e) {
-
 		}
+
 		Pageable pageable = PageRequest.of(page, size, Sort.by("orderDate").descending());
 		Page<Orders> ordersPage = orderJpa.findOrdersByCriteria(name, address, status, pageable);
+
 		if (orderId.isPresent()) {
 			Integer id = orderId.get();
 			OrderDetails orderDetails = orderService.getOrderDetails(id);
+
 			if (orderDetails != null) {
-				List<OrderDetails> orderDetailList = orderService
-						.findProductsByOrderId(orderId.get());
+				List<OrderDetails> orderDetailList = orderService.findProductsByOrderId(orderId.get());
+
 				Attributes currentSize = null;
 				Attributes currentColor = null;
 				BigDecimal subTotal = BigDecimal.ZERO;
@@ -144,19 +154,41 @@ public class OrderController {
 				BigDecimal shipping = BigDecimal.valueOf(2);
 
 				if (coupon != null) {
-					discountPercent = coupon.getDiscountPercent();
+					LocalDate today = LocalDate.now();
+					LocalDate startDate = null;
+					LocalDate endDate = null;
+
+					if (coupon.getStartDate() != null) {
+						startDate = Instant.ofEpochMilli(coupon.getStartDate().getTime()).atZone(ZoneId.systemDefault())
+								.toLocalDate();
+					}
+
+					if (coupon.getEndDate() != null) {
+						endDate = Instant.ofEpochMilli(coupon.getEndDate().getTime()).atZone(ZoneId.systemDefault())
+								.toLocalDate();
+					}
+
+					boolean isCouponValid = (startDate == null || !today.isBefore(startDate))
+							&& (endDate == null || !today.isAfter(endDate));
+
+					if (isCouponValid) {
+						discountPercent = coupon.getDiscountPercent();
+					}
 				}
+
+				OrderStatus orderStatus = new OrderStatus();
 				for (OrderDetails detail : orderDetailList) {
 					if (detail.getProducts().getProductId().equals(orderDetails.getProducts().getProductId())) {
 						currentSize = detail.getColor();
 						currentColor = detail.getSize();
 					}
+					orderStatus = detail.getOrders().getOrderStatus();
 					int quantity = detail.getQuantity();
 					BigDecimal retailPrice = detail.getProducts().getRetailPrice();
 					BigDecimal totalPrice = retailPrice.multiply(BigDecimal.valueOf(quantity));
 					subTotal = subTotal.add(totalPrice);
-
 				}
+
 				BigDecimal discount = subTotal.multiply(discountPercent).divide(BigDecimal.valueOf(100));
 				BigDecimal total = subTotal.add(shipping).subtract(discount);
 
@@ -165,6 +197,7 @@ public class OrderController {
 				String formattedShipping = currencyFormat.format(shipping);
 				String formattedDiscount = currencyFormat.format(discount);
 				String formattedTotal = currencyFormat.format(total);
+
 				model.addAttribute("orderDetail", orderDetailList);
 				model.addAttribute("orderDetails", orderDetails);
 				model.addAttribute("currentSize", currentSize);
@@ -177,9 +210,13 @@ public class OrderController {
 				model.addAttribute("currentPage", page);
 				model.addAttribute("totalPages", ordersPage.getTotalPages());
 				model.addAttribute("entries", size);
+				model.addAttribute("totalEntries", ordersPage.getTotalElements());
 				model.addAttribute("name", name);
 				model.addAttribute("addressFilter", address);
 				model.addAttribute("statusFilter", status);
+				model.addAttribute("orderStatus", orderDetails.getOrders().getOrderStatus());
+				model.addAttribute("currentStatus", orderStatus);
+				model.addAttribute("OrderStatusEnum", OrderStatusEnum.class);
 				return "Admin/html/orders";
 			}
 
@@ -190,9 +227,12 @@ public class OrderController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("entries", size);
+		model.addAttribute("totalEntries", ordersPage.getTotalElements());
 		model.addAttribute("name", name);
 		model.addAttribute("addressFilter", address);
 		model.addAttribute("statusFilter", status);
+		model.addAttribute("OrderStatusEnum", OrderStatusEnum.class);
+
 		return "Admin/html/orders";
 	}
 
@@ -230,12 +270,21 @@ public class OrderController {
 
 						int currentStockQuantity = orderDetails.getProducts().getStockQuantity();
 						int currentOrderQuantity = orderDetails.getQuantity();
-						int totalQuantityInStockAndQuantityCurrentOrder = currentStockQuantity + currentOrderQuantity;
-						int newCurrentStockQuantity = totalQuantityInStockAndQuantityCurrentOrder - newQuantity;
 
-						if (newQuantity <= totalQuantityInStockAndQuantityCurrentOrder) {
-							orderDetails.setQuantity(newQuantity);
-							orderDetails.getProducts().setStockQuantity(newCurrentStockQuantity);
+						if (newQuantity <= currentStockQuantity + currentOrderQuantity) {
+							boolean success = updateAttributeProductQuantity(orderDetails, colorId, sizeId, newQuantity,
+									redirectAttributes);
+							if (success) {
+								orderDetails.getProducts()
+										.setStockQuantity(currentStockQuantity + currentOrderQuantity - newQuantity);
+								orderDetails.setQuantity(newQuantity);
+							}else {
+								redirectAttributes.addFlashAttribute("error",
+										"Quantity exceeds current stock availability for product: "
+												+ orderDetails.getProducts().getProductName());
+								return "redirect:/admin/order?orderId=" + orderId.get();
+							}
+
 						} else {
 							redirectAttributes.addFlashAttribute("error",
 									"Quantity exceeds current stock availability for product: "
@@ -243,8 +292,6 @@ public class OrderController {
 							return "redirect:/admin/order?orderId=" + orderId.get();
 						}
 
-						updateAttributeProductQuantity(orderDetails.getProducts().getProductId(), colorId, sizeId,
-								newQuantity, redirectAttributes);
 					}
 
 					if (colorId.isPresent()) {
@@ -274,6 +321,23 @@ public class OrderController {
 				}
 			}
 
+			Optional<Orders> orderOpt = orderJpa.findById(String.valueOf(id));
+			if (orderOpt.isPresent()) {
+				Orders order = orderOpt.get();
+				BigDecimal netAmount = BigDecimal.ZERO;
+
+				for (OrderDetails orderDetail : orderDetailList) {
+					BigDecimal quantityBigDecimal = BigDecimal.valueOf(orderDetail.getQuantity());
+					netAmount = netAmount.add(quantityBigDecimal.multiply(orderDetail.getProducts().getRetailPrice()));
+				}
+
+				order.setTotalAmount(netAmount);
+				orderJpa.save(order);
+			} else {
+				redirectAttributes.addFlashAttribute("error", "Order not found.");
+				return "redirect:/admin/order?orderId=" + orderId.get();
+			}
+
 		} else {
 			redirectAttributes.addFlashAttribute("error", "Missing order ID or product ID.");
 			return "redirect:/admin/order?orderId=" + orderId.get();
@@ -282,51 +346,64 @@ public class OrderController {
 		return "redirect:/admin/order?orderId=" + orderId.get();
 	}
 
-	private void updateAttributeProductQuantity(int productId, Optional<Integer> colorId, Optional<Integer> sizeId,
-			int newQuantity, RedirectAttributes redirectAttributes) {
-		if (colorId.isPresent() && sizeId.isPresent()) {
-			List<AttributeProduct> attributeProducts = attributeProductService.findByProductIdAndAttributeIds(productId,
-					colorId.get(), sizeId.get());
+	private boolean updateAttributeProductQuantity(OrderDetails orderDetails, Optional<Integer> colorId,
+			Optional<Integer> sizeId, int newQuantity, RedirectAttributes redirectAttributes) {
 
-			for (AttributeProduct attributeProduct : attributeProducts) {
-				int currentAttributeProductQuantity = attributeProduct.getQuantity();
-				int newAttributeProductQuantity = currentAttributeProductQuantity - newQuantity;
+		if (colorId.isPresent()) {
+			int colorIdValue = colorId.get();
 
-				if (newAttributeProductQuantity >= 0) {
-					attributeProduct.setQuantity(newAttributeProductQuantity);
-					attributeProductService.save(attributeProduct);
-				} else {
-					redirectAttributes.addFlashAttribute("error",
-							"New quantity exceeds current stock for attribute product.");
-					return;
+			List<AttributeProduct> attributeProductsByColor = attributeProductJpa
+					.findByProductIdAndAttributeId(orderDetails.getProducts().getProductId(), colorIdValue);
+			if (!attributeProductsByColor.isEmpty()) {
+				AttributeProduct attributeProductByColor = attributeProductsByColor.get(0);
+
+				int currentQuantityInOrder = orderDetails.getQuantity();
+				int currentStockForColor = 0;
+				if (attributeProductByColor.getQuantity() != null) {
+					currentQuantityInOrder = attributeProductByColor.getQuantity();
+					if (newQuantity <= currentStockForColor + currentQuantityInOrder) {
+						int updatedQuantityColor = currentStockForColor + currentQuantityInOrder - newQuantity;
+
+						productService.updateQuantityByProductIdAndAttributeId(
+								orderDetails.getProducts().getProductId(), colorIdValue, updatedQuantityColor);
+						return true;
+					} else {
+						redirectAttributes.addFlashAttribute("error",
+								"Quantity exceeds current stock availability for the selected color.");
+						return false;
+					}
 				}
+
 			}
 		}
-	}
+		if (sizeId.isPresent()) {
+			System.out.println("Chạy vào sizeId");
+			int sizeIdValue = sizeId.get();
 
-	@PostMapping("admin/cancel/order")
-	public String cancelOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
-		boolean isCancelled = orderService.updateOrderStatusToCancelled(orderId);
-		if (isCancelled) {
-			redirectAttributes.addFlashAttribute("success", "Order cancelled successfully.");
-		} else {
+			List<AttributeProduct> attributeProductsBySize = attributeProductJpa
+					.findByProductIdAndAttributeId(orderDetails.getProducts().getProductId(), sizeIdValue);
+			if (!attributeProductsBySize.isEmpty()) {
+				AttributeProduct attributeProductBySize = attributeProductsBySize.get(0);
 
-			redirectAttributes.addFlashAttribute("error", "Failed to cancel order.");
+				int currentQuantityInOrder = orderDetails.getQuantity();
+				int currentStockForSize = 0;
+				if (attributeProductBySize.getQuantity() != null) {
+					currentStockForSize = attributeProductBySize.getQuantity();
+					if (newQuantity <= currentStockForSize + currentQuantityInOrder) {
+						int updatedQuantitySize = currentStockForSize + currentQuantityInOrder - newQuantity;
+						productService.updateQuantityByProductIdAndAttributeId(
+								orderDetails.getProducts().getProductId(), sizeIdValue, updatedQuantitySize);
+						return true;
+					} else {
+						redirectAttributes.addFlashAttribute("error",
+								"Quantity exceeds current stock availability for the selected size.");
+						return false;
+					}
+				}
+
+			}
 		}
-
-		return "redirect:/admin/order?orderId=" + orderId;
-	}
-
-	@PostMapping("admin/restore/order")
-	public String restoreOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
-		boolean isRestored = orderService.restoreOrderStatus(orderId);
-		if (isRestored) {
-			redirectAttributes.addFlashAttribute("success", "Order restored successfully.");
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Failed to restore order.");
-		}
-
-		return "redirect:/admin/order?orderId=" + orderId;
+		return false;
 	}
 
 	@GetMapping("/admin/order/export")
@@ -351,7 +428,7 @@ public class OrderController {
 		}
 		Pageable pageable = PageRequest.of(page, size, Sort.by("orderDate").descending());
 		Page<Orders> filteredOrders = orderJpa.findOrdersByCriteria(name, address, status, pageable);
-		System.out.println(filteredOrders.getSize() + " Size");
+
 		try (Workbook workbook = new XSSFWorkbook()) {
 
 			Sheet sheet = workbook.createSheet("Orders");
@@ -383,4 +460,55 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
+
+	@PostMapping("/admin/update/order/status")
+	public String updateOrderStatus(@RequestParam("orderId") String orderId, @RequestParam("status") int statusId,
+			RedirectAttributes redirectAttributes) {
+		boolean isUpdated = orderService.updateOrderStatus(orderId, statusId);
+		if (isUpdated) {
+			redirectAttributes.addFlashAttribute("success", "Order status updated successfully.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Failed to update order status.");
+		}
+
+		return "redirect:/admin/order?orderId=" + orderId;
+	}
+
+	@PostMapping("admin/cancel/order")
+	public String cancelOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
+		boolean isCancelled = orderService.updateOrderStatusToCancelled(orderId);
+		if (isCancelled) {
+			redirectAttributes.addFlashAttribute("success", "Order cancelled successfully.");
+		} else {
+
+			redirectAttributes.addFlashAttribute("error", "Failed to cancel order.");
+		}
+
+		return "redirect:/admin/order?orderId=" + orderId;
+	}
+
+	@PostMapping("admin/restore/order")
+	public String restoreOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
+		boolean isRestored = orderService.restoreOrderStatus(orderId);
+		if (isRestored) {
+			redirectAttributes.addFlashAttribute("success", "Order restored successfully.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Failed to restore order.");
+		}
+
+		return "redirect:/admin/order?orderId=" + orderId;
+	}
+
+	@PostMapping("admin/confirm/order")
+	public String confirmOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
+		boolean isConfirm = orderService.confirmOrder(orderId);
+		if (isConfirm) {
+			redirectAttributes.addFlashAttribute("success", "Order confirm successfully.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Failed to confirm order.");
+		}
+
+		return "redirect:/admin/order?orderId=" + orderId;
+	}
+
 }
