@@ -238,10 +238,31 @@ public class HomeController {
         return "Admin/html/app-ecommerce-manage-reviews";
     }
 
+    @RequestMapping("/admin/lists")
+    public String dashboardMonth(Model model) throws JsonProcessingException {
+        List<DashbordList> dashboardData1 = dashboardService.getDashboardDataByMonth();
+
+        // Chuyển đổi danh sách thành JSON
+        ObjectMapper objectMapper1 = new ObjectMapper();
+        String dashboardDataJson1 = objectMapper1.writeValueAsString(dashboardData1);
+
+        // Thêm dữ liệu vào model
+        model.addAttribute("dashboardDataJson1", dashboardDataJson1);
+
+        // Log information to console
+        System.out.println("Dashboard data retrieved successfully. Size: " + dashboardData1.size());
+
+        // Log each DashbordList object
+        for (DashbordList item : dashboardData1) {
+            System.out.println("DashbordList item: " + item.toString());
+        }
+        return "Admin/html/app-ecommerce-dashboard-lists";
+    }
+
     @RequestMapping("/admin/list")
     public String productList(Model model) throws JsonProcessingException {
 
-        List<DashbordList> dashboardData = dashboardService.getDashboardDataByMonth();
+        List<DashbordList> dashboardData = dashboardService.getDashboardData();
 
         // Chuyển đổi danh sách thành JSON
         ObjectMapper objectMapper = new ObjectMapper();
@@ -257,22 +278,22 @@ public class HomeController {
         System.out.println("DashbordList item: {}"+ item.toString());
         }
 
-        // List<DashbordList> dashboardData = dashboardService.getDashboardDataByMonth();
+        List<DashbordList> dashboardData1 = dashboardService.getDashboardDataByMonth();
 
-        // // Chuyển đổi danh sách thành JSON
-        // ObjectMapper objectMapper = new ObjectMapper();
-        // String dashboardDataJson = objectMapper.writeValueAsString(dashboardData);
+        // Chuyển đổi danh sách thành JSON
+        ObjectMapper objectMapper1 = new ObjectMapper();
+        String dashboardDataJson1 = objectMapper1.writeValueAsString(dashboardData1);
 
-        // // Thêm dữ liệu vào model
-        // model.addAttribute("dashboardDataJson", dashboardDataJson);
+        // Thêm dữ liệu vào model
+        model.addAttribute("dashboardDataJson1", dashboardDataJson1);
 
-        // // Log information to console
-        // System.out.println("Dashboard data retrieved successfully. Size: " + dashboardData.size());
+        // Log information to console
+        System.out.println("Dashboard data retrieved successfully. Size: " + dashboardData1.size());
 
-        // // Log each DashbordList object
-        // for (DashbordList item : dashboardData) {
-        //     System.out.println("DashbordList item: " + item.toString());
-        // }
+        // Log each DashbordList object
+        for (DashbordList item : dashboardData1) {
+            System.out.println("DashbordList item: " + item.toString());
+        }
 
         return "Admin/html/app-ecommerce-dashboard-list";
     }

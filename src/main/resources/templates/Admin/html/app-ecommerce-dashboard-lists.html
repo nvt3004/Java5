@@ -2586,35 +2586,32 @@
     <!-- Main JS -->
     <script src="/Admin/assets/js/main.js"></script>
 
-    <script th:inline="javascript">
-      var dashboardData = /*[[${dashboardDataJson}]]*/ '[]'; // Assume dashboardDataJson is properly populated JSON string
-      var boardData = JSON.parse(dashboardData);
-    
-      for (var i = 0; i < boardData.length; i++) {
-        let timestamp = boardData[i].order_date; // Assume order_date is the timestamp from JSON
-        let date = new Date(timestamp); // Create a Date object from the timestamp
-        let formattedDate = date.toISOString().slice(0, 10); // Format as YYYY-MM-DD
-    
-        boardData[i].order_date = formattedDate; // Update order_date in boardData to formattedDate
-      }
-  
-      for (var i = 0; i < boardData.length; i++) {
-      var obj = boardData[i];
-      for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
-              if (typeof obj[key] !== 'string' || 'Date') {
-                  obj[key] = String(obj[key]); // Convert to string if not already a string
-              }
-          }
-      }
-      boardData[i] = obj; // Update the object in the original array
-      }
-  
-      console.log(boardData); // This will log boardData with order_date formatted as YYYY-MM-DD
-    </script>
+	<script th:inline="javascript">
+		var dashboardData1 = /*[[${dashboardDataJson1}]]*/ '[]'; // Assume dashboardDataJson is properly populated JSON string
+		var boardData1 = JSON.parse(dashboardData1);
 	
+		for (var i = 0; i < boardData1.length; i++) {
+			let timestamp = boardData1[i].order_date; // Assume order_date is the timestamp from JSON
+			let date = new Date(timestamp); // Create a Date object from the timestamp
+			let formattedDate = date.toISOString().slice(0, 10); // Format as YYYY-MM-DD
 	
-	
+			boardData1[i].order_date = formattedDate; // Update order_date in boardData to formattedDate
+		}
+
+    for (var i = 0; i < boardData1.length; i++) {
+    var obj = boardData1[i];
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] !== 'string' || 'Date') {
+                obj[key] = String(obj[key]); // Convert to string if not already a string
+            }
+        }
+    }
+    boardData1[i] = obj; // Update the object in the original array
+    }
+
+		console.log(boardData1); // This will log boardData with order_date formatted as YYYY-MM-DD
+	</script>
 
     <script>
       $(function () {
@@ -2624,7 +2621,7 @@
           a,
           s,
           n = $(".datatables-order");
-        var current = boardData;
+        var current = boardData1;
         s = (
           isDarkStyle
             ? ((t = config.colors_dark.borderColor),
@@ -2905,9 +2902,9 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-expanded="false">Filter</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownFilter">
-               <li><a class="dropdown-item" href="#" data-filter="day">Day</a></li>
+                <li><a class="dropdown-item" href="list#" data-filter="day">Day</a></li>
                 <li><a class="dropdown-item" href="#" data-filter="week">Week</a></li>
-                <li><a class="dropdown-item" href="lists" data-filter="month">Month</a></li>
+                <li><a class="dropdown-item" href="#" data-filter="month">Month</a></li>
                 <li><a class="dropdown-item" href="#" data-filter="year">Year</a></li>
             </ul>
         </div>`;
@@ -2930,8 +2927,7 @@
 
             switch (filterType) {
                 case "day":
-                return date.isSame(moment(), 'isoWeek');
-                break;
+                    return date.isSame(moment(), 'day');
                 case "week":
                     return date.isSame(moment(), 'isoWeek');
                 case "month":
